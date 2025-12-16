@@ -12,10 +12,14 @@
 
   async function listDriveFolder(folderId, apiKey, maxResults=100){
     const q = encodeURIComponent(`'${folderId}' in parents and trashed = false`);
-    const url = `https://www.googleapis.com/drive/v3/files?q=${q}&key=${apiKey}&pageSize=${maxResults}&fields=files(id,name,mimeType)`;
+    // Request extra fields and support shared drives
+    const url = `https://www.googleapis.com/drive/v3/files?q=${q}&key=${apiKey}&pageSize=${maxResults}&fields=files(id,name,mimeType,webViewLink,thumbnailLink,owners)&supportsAllDrives=true&includeItemsFromAllDrives=true`;
     const resp = await fetch(url);
-    if (!resp.ok) throw new Error('Drive API error ' + resp.status);
-    return resp.json();
+    const text = await resp.text();
+    let json;
+    try{ json = JSON.parse(text); } catch(e) { json = text }
+    if (!resp.ok) throw new Error('Drive API error ' + resp.status + ' — ' + JSON.stringify(json));
+    return json;
   }
 
   // If Drive config present, list files from Drive folders (public files)
@@ -31,25 +35,35 @@
       const apiKey = window.DRIVE_CONFIG.apiKey;
       // documents
       const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey, window.DRIVE_CONFIG.maxResults || 100);
+      console.log('Drive documents response:', docsJson);
       if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
-        const items = docsJson.files.map(f=>`<div><a href="https://drive.google.com/file/d/${f.id}/view" target="_blank">${f.name}</a></div>`);
+        const items = docsJson.files.map(f=>{
+          const href = f.webViewLink ? f.webViewLink : `https://drive.google.com/file/d/${f.id}/view`;
+          return `<div><a href="${href}" target="_blank">${f.name}</a></div>`
+        });
         docsEl.innerHTML = items.join('');
-      } else docsEl.innerHTML = '<div>No hay documentos públicos en Drive.</div>';
-    }catch(e){docsEl.innerText = 'Error cargando documentos desde Drive: '+e.message}
+      } else docsEl.innerHTML = '<div>No hay documentos públicos en Drive (ver consola para diagnóstico).</div>';
+    }catch(e){
+      console.error('Error listing Drive documents', e);
+      docsEl.innerText = 'Error cargando documentos desde Drive: '+e.message + '. Revisa la consola para más detalles.';
+    }
 
     try{
       const apiKey = window.DRIVE_CONFIG.apiKey;
       const galJson = await listDriveFolder(window.DRIVE_CONFIG.galleryFolderId, apiKey, window.DRIVE_CONFIG.maxResults || 100);
+      console.log('Drive gallery response:', galJson);
       if (galJson && Array.isArray(galJson.files) && galJson.files.length){
         const imgItems = [];
         const videoItems = [];
         galJson.files.forEach(f=>{
           if (f.mimeType && f.mimeType.startsWith('image')){
-            imgItems.push(`<div class="card"><img src="${driveFileUrl(f.id)}" alt="${f.name}"></div>`)
+            const thumb = f.thumbnailLink ? f.thumbnailLink : driveFileUrl(f.id);
+            imgItems.push(`<div class="card"><img src="${thumb}" alt="${f.name}"></div>`)
           } else if (f.mimeType && f.mimeType.startsWith('video')){
             videoItems.push(`<div class="col-md-6"><video controls class="w-100" src="${driveFileUrl(f.id)}"></video></div>`)
           } else {
-            imgItems.push(`<div class="card"><a href="https://drive.google.com/file/d/${f.id}/view" target="_blank">${f.name}</a></div>`)
+            const href = f.webViewLink ? f.webViewLink : `https://drive.google.com/file/d/${f.id}/view`;
+            imgItems.push(`<div class="card"><a href="${href}" target="_blank">${f.name}</a></div>`)
           }
         });
         galleryEl.innerHTML = imgItems.join('');
@@ -63,8 +77,11 @@
           }
           if (!videosEl.innerHTML) videosEl.innerHTML = '<div class="muted">No hay videos en Drive.</div>';
         }
-      } else galleryEl.innerHTML = '<div>No hay imágenes en la galería.</div>';
-    }catch(e){galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message}
+      } else galleryEl.innerHTML = '<div>No hay imágenes en la galería (ver consola para diagnóstico).</div>';
+    }catch(e){
+      console.error('Error listing Drive gallery', e);
+      galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message + '. Revisa la consola para más detalles.';
+    }
 
     // latest video: prefer explicit config, fallback to a text/json file in documents folder
     try{
