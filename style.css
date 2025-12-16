@@ -1,22 +1,23 @@
 :root{
-  --bg:#f8fafc;
+  --bg:#fffdf7;
   --card:#ffffff;
-  --muted:#64748b;
-  --accent:#0ea5a4;
-  --accent-2:#0284c7;
-  --text:#0f172a;
+  --muted:#6b7280;
+  --accent:#fbbf24; /* amber-400 */
+  --accent-dark:#b45309; /* amber-700 */
+  --brand-black:#111827;
+  --text:#111827;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-  background:linear-gradient(180deg,#f8fafc 0%, #eef2ff 100%);
+  background:linear-gradient(180deg, var(--bg) 0%, #fff7ed 100%);
   color:var(--text);
 }
 .app-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:transparent}
 .brand{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
-.title{font-weight:600}
+.logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:var(--brand-black);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.title{font-weight:700;color:var(--brand-black)}
 .container{padding:18px;max-width:900px;margin:0 auto}
 .hero{background:transparent;padding:18px 0}
 .hero h1{margin:0 0 6px;font-size:1.6rem}
@@ -38,7 +39,7 @@ body{
 .small{font-size:0.9rem}
 
 /* Floating WhatsApp button */
-.whatsapp-fab{position:fixed;right:18px;bottom:18px;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(2,6,23,0.12);z-index:1000;text-decoration:none}
+.whatsapp-fab{position:fixed;right:18px;bottom:18px;background:var(--accent);color:var(--brand-black);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:1000;text-decoration:none;border:3px solid var(--brand-black)}
 .whatsapp-fab img{width:26px;height:26px}
 @media(min-width:900px){
   .bottom-nav{display:none}

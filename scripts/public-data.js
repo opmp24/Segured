@@ -5,6 +5,50 @@
   const galleryEl = el('gallery-grid');
   const latestVideoEl = el('latest-video');
 
+  // If GitHub config present, try to load gallery/documents from repo via GitHub API
+  if (window.GITHUB_CONFIG){
+    try{
+      // Documents: list contents of documentsPath
+      const docsUrl = `https://api.github.com/repos/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/contents/${window.GITHUB_CONFIG.documentsPath}`;
+      const docsResp = await fetch(docsUrl);
+      if (docsResp.ok){
+        const docsJson = await docsResp.json();
+        if (Array.isArray(docsJson) && docsJson.length>0){
+          const items = docsJson.map(f=>`<div><a href="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" target="_blank">${f.name}</a></div>`);
+          docsEl.innerHTML = items.join('');
+        } else docsEl.innerHTML = '<div>No hay documentos públicos en el repo.</div>';
+      } else {
+        docsEl.innerHTML = '<div class="muted">No se pudo listar documentos desde GitHub.</div>';
+      }
+    }catch(e){docsEl.innerText = 'Error cargando documentos: '+e.message}
+
+    try{
+      const galUrl = `https://api.github.com/repos/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/contents/${window.GITHUB_CONFIG.galleryPath}`;
+      const galResp = await fetch(galUrl);
+      if (galResp.ok){
+        const galJson = await galResp.json();
+        if (Array.isArray(galJson) && galJson.length>0){
+          const items = galJson.map(f=>`<div class="card"><img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" alt="${f.name}"></div>`);
+          galleryEl.innerHTML = items.join('');
+        } else galleryEl.innerHTML = '<div>No hay imágenes en la galería.</div>';
+      } else galleryEl.innerHTML = '<div class="muted">No se pudo listar galería desde GitHub.</div>';
+    }catch(e){galleryEl.innerText = 'Error cargando galería: '+e.message}
+
+    // Latest video from settings in repo (simple file settings/latest.json with {"latestVideoId":"..."})
+    try{
+      const setUrl = `https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/settings/latest.json`;
+      const setResp = await fetch(setUrl);
+      if (setResp.ok){
+        const setJson = await setResp.json();
+        if (setJson.latestVideoId){
+          latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${setJson.latestVideoId}" frameborder="0" allowfullscreen></iframe>`;
+        } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
+      } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
+    }catch(e){latestVideoEl.innerText='Error cargando video: '+e.message}
+
+    return;
+  }
+
   if (!window.firebase) {
     docsEl.innerHTML = '<div class="muted">Integración Firebase no configurada. Los documentos privados no estarán disponibles.</div>';
     galleryEl.innerHTML = '<div class="muted">Integración Firebase no configurada.</div>';

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galería — Seguridad Laboral</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">SL</div>
+      <div class="title">Galería</div>
+    </div>
+    <a href="index.html" class="btn ghost">Inicio</a>
+  </header>
+  <main class="container">
+    <section class="cards">
+      <h2>Galería</h2>
+      <div id="gallery-grid" class="grid gallery-grid">Cargando galería...</div>
+      <h3>Último video</h3>
+      <div id="latest-video" class="video-embed">Cargando video...</div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="scripts/public-data.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
