@@ -4,6 +4,7 @@ const ASSETS = [
   './', // Esto cachea el index.html en la raíz del repo
   'index.html',
   'drive-config.js',
+  'favicon.svg',
   'css/style.css',
   'app.js',
   'manifest.json',
@@ -17,9 +18,9 @@ const ASSETS = [
   'pages/gallery.html',
   'pages/rrss.html',
   'pages/contact.html',
-  'assets/images/photo1.svg',
-  'assets/images/photo2.svg',
-  'assets/images/photo3.svg'
+  'assets/images/safety-helmet.svg',
+  'assets/images/safety-sign.svg',
+  'assets/images/fire-extinguisher.svg'
 ].map(path => REPO_PREFIX + path.replace(/^\.\//, ''));
 
 self.addEventListener('install', (event) => {
