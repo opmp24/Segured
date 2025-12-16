@@ -10,13 +10,12 @@
     return `https://drive.google.com/uc?export=view&id=${id}`;
   }
 
-  async function listDriveFolder(folderId){
-    const baseUrl = window.DRIVE_CONFIG.proxyUrl || '';
-    // Llamamos a nuestra propia función sin servidor (proxy).
-    const url = `${baseUrl}/.netlify/functions/get-drive-files?folderId=${folderId}`;
+  async function listDriveFolder(folderId, apiKey, maxResults=100){
+    const q = encodeURIComponent(`'${folderId}' in parents and trashed = false`);
+    const url = `https://www.googleapis.com/drive/v3/files?q=${q}&key=${apiKey}&pageSize=${maxResults}&fields=files(id,name,mimeType,webViewLink,thumbnailLink,owners)&supportsAllDrives=true&includeItemsFromAllDrives=true`;
     const resp = await fetch(url);
     const json = await resp.json();
-    if (!resp.ok) throw new Error('Error del servidor proxy: ' + (json.error?.message || JSON.stringify(json)));
+    if (!resp.ok) throw new Error('Drive API error ' + resp.status + ' — ' + JSON.stringify(json));
     return json;
   }
 
@@ -31,7 +30,8 @@
 
     try{
       // documents
-      const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId);
+      const apiKey = window.DRIVE_CONFIG.apiKey;
+      const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey);
       if (docsEl) {
         console.log('Drive documents response:', docsJson);
         if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
@@ -82,7 +82,7 @@
         if (galleryEl) galleryEl.innerHTML = ''; // Clear if element exists but no config
         return; // Exit if no gallery config or element
       }
-      const galJson = await listDriveFolder(window.DRIVE_CONFIG.galleryFolderId);
+      const galJson = await listDriveFolder(window.DRIVE_CONFIG.galleryFolderId, window.DRIVE_CONFIG.apiKey);
       console.log('Drive gallery response:', galJson);
       if (galJson && Array.isArray(galJson.files) && galJson.files.length){
         const imgItems = [];
