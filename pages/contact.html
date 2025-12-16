@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contacto — Seguridad Laboral</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">SL</div>
+      <div class="title">Contacto</div>
+    </div>
+    <a href="../index.html" class="btn ghost">Inicio</a>
+  </header>
+  <main class="container">
+    <section class="cards contact">
+      <h2>Contacto</h2>
+      <form id="contact-form" class="contact-form" action="#" onsubmit="return false;">
+        <input id="contact-name" type="text" placeholder="Nombre" aria-label="Nombre" required />
+        <input id="contact-email" type="email" placeholder="Correo" aria-label="Correo" required />
+        <textarea id="contact-question" placeholder="Pregunta" aria-label="Mensaje" required></textarea>
+        <button id="contact-submit" class="btn">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="../app.js" defer></script>
+</body>
+</html>

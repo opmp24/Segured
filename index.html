@@ -1,77 +1,41 @@
 <!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#fbbf24" />
+  <title>Seguridad Laboral — Demo PWA</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">SL</div>
+      <div class="title">Seguridad Laboral</div>
+    </div>
+    <button id="installBtn" class="btn ghost">Instalar</button>
+  </header>
+
   <main class="container">
     <section id="inicio" class="hero">
       <h1>Protección en el trabajo, simple y efectiva</h1>
       <p>Soluciones integrales en prevención de riesgos laborales — formación, auditorías y más.</p>
       <div class="home-links" style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" href="about.html">A qué nos dedicamos</a>
-        <a class="btn" href="documents.html">Documentos</a>
-        <a class="btn" href="gallery.html">Galería</a>
-        <a class="btn" href="rrss.html">RRSS</a>
-        <a class="btn" href="contact.html">Contacto</a>
-        <a class="btn ghost" href="admin.html">Administrar</a>
+        <a class="btn" href="pages/about.html">A qué nos dedicamos</a>
+        <a class="btn" href="pages/documents.html">Documentos</a>
+        <a class="btn" href="pages/gallery.html">Galería</a>
+        <a class="btn" href="pages/rrss.html">RRSS</a>
+        <a class="btn" href="pages/contact.html">Contacto</a>
+        <a class="btn ghost" href="pages/admin.html">Administrar</a>
       </div>
     </section>
   </main>
-      <div id="instagram-feed">No configurado. Configure integración en Admin.</div>
-    </section>
 
-    <section id="contacto" class="cards contact">
-      <h2>Contacto</h2>
-      <form id="contact-form" class="contact-form" action="#" onsubmit="return false;">
-        <input id="contact-name" type="text" placeholder="Nombre" aria-label="Nombre" required />
-        <input id="contact-email" type="email" placeholder="Correo" aria-label="Correo" required />
-        <textarea id="contact-question" placeholder="Pregunta" aria-label="Mensaje" required></textarea>
-        <button id="contact-submit" class="btn">Enviar</button>
-      </form>
-    </section>
-
-    <section id="admin-shortcut" class="cards">
-      <h2>Administrar</h2>
-      <p>Área de administración para subir imágenes y documentos, gestionar permisos y aprobar accesos.</p>
-      <a class="btn" href="admin.html">Ir a Administrar</a>
-    </section>
-
-    <section id="servicios" class="cards">
-      <h2>Servicios</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Formación</h3>
-          <p>Cursos presenciales y online adaptados a su sector.</p>
-        </article>
-        <article class="card">
-          <h3>Auditorías</h3>
-          <p>Revisión y planes de mejora para cumplimiento normativo.</p>
-        </article>
-        <article class="card">
-          <h3>Consultoría</h3>
-          <p>Planes de prevención y gestión de riesgos personalizados.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="informes" class="cards">
-      <h2>Informes</h2>
-      <p>Generación de informes claros con análisis y recomendaciones.</p>
-    </section>
-
-    <section id="contacto" class="cards contact">
-      <h2>Contacto</h2>
-      <form class="contact-form" action="#" onsubmit="return false;">
-        <input type="text" placeholder="Nombre" aria-label="Nombre" />
-        <input type="email" placeholder="Correo" aria-label="Correo" />
-        <textarea placeholder="Mensaje" aria-label="Mensaje"></textarea>
-        <button class="btn">Enviar</button>
-      </form>
-    </section>
-  </main>
-
-  <nav class="bottom-nav" aria-label="Navegación">
-    <a href="#inicio">Inicio</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#informes">Informes</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
+  <a class="whatsapp-fab" href="https://wa.me/34123456789" target="_blank" aria-label="WhatsApp">
+    <img src="assets/images/photo1.svg" alt="W" />
+  </a>
 
   <script src="./app.js" defer></script>
 </body>
