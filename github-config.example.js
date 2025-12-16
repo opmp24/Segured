@@ -4,6 +4,5 @@ const GITHUB_CONFIG = {
   repo: "Segured",  // repo name
   branch: "main",
   galleryPath: "gallery",
-  documentsPath: "documents",
-  adminPassword: "changeme" // simple admin password (used client-side). Replace with a strong one.
+  documentsPath: "documents"
 };
