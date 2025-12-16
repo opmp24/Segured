@@ -75,47 +75,50 @@
       if (docsEl) docsEl.innerText = 'Error cargando documentos desde Drive: '+e.message + '. Revisa la consola para más detalles.';
     }
 
+    // Carga la galería de imágenes y videos desde Google Drive
     try{
-      // No changes needed for the gallery part, but we need to handle the case where galleryEl is null
-      if (!window.DRIVE_CONFIG.galleryFolderId || !galleryEl) {
-        if (galleryEl) galleryEl.innerHTML = '<div class="muted small">La carpeta de galería no está configurada.</div>';
-        const videosEl = document.getElementById('gallery-videos');
-        if (videosEl) videosEl.innerHTML = ''; // Limpiamos también el de videos
-      } else {
-        const galJson = await listDriveFolder(window.DRIVE_CONFIG.galleryFolderId);
+      const galleryFolderId = window.DRIVE_CONFIG.galleryFolderId;
+      if (galleryEl && galleryFolderId) {
+        const galJson = await listDriveFolder(galleryFolderId);
         console.log('Drive gallery response:', galJson);
+
         if (galJson && Array.isArray(galJson.files) && galJson.files.length > 0) {
           const imgItems = [];
           const videoItems = [];
+
           galJson.files.forEach(f => {
             if (f.mimeType && f.mimeType.startsWith('image')) {
-              const thumb = f.thumbnailLink ? f.thumbnailLink : driveFileUrl(f.id);
-              imgItems.push(`<div class="card"><img src="${thumb}" alt="${f.name}"></div>`)
+              const thumb = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+/, '=s400') : driveFileUrl(f.id);
+              imgItems.push(`<div class="card"><img src="${thumb}" alt="${f.name}"></div>`);
             } else if (f.mimeType && f.mimeType.startsWith('video')) {
-              videoItems.push(`<div class="col-md-6"><video controls class="w-100" src="${driveFileUrl(f.id)}"></video></div>`)
+              videoItems.push(`<div class="col-md-6"><video controls class="w-100" src="${driveFileUrl(f.id)}"></video></div>`);
             }
           });
-          if (galleryEl) galleryEl.innerHTML = imgItems.join('') || '<div class="muted small">No se encontraron imágenes en la carpeta.</div>';
+
+          galleryEl.innerHTML = imgItems.length > 0 ? imgItems.join('') : '<div class="muted small">No se encontraron imágenes en la carpeta de Drive.</div>';
           const videosEl = document.getElementById('gallery-videos');
           if (videosEl) {
-            videosEl.innerHTML = videoItems.join('') || '<div class="muted small">No se encontraron videos de Drive en la carpeta.</div>';
+            videosEl.innerHTML = videoItems.length > 0 ? videoItems.join('') : '<div class="muted small">No se encontraron videos en la carpeta de Drive.</div>';
           }
         } else {
-          // La carpeta está vacía o los archivos no son públicos
-          if (galleryEl) galleryEl.innerHTML = '<div class="muted small">No se encontraron imágenes en la carpeta de Drive. Verifique que los archivos sean públicos.</div>';
+          galleryEl.innerHTML = '<div class="muted small">No se encontraron archivos en la carpeta de galería. Verifique que los archivos sean públicos.</div>';
           const videosEl = document.getElementById('gallery-videos');
-          if (videosEl) videosEl.innerHTML = ''; // Limpiamos el mensaje "Cargando..."
+          if (videosEl) videosEl.innerHTML = '';
         }
+      } else if (galleryEl) {
+        galleryEl.innerHTML = '<div class="muted small">La carpeta de galería no está configurada en <code>drive-config.js</code>.</div>';
+        const videosEl = document.getElementById('gallery-videos');
+        if (videosEl) videosEl.innerHTML = '';
       }
     }catch(e){
       console.error('Error listing Drive gallery', e);
       if (galleryEl) galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message + '. Revisa la consola para más detalles.';
     }
 
-    // latest video: prefer explicit config, fallback to a text/json file in documents folder
+    // Carga el último video de YouTube
     try{
-      if (latestVideoEl && window.DRIVE_CONFIG.youtubeChannelId && window.DRIVE_CONFIG.youtubeChannelId !== 'YOUR_YOUTUBE_CHANNEL_ID') {
-        const channelId = window.DRIVE_CONFIG.youtubeChannelId;
+      const channelId = window.DRIVE_CONFIG.youtubeChannelId;
+      if (latestVideoEl && channelId && channelId !== 'YOUR_YOUTUBE_CHANNEL_ID') {
         const url = `/.netlify/functions/get-latest-youtube-video?channelId=${channelId}`;
         const resp = await fetch(url);
         const json = await resp.json();
@@ -123,7 +126,7 @@
         if (resp.ok && json.latestVideoId) {
           latestVideoEl.innerHTML = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/${json.latestVideoId}" title="Último video de YouTube" allowfullscreen></iframe></div>`;
         } else {
-          console.error('Error al obtener el último video de YouTube:', json.error?.message || 'Respuesta no válida');
+          console.error('Error al obtener el último video de YouTube:', json.error?.message || 'Respuesta no válida del proxy.');
           latestVideoEl.innerHTML = '<div class="muted">No se pudo cargar el último video.</div>';
         }
       } else if (latestVideoEl) {
