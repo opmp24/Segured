@@ -1,6 +1,7 @@
 const CACHE_NAME = 'sl-demo-v3';
 const ASSETS = [
   'index.html',
+  'drive-config.js',
   'css/style.css',
   'styles.css',
   'app.js',
