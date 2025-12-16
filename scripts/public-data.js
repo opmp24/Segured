@@ -21,10 +21,10 @@
 
   // If Drive config present, list files from Drive folders (public files)
   if (window.DRIVE_CONFIG){
-    async function fetchDriveFileContent(fileId, apiKey){
-      const url = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+    async function fetchDriveFileContent(fileId){
+      const url = `/.netlify/functions/get-drive-file-content?fileId=${fileId}`;
       const resp = await fetch(url);
-      if (!resp.ok) throw new Error('Drive file fetch error ' + resp.status);
+      if (!resp.ok) throw new Error('Error del proxy al obtener contenido del archivo: ' + resp.status);
       return resp.text();
     }
 
@@ -116,23 +116,25 @@
 
     // latest video: prefer explicit config, fallback to a text/json file in documents folder
     try{
-      if (window.DRIVE_CONFIG.latestVideoId){
-        if (latestVideoEl) latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${window.DRIVE_CONFIG.latestVideoId}" frameborder="0" allowfullscreen></iframe>`;
-      } else {
-        // try to find latestVideo.txt or latestVideo.json in documentsFolderId
-        if (window.DRIVE_CONFIG.documentsFolderId && window.DRIVE_CONFIG.apiKey){ // Fallback needs API key
-          const list = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId);
-          const found = list.files && list.files.find(f=>f.name && (f.name.toLowerCase()==='latestvideo.txt' || f.name.toLowerCase()==='latestvideo.json'));
-          if (found){
-            const txt = await fetchDriveFileContent(found.id, window.DRIVE_CONFIG.apiKey); // fetchDriveFileContent still needs key
-            try{ const parsed = JSON.parse(txt); if (parsed.latestVideoId){ latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${parsed.latestVideoId}" frameborder="0" allowfullscreen></iframe>`; return; } }catch(e){}
-            const id = txt.trim();
-            if (id && latestVideoEl) latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
-            else if (latestVideoEl) latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
-          } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
-        } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
+      if (latestVideoEl && window.DRIVE_CONFIG.youtubeChannelId && window.DRIVE_CONFIG.youtubeChannelId !== 'YOUR_YOUTUBE_CHANNEL_ID') {
+        const channelId = window.DRIVE_CONFIG.youtubeChannelId;
+        const url = `/.netlify/functions/get-latest-youtube-video?channelId=${channelId}`;
+        const resp = await fetch(url);
+        const json = await resp.json();
+
+        if (resp.ok && json.latestVideoId) {
+          latestVideoEl.innerHTML = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/${json.latestVideoId}" title="Último video de YouTube" allowfullscreen></iframe></div>`;
+        } else {
+          console.error('Error al obtener el último video de YouTube:', json.error?.message || 'Respuesta no válida');
+          latestVideoEl.innerHTML = '<div class="muted">No se pudo cargar el último video.</div>';
+        }
+      } else if (latestVideoEl) {
+        latestVideoEl.innerHTML = '<div class="muted">El ID del canal de YouTube no está configurado.</div>';
       }
-    }catch(e){latestVideoEl.innerText='Error cargando video: '+e.message}
+    }catch(e){
+      if (latestVideoEl) latestVideoEl.innerText='Error cargando video: '+e.message;
+      console.error('Error cargando el último video de YouTube:', e);
+    }
 
     return;
   }
