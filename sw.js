@@ -5,7 +5,6 @@ const ASSETS = [
   'index.html',
   'drive-config.js',
   'css/style.css',
-  'styles.css',
   'app.js',
   'manifest.json',
   'icons/icon-192.svg',
