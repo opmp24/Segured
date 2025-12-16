@@ -5,25 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#fbbf24" />
   <title>Seguridad Laboral — Demo PWA</title>
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="/Segured/manifest.json">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="/Segured/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg" style="background:#f59e0b;">
+  <nav class="navbar navbar-expand-lg" style="background:var(--accent);">
     <div class="container">
-      <a class="navbar-brand text-white" href="#"><img src="assets/images/logo.svg" height="32" class="me-2 align-middle" alt="logo">Seguridad Laboral</a>
+      <a class="navbar-brand text-dark" href="/Segured/"><img src="/Segured/assets/images/logo.svg" height="32" class="me-2 align-middle" alt="logo">Seguridad Laboral</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navMain">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link text-white" href="pages/about.html">A qué nos dedicamos</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="pages/documents.html">Documentos</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="pages/gallery.html">Galería</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="pages/rrss.html">RRSS</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="pages/contact.html">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/Segured/pages/about.html">A qué nos dedicamos</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/Segured/pages/documents.html">Documentos</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/Segured/pages/gallery.html">Galería</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/Segured/pages/rrss.html">RRSS</a></li>
+          <li class="nav-item"><a class="nav-link text-dark" href="/Segured/pages/contact.html">Contacto</a></li>
+          <li class="nav-item ms-lg-2">
+            <button id="installBtn" class="btn btn-sm btn-outline-dark" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-1" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+              Instalar App
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -41,7 +47,7 @@
           </div>
         </div>
         <div class="col-lg-5 d-none d-lg-block">
-          <img src="assets/images/photo1.svg" class="img-fluid rounded shadow" alt="hero">
+          <img src="/Segured/assets/images/photo1.svg" class="img-fluid rounded shadow" alt="hero">
         </div>
       </div>
     </section>
@@ -63,7 +69,7 @@
       <div class="row row-cols-1 row-cols-md-4 g-3">
         <div class="col">
           <div class="card h-100">
-            <img src="assets/images/photo1.svg" class="card-img-top" alt="item">
+            <img src="/Segured/assets/images/photo1.svg" class="card-img-top" alt="item">
             <div class="card-body">
               <h5 class="card-title">Equipo de protección</h5>
               <p class="card-text text-muted small">Desde cascos hasta arneses certificados.</p>
@@ -73,7 +79,7 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img src="assets/images/photo2.svg" class="card-img-top" alt="item">
+            <img src="/Segured/assets/images/photo2.svg" class="card-img-top" alt="item">
             <div class="card-body">
               <h5 class="card-title">Detectores</h5>
               <p class="card-text text-muted small">Detectores portátiles para ambientes industriales.</p>
@@ -83,7 +89,7 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img src="assets/images/photo3.svg" class="card-img-top" alt="item">
+            <img src="/Segured/assets/images/photo3.svg" class="card-img-top" alt="item">
             <div class="card-body">
               <h5 class="card-title">Capacitación</h5>
               <p class="card-text text-muted small">Cursos y certificaciones en línea.</p>
@@ -93,7 +99,7 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img src="assets/images/photo1.svg" class="card-img-top" alt="item">
+            <img src="/Segured/assets/images/photo1.svg" class="card-img-top" alt="item">
             <div class="card-body">
               <h5 class="card-title">Inspecciones</h5>
               <p class="card-text text-muted small">Servicios de auditoría y seguimiento.</p>
@@ -106,10 +112,10 @@
   </main>
 
   <a class="whatsapp-fab" href="https://wa.me/34123456789" target="_blank" aria-label="WhatsApp">
-    <img src="assets/images/photo1.svg" alt="W" />
+    <img src="/Segured/assets/images/photo1.svg" alt="W" />
   </a>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./app.js" defer></script>
+  <script src="/Segured/app.js" defer></script>
 </body>
 </html>

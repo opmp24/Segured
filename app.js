@@ -4,7 +4,7 @@ const installBtn = document.getElementById('installBtn');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
+  if (installBtn) installBtn.style.display = 'inline-block';
 });
 
 installBtn?.addEventListener('click', async () => {
