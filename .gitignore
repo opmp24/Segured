@@ -4,7 +4,6 @@ dist/
 *.log
 /.github/workflows/node_modules/
 # Local config files (do NOT commit secrets)
-drive-config.js
 firebase-config.js
 github-config.js
 .env
