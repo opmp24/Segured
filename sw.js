@@ -1,12 +1,13 @@
-const CACHE_NAME = 'sl-demo-v1';
+const CACHE_NAME = 'sl-demo-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-192.svg',
-  '/icons/icon-512.svg'
+  'index.html',
+  'styles.css',
+  'app.js',
+  'manifest.json',
+  'icons/icon-192.svg',
+  'icons/icon-512.svg',
+  'icons/icon-192.png',
+  'icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -28,6 +29,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(req).then(cached => cached || fetch(req).then(resp => {
       return caches.open(CACHE_NAME).then(cache => { cache.put(req, resp.clone()); return resp; });
-    }).catch(() => caches.match('/index.html')))
+    }).catch(() => caches.match('index.html')))
   );
 });
