@@ -35,20 +35,56 @@
       const apiKey = window.DRIVE_CONFIG.apiKey;
       // documents
       const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey, window.DRIVE_CONFIG.maxResults || 100);
-      console.log('Drive documents response:', docsJson);
-      if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
-        const items = docsJson.files.map(f=>{
-          const href = f.webViewLink ? f.webViewLink : `https://drive.google.com/file/d/${f.id}/view`;
-          return `<div><a href="${href}" target="_blank">${f.name}</a></div>`
-        });
-        if (docsEl) docsEl.innerHTML = items.join('');
-      } else if (docsEl) docsEl.innerHTML = '<div>No hay documentos públicos en Drive (ver consola para diagnóstico).</div>';
+      if (docsEl) {
+        console.log('Drive documents response:', docsJson);
+        if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
+          const viewer = el('doc-viewer');
+          const placeholder = el('viewer-placeholder');
+          
+          const ul = document.createElement('ul');
+          ul.className = 'list-group';
+
+          docsJson.files.forEach(file => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item list-group-item-action';
+            
+            const link = document.createElement('a');
+            link.href = '#'; // Evitamos que la página recargue
+            link.textContent = file.name;
+            link.setAttribute('data-file-id', file.id);
+            
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
+              li.classList.add('active');
+
+              const embedUrl = `https://drive.google.com/file/d/${file.id}/preview`;
+              if (placeholder) placeholder.classList.add('d-none');
+              if (viewer) {
+                viewer.src = embedUrl;
+                viewer.classList.remove('d-none');
+              }
+            });
+            li.appendChild(link);
+            ul.appendChild(li);
+          });
+          docsEl.innerHTML = ''; // Limpiamos el "Cargando..."
+          docsEl.appendChild(ul);
+        } else {
+          docsEl.innerHTML = '<div>No hay documentos públicos en Drive (ver consola para diagnóstico).</div>';
+        }
+      }
     }catch(e){
       console.error('Error listing Drive documents', e);
-      docsEl.innerText = 'Error cargando documentos desde Drive: '+e.message + '. Revisa la consola para más detalles.';
+      if (docsEl) docsEl.innerText = 'Error cargando documentos desde Drive: '+e.message + '. Revisa la consola para más detalles.';
     }
 
     try{
+      // No changes needed for the gallery part, but we need to handle the case where galleryEl is null
+      if (!window.DRIVE_CONFIG.galleryFolderId || !galleryEl) {
+        if (galleryEl) galleryEl.innerHTML = ''; // Clear if element exists but no config
+        return; // Exit if no gallery config or element
+      }
       const apiKey = window.DRIVE_CONFIG.apiKey;
       const galJson = await listDriveFolder(window.DRIVE_CONFIG.galleryFolderId, apiKey, window.DRIVE_CONFIG.maxResults || 100);
       console.log('Drive gallery response:', galJson);
@@ -80,7 +116,7 @@
       } else if (galleryEl) galleryEl.innerHTML = '<div>No hay imágenes en la galería (ver consola para diagnóstico).</div>';
     }catch(e){
       console.error('Error listing Drive gallery', e);
-      galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message + '. Revisa la consola para más detalles.';
+      if (galleryEl) galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message + '. Revisa la consola para más detalles.';
     }
 
     // latest video: prefer explicit config, fallback to a text/json file in documents folder
