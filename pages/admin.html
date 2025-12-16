@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Administrar — Seguridad Laboral</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <header class="app-header">
@@ -12,22 +12,22 @@
       <div class="logo">SL</div>
       <div class="title">Administrar</div>
     </div>
-    <a href="index.html" class="btn ghost">Volver</a>
+    <a href="../index.html" class="btn ghost">Volver</a>
   </header>
 
   <main class="container">
     <section class="cards">
       <h2>Acceso</h2>
       <p>Inicie sesión con Google para administrar contenidos y aprobar accesos a documentos privados.</p>
-        <div id="auth-status">Cargando...</div>
-        <div id="auth-buttons">
-          <button id="login-google" class="btn">Iniciar con Google</button>
-          <button id="logout" class="btn ghost" style="display:none">Cerrar sesión</button>
-        </div>
-        <div style="margin-top:10px">
-          <label>Contraseña de administrador: <input id="admin-pass" type="password" /></label>
-          <button id="admin-unlock" class="btn ghost">Unlock</button>
-        </div>
+      <div id="auth-status">Cargando...</div>
+      <div id="auth-buttons">
+        <button id="login-google" class="btn">Iniciar con Google</button>
+        <button id="logout" class="btn ghost" style="display:none">Cerrar sesión</button>
+      </div>
+      <div style="margin-top:10px">
+        <label>Contraseña de administrador: <input id="admin-pass" type="password" /></label>
+        <button id="admin-unlock" class="btn ghost">Unlock</button>
+      </div>
     </section>
 
     <section class="cards">
@@ -64,11 +64,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <meta http-equiv="refresh" content="0; url=pages/admin.html">
-</head>
-<body>
-  Si no es redirigido, <a href="pages/admin.html">ir a Administrar</a>.
-</body>
-</html>
+  <script src="../firebase-config.js"></script>
+  <script src="../github-config.js"></script>
+  <script src="../scripts/admin.js"></script>
 </body>
 </html>

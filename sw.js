@@ -1,17 +1,25 @@
 const CACHE_NAME = 'sl-demo-v3';
 const ASSETS = [
   'index.html',
-  'style.css',
+  'css/style.css',
   'styles.css',
   'app.js',
-  'admin.html',
+  'pages/admin.html',
   'manifest.json',
   'icons/icon-192.svg',
   'icons/icon-512.svg',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'scripts/admin.js',
-  'scripts/public-data.js'
+  'scripts/public-data.js',
+  'pages/about.html',
+  'pages/documents.html',
+  'pages/gallery.html',
+  'pages/rrss.html',
+  'pages/contact.html',
+  'assets/images/photo1.svg',
+  'assets/images/photo2.svg',
+  'assets/images/photo3.svg'
 ];
 
 self.addEventListener('install', (event) => {
