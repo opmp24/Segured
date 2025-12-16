@@ -44,8 +44,8 @@
       } else galleryEl.innerHTML = '<div>No hay imágenes en la galería.</div>';
     }catch(e){galleryEl.innerText = 'Error cargando galería desde Drive: '+e.message}
 
-    // latest video via settings/latest.json in Drive is not implemented; admin can set video id in Firestore or settings file
-    latestVideoEl.innerHTML = '<div class="muted">Configure latest video in Admin.</div>';
+    // latest video via settings/latest.json in Drive is not implemented; site owner can set video id in a settings file
+      latestVideoEl.innerHTML = '<div class="muted">Configure latest video in settings (settings/latest.json) or via Drive.</div>';
     return;
   }
 
@@ -96,7 +96,7 @@
   if (!window.firebase) {
     docsEl.innerHTML = '<div class="muted">Integración Firebase no configurada. Los documentos privados no estarán disponibles.</div>';
     galleryEl.innerHTML = '<div class="muted">Integración Firebase no configurada.</div>';
-    latestVideoEl.innerHTML = '<div class="muted">Configurar video en Admin.</div>';
+    latestVideoEl.innerHTML = '<div class="muted">Configurar video en settings/latest.json o en Drive.</div>';
     return;
   }
 
@@ -124,7 +124,7 @@
     }
   }catch(e){galleryEl.innerText = 'Error cargando galería: '+e.message}
 
-  // Latest video: placeholder — admin can write a document in Firestore 'settings' with key latestVideoId
+  // Latest video: placeholder — site owner can write a settings/latest.json with {"latestVideoId":"..."}
   try{
     const setDoc = await db.collection('settings').doc('main').get();
     if (setDoc.exists && setDoc.data().latestVideoId){
