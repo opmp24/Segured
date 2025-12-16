@@ -26,13 +26,26 @@ self.addEventListener('activate', (event) => {
     ))
   );
   self.clients.claim();
+  // take control immediately and clear old caches
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
+  // prefer network for navigation requests (so index.html updates), fallback to cache
+  if (req.mode === 'navigate') {
+    event.respondWith(fetch(req).then(resp => {
+      return caches.open(CACHE_NAME).then(cache => { cache.put(req, resp.clone()); return resp; });
+    }).catch(() => caches.match('index.html')));
+    return;
+  }
   event.respondWith(
     caches.match(req).then(cached => cached || fetch(req).then(resp => {
       return caches.open(CACHE_NAME).then(cache => { cache.put(req, resp.clone()); return resp; });
     }).catch(() => caches.match('index.html')))
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data === 'skipWaiting') self.skipWaiting();
 });

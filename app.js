@@ -18,9 +18,31 @@ installBtn?.addEventListener('click', async () => {
 // Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch((err) => console.log('SW error', err));
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('SW registered', reg);
+      // check for updates on load
+      if (reg && reg.update) reg.update();
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              // New content is available, reload to update app
+              console.log('New SW installed; reloading to update');
+              window.location.reload();
+            }
+          }
+        });
+      });
+    }).catch((err) => console.log('SW error', err));
   });
 }
+
+// Ensure PWA reloads to latest when reopened: listen for controllerchange
+navigator.serviceWorker && navigator.serviceWorker.addEventListener && navigator.serviceWorker.addEventListener('controllerchange', () => {
+  console.log('controllerchange detected — reloading');
+  window.location.reload();
+});
 
 // Smooth scrolling for nav
 document.querySelectorAll('a[href^="#"]').forEach(a => {
