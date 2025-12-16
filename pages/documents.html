@@ -26,8 +26,16 @@
   <main class="container">
     <section class="cards">
       <h2>Documentos</h2>
-      <div id="documents-list">Cargando documentos...</div>
-      <div class="muted small">Documentos privados requieren autorización. Contacte al responsable del sitio para acceso.</div>
+      <div class="row">
+        <div class="col-md-5">
+          <div id="documents-list">Cargando documentos...</div>
+          <div class="muted small mt-2">Documentos privados requieren autorización. Contacte al responsable del sitio para acceso.</div>
+        </div>
+        <div class="col-md-7">
+          <p id="viewer-placeholder" class="text-center text-muted mt-5">Selecciona un documento para previsualizarlo aquí.</p>
+          <iframe id="doc-viewer" class="d-none" style="width:100%; height: 600px; border: 1px solid #ccc; border-radius: 8px;"></iframe>
+        </div>
+      </div>
     </section>
   </main>
   <script src="../drive-config.js"></script>
