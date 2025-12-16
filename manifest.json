@@ -1,7 +1,7 @@
 {
   "name": "Seguridad Laboral — Demo",
   "short_name": "SegLab",
-  "start_url": ".",
+  "start_url": "/Segured/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0ea5a4",
