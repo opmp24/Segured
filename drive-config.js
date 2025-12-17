@@ -13,5 +13,8 @@ window.DRIVE_CONFIG = {
 
   // ID del canal de YouTube del que se mostrará el último video.
   // Reemplaza "YOUR_YOUTUBE_CHANNEL_ID" con el ID de tu canal.
-  youtubeChannelId: "UCVwlW3kCGE0DTtX95_I7GtA"
+  youtubeChannelId: "UCVwlW3kCGE0DTtX95_I7GtA",
+
+  // (Opcional) ID de un video específico de YouTube para mostrar. Esto tiene prioridad sobre la búsqueda en el canal.
+  latestVideoId: "AVsAEZqGNd4"
 };

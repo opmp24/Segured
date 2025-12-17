@@ -138,8 +138,18 @@
 
     // Carga los últimos videos de YouTube usando la función serverless
     try {
+      const specificVideoId = window.DRIVE_CONFIG.latestVideoId;
       const channelId = window.DRIVE_CONFIG.youtubeChannelId;
-      if (latestVideoEl && channelId) {
+
+      if (latestVideoEl && specificVideoId) {
+        // Si hay un ID de video específico, lo mostramos directamente.
+        latestVideoEl.innerHTML = ''; // Limpiamos el mensaje "Cargando..."
+        const videoWrapper = document.createElement('div');
+        videoWrapper.className = 'ratio ratio-16x9 mb-3';
+        videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${specificVideoId}" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        latestVideoEl.appendChild(videoWrapper);
+
+      } else if (latestVideoEl && channelId) {
         // Llamamos a nuestra función serverless pidiendo los últimos 3 videos.
         const resp = await fetch(`/.netlify/functions/get-latest-youtube-video?channelId=${channelId}&maxResults=3`);
         const data = await resp.json();
