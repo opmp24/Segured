@@ -3,7 +3,6 @@
   function el(id){return document.getElementById(id)}
   const docsEl = document.getElementById('documents-list');
   const galleryEl = document.getElementById('gallery-grid');
-  const latestVideoEl = document.getElementById('latest-video');
 
   // Función auxiliar para mostrar mensajes en los elementos
   function displayMessage(element, message, isError = false) {
@@ -92,8 +91,9 @@
       if (galleryEl && galleryFolderId) {
         const galJson = await listDriveFolder(galleryFolderId, window.DRIVE_CONFIG.apiKey);
 
-        if (galJson && Array.isArray(galJson.files) && galJson.files.length > 0) {
-          const viewer = el('gallery-viewer');
+        if (galJson && Array.isArray(galJson.files)) {
+          const imageViewer = el('gallery-image-viewer');
+          const videoViewer = el('gallery-video-viewer');
           const placeholder = el('gallery-placeholder');
           
           galleryEl.innerHTML = ''; // Limpia el "Cargando..."
@@ -112,10 +112,12 @@
               document.querySelectorAll('.gallery-thumb').forEach(item => item.classList.remove('active'));
               card.classList.add('active');
 
-              if (placeholder) placeholder.classList.add('d-none');
-              if (viewer) {
-                viewer.src = driveFileUrl(file.id); // Carga la imagen en alta resolución en el visor
-                viewer.classList.remove('d-none');
+              if (placeholder) placeholder.classList.add('d-none');              
+              if (videoViewer) videoViewer.classList.add('d-none'); // Oculta el visor de video
+
+              if (imageViewer) {
+                imageViewer.src = driveFileUrl(file.id); // Carga la imagen en alta resolución en el visor
+                imageViewer.classList.remove('d-none');
               }
             };
             galleryEl.appendChild(card);
@@ -125,8 +127,6 @@
               card.click();
             }
           });
-        } else {
-          displayMessage(galleryEl, 'No se encontraron imágenes en la carpeta de galería.');
         }
       } else if (galleryEl) {
         displayMessage(galleryEl, 'La carpeta de galería no está configurada en <code>drive-config.js</code>.');
@@ -136,41 +136,36 @@
       displayMessage(galleryEl, `Error cargando galería desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
 
-    // Carga los últimos videos de YouTube usando la función serverless
+    // Carga el video de YouTube y lo añade a la galería
     try {
       const specificVideoId = window.DRIVE_CONFIG.latestVideoId;
-      const channelId = window.DRIVE_CONFIG.youtubeChannelId;
+      if (galleryEl && specificVideoId) {
+        const imageViewer = el('gallery-image-viewer');
+        const videoViewer = el('gallery-video-viewer');
+        const placeholder = el('gallery-placeholder');
 
-      if (latestVideoEl && specificVideoId) {
-        // Si hay un ID de video específico, lo mostramos directamente.
-        latestVideoEl.innerHTML = ''; // Limpiamos el mensaje "Cargando..."
-        const videoWrapper = document.createElement('div');
-        videoWrapper.className = 'ratio ratio-16x9 mb-3';
-        videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${specificVideoId}" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-        latestVideoEl.appendChild(videoWrapper);
+        const card = document.createElement('div');
+        card.className = 'card gallery-thumb';
+        // Usamos la miniatura oficial de YouTube
+        card.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/0.jpg" alt="Video de YouTube" class="card-img-top">`;
+        
+        card.onclick = (e) => {
+          e.preventDefault();
+          document.querySelectorAll('.gallery-thumb').forEach(item => item.classList.remove('active'));
+          card.classList.add('active');
 
-      } else if (latestVideoEl && channelId) {
-        // Llamamos a nuestra función serverless pidiendo los últimos 3 videos.
-        const resp = await fetch(`/.netlify/functions/get-latest-youtube-video?channelId=${channelId}&maxResults=3`);
-        const data = await resp.json();
+          if (placeholder) placeholder.classList.add('d-none');
+          if (imageViewer) imageViewer.classList.add('d-none'); // Oculta el visor de imagen
 
-        if (resp.ok && data.videos && data.videos.length > 0) {
-          latestVideoEl.innerHTML = ''; // Limpiamos el mensaje "Cargando..."
-          data.videos.forEach(video => {
-            const videoWrapper = document.createElement('div');
-            videoWrapper.className = 'ratio ratio-16x9 mb-3'; // Bootstrap para videos responsivos
-            videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${video.videoId}" title="${video.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            latestVideoEl.appendChild(videoWrapper);
-          });
-        } else {
-          const errorMessage = data.error?.message || 'No se encontraron videos.';
-          console.warn('No se pudieron cargar los videos de YouTube:', errorMessage);
-          displayMessage(latestVideoEl, 'No hay videos recientes para mostrar.');
+          if (videoViewer) {
+            videoViewer.src = `https://www.youtube.com/embed/${specificVideoId}`;
+            videoViewer.classList.remove('d-none');
+          }
         }
+        galleryEl.appendChild(card);
       }
     } catch (e) {
       console.error('Error al cargar videos de YouTube:', e);
-      displayMessage(latestVideoEl, `Error al cargar videos: ${e.message}`, true);
     }
 
     return;
