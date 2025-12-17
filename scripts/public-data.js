@@ -5,6 +5,11 @@
   const galleryEl = document.getElementById('gallery-grid');
   const latestVideoEl = document.getElementById('latest-video');
 
+  // Función auxiliar para mostrar mensajes en los elementos
+  function displayMessage(element, message, isError = false) {
+    if (element) element.innerHTML = `<div class="${isError ? 'text-danger' : 'text-muted'} small">${message}</div>`;
+  }
+
   // Función para construir la URL de visualización directa de archivos de Drive
   function driveFileUrl(id) {
     return `https://drive.google.com/uc?export=view&id=${id}`;
@@ -69,12 +74,16 @@
           docsEl.innerHTML = ''; // Limpia el "Cargando..."
           docsEl.appendChild(ul);
         } else {
-          docsEl.innerHTML = '<div>No hay documentos públicos en Drive (ver consola para diagnóstico).</div>';
+          const viewer = el('doc-viewer');
+          const placeholder = el('viewer-placeholder');
+          if (viewer) viewer.classList.add('d-none');
+          if (placeholder) placeholder.classList.remove('d-none');
+          displayMessage(docsEl, 'No hay documentos públicos en Drive (ver consola para diagnóstico).');
         }
       }
     }catch(e){
       console.error('Error listing Drive documents', e);
-      if (docsEl) docsEl.innerText = 'Error cargando documentos desde Drive: ' + e.message + '. Revisa la consola para más detalles.';
+      displayMessage(docsEl, `Error cargando documentos desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
 
     // Carga la galería de imágenes y videos desde Google Drive
@@ -97,47 +106,23 @@
             }
           });
 
-          galleryEl.innerHTML = imgItems.length > 0 ? imgItems.join('') : '<div class="text-muted small">No se encontraron imágenes en la carpeta de Drive.</div>';
+          galleryEl.innerHTML = imgItems.length > 0 ? imgItems.join('') : '';
+          if (imgItems.length === 0) displayMessage(galleryEl, 'No se encontraron imágenes en la carpeta de Drive.');
+
           const videosEl = document.getElementById('gallery-videos');
           if (videosEl) {
-            videosEl.innerHTML = videoItems.length > 0 ? videoItems.join('') : '<div class="text-muted small">No se encontraron videos en la carpeta de Drive.</div>';
+            videosEl.innerHTML = videoItems.length > 0 ? videoItems.join('') : '';
+            if (videoItems.length === 0) displayMessage(videosEl, 'No se encontraron videos en la carpeta de Drive.');
           }
         } else {
-          galleryEl.innerHTML = '<div class="text-muted small">No se encontraron archivos en la carpeta de galería. Verifique que los archivos sean públicos.</div>';
-          const videosEl = document.getElementById('gallery-videos');
-          if (videosEl) videosEl.innerHTML = '';
+          displayMessage(galleryEl, 'No se encontraron archivos en la carpeta de galería. Verifique que los archivos sean públicos.');
         }
       } else if (galleryEl) {
-        galleryEl.innerHTML = '<div class="muted small">La carpeta de galería no está configurada en <code>drive-config.js</code>.</div>';
-        const videosEl = document.getElementById('gallery-videos');
-        if (videosEl) videosEl.innerHTML = '';
+        displayMessage(galleryEl, 'La carpeta de galería no está configurada en <code>drive-config.js</code>.');
       }
     }catch(e){
       console.error('Error listing Drive gallery', e);
-      if (galleryEl) galleryEl.innerText = 'Error cargando galería desde Drive: ' + e.message + '. Revisa la consola para más detalles.';
-    }
-
-    // Carga el último video de YouTube
-    try{
-      const channelId = window.DRIVE_CONFIG.youtubeChannelId;
-      const apiKey = window.DRIVE_CONFIG.apiKey;
-      if (latestVideoEl && channelId && channelId !== 'YOUR_YOUTUBE_CHANNEL_ID' && apiKey) {
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=1&type=video&key=${apiKey}`;
-        const resp = await fetch(url);
-        const json = await resp.json();
-
-        if (resp.ok && json.items && json.items.length > 0) {
-          latestVideoEl.innerHTML = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/${json.items[0].id.videoId}" title="Último video de YouTube" allowfullscreen></iframe></div>`;
-        } else {
-          console.error('Error al obtener el último video de YouTube:', json.error?.message || 'Respuesta no válida de la API.');
-          latestVideoEl.innerHTML = '<div class="muted">No se pudo cargar el último video de YouTube.</div>';
-        }
-      } else if (latestVideoEl) {
-        latestVideoEl.innerHTML = '<div class="muted">El ID del canal de YouTube no está configurado.</div>';
-      }
-    }catch(e){
-      if (latestVideoEl) latestVideoEl.innerText = 'Error cargando video: ' + e.message;
-      console.error('Error cargando el último video de YouTube:', e);
+      displayMessage(galleryEl, `Error cargando galería desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
 
     return;
@@ -154,23 +139,31 @@
         if (Array.isArray(docsJson) && docsJson.length>0){
           const items = docsJson.map(f=>`<div><a href="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" target="_blank">${f.name}</a></div>`);
           docsEl.innerHTML = items.join('');
-        } else docsEl.innerHTML = '<div>No hay documentos públicos en el repo.</div>';
+        } else displayMessage(docsEl, 'No hay documentos públicos en el repo.');
       } else {
-        docsEl.innerHTML = '<div class="muted">No se pudo listar documentos desde GitHub.</div>';
+        displayMessage(docsEl, 'No se pudo listar documentos desde GitHub.');
       }
-    }catch(e){if (docsEl) docsEl.innerText = 'Error cargando documentos: ' + e.message;}
+    }catch(e){ displayMessage(docsEl, `Error cargando documentos: ${e.message}`, true); }
 
     try{
       const galUrl = `https://api.github.com/repos/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/contents/${window.GITHUB_CONFIG.galleryPath}`;
       const galResp = await fetch(galUrl);
       if (galResp.ok){
         const galJson = await galResp.json();
+        galleryEl.innerHTML = ''; // Limpiar
         if (Array.isArray(galJson) && galJson.length>0){
-          const items = galJson.map(f=>`<div class="card"><img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" alt="${f.name}"></div>`);
-          galleryEl.innerHTML = items.join('');
-        } else galleryEl.innerHTML = '<div>No hay imágenes en la galería.</div>';
-      } else galleryEl.innerHTML = '<div class="muted">No se pudo listar galería desde GitHub.</div>';
-    }catch(e){if (galleryEl) galleryEl.innerText = 'Error cargando galería: ' + e.message;}
+          galJson.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const img = document.createElement('img');
+            img.src = `https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}`;
+            img.alt = f.name;
+            card.appendChild(img);
+            galleryEl.appendChild(card);
+          });
+        } else displayMessage(galleryEl, 'No hay imágenes en la galería.');
+      } else displayMessage(galleryEl, 'No se pudo listar galería desde GitHub.');
+    }catch(e){ displayMessage(galleryEl, `Error cargando galería: ${e.message}`, true); }
 
     // Latest video from settings in repo (simple file settings/latest.json with {"latestVideoId":"..."})
     try{
@@ -180,17 +173,17 @@
         const setJson = await setResp.json();
         if (setJson.latestVideoId){
           latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${setJson.latestVideoId}" frameborder="0" allowfullscreen></iframe>`;
-        } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
-      } else latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
-    }catch(e){if (latestVideoEl) latestVideoEl.innerText = 'Error cargando video: ' + e.message;}
+        } else displayMessage(latestVideoEl, 'No hay video configurado.');
+      } else displayMessage(latestVideoEl, 'No hay video configurado.');
+    }catch(e){ displayMessage(latestVideoEl, `Error cargando video: ${e.message}`, true); }
 
     return;
   }
 
   if (!window.firebase) {
-    if (docsEl) docsEl.innerHTML = '<div class="muted">Integración Firebase no configurada. Los documentos privados no estarán disponibles.</div>';
-    if (galleryEl) galleryEl.innerHTML = '<div class="muted">Integración Firebase no configurada.</div>';
-    if (latestVideoEl) latestVideoEl.innerHTML = '<div class="muted">Configurar video en settings/latest.json o en Drive.</div>';
+    displayMessage(docsEl, 'Integración Firebase no configurada. Los documentos privados no estarán disponibles.');
+    displayMessage(galleryEl, 'Integración Firebase no configurada.');
+    displayMessage(latestVideoEl, 'Configurar video en settings/latest.json o en Drive.');
     return;
   }
 
@@ -201,22 +194,22 @@
   // Load public documents
   try {
     const snap = await db.collection('documents').where('public','==',true).orderBy('created','desc').get();
-    if (snap.empty){docsEl.innerHTML = '<div>No hay documentos públicos.</div>'} else {
+    if (snap.empty){ displayMessage(docsEl, 'No hay documentos públicos.'); } else {
       const items = [];
       snap.forEach(d=>{const data=d.data();items.push(`<div><a href="${data.url}" target="_blank">${data.name}</a></div>`)});
       docsEl.innerHTML = items.join('');
     }
-  }catch(e){if (docsEl) docsEl.innerText = 'Error cargando documentos: '+e.message}
+  }catch(e){ displayMessage(docsEl, `Error cargando documentos: ${e.message}`, true); }
   
   // Load gallery
   try{
     const snap = await db.collection('gallery').orderBy('created','desc').limit(24).get();
-    if (snap.empty){galleryEl.innerHTML = '<div>No hay imágenes en la galería.</div>'} else {
+    if (snap.empty){ displayMessage(galleryEl, 'No hay imágenes en la galería.'); } else {
       const items = [];
       snap.forEach(d=>{const data=d.data();items.push(`<div class="card"><img src="${data.url}" alt="${data.name}"></div>`)});
       galleryEl.innerHTML = items.join('');
     }
-  }catch(e){if (galleryEl) galleryEl.innerText = 'Error cargando galería: '+e.message}
+  }catch(e){ displayMessage(galleryEl, `Error cargando galería: ${e.message}`, true); }
 
   // Latest video: placeholder — site owner can write a settings/latest.json with {"latestVideoId":"..."}
   try{
@@ -224,9 +217,7 @@
     if (setDoc.exists && setDoc.data().latestVideoId){
       const id = setDoc.data().latestVideoId;
       latestVideoEl.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
-    } else {
-      latestVideoEl.innerHTML = '<div class="muted">No hay video configurado.</div>';
-    }
-  }catch(e){if (latestVideoEl) latestVideoEl.innerText = 'Error cargando video: ' + e.message;}
+    } else { displayMessage(latestVideoEl, 'No hay video configurado.'); }
+  }catch(e){ displayMessage(latestVideoEl, `Error cargando video: ${e.message}`, true); }
 
 })();
