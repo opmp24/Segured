@@ -168,21 +168,22 @@
     try {
       const specificVideoId = window.DRIVE_CONFIG.latestVideoId;
       if (videoGridEl && specificVideoId) {
-        videoGridEl.innerHTML = ''; // Limpia el "Cargando..."
-
+        // No limpiamos el grid aquí para poder añadir videos de Drive y de YouTube
+        
         const col = document.createElement('div');
         col.className = 'col';
         const item = document.createElement('div');
         item.className = 'grid-item-bootstrap';
         item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" alt="Video de YouTube">`;
-        
+
         item.onclick = (e) => {
           e.preventDefault();
           const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
           openInModal(videoEmbed);
         };
         col.appendChild(item);
-        videoGridEl.appendChild(col);
+        // Añadimos el video de YouTube al principio de la lista de videos
+        videoGridEl.prepend(col);
       }
     } catch (e) {
       console.error('Error al cargar videos de YouTube:', e);
@@ -216,17 +217,22 @@
         imageGridEl.innerHTML = ''; // Limpiar
         if (Array.isArray(galJson) && galJson.length>0){
           galJson.forEach(f => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const img = document.createElement('img');
-            img.src = `https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}`;
-            img.alt = f.name;
-            card.appendChild(img);
-            imageGridEl.appendChild(card);
+            const col = document.createElement('div');
+            col.className = 'col';
+            const item = document.createElement('div');
+            item.className = 'grid-item-bootstrap';
+            item.innerHTML = `<img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" alt="${f.name}">`;
+            
+            item.onclick = (e) => {
+              e.preventDefault();
+              openInModal(`<img src="${item.querySelector('img').src}" alt="${f.name}">`);
+            };
+            col.appendChild(item);
+            imageGridEl.appendChild(col);
           });
         } else displayMessage(imageGridEl, 'No hay imágenes en la galería.');
-      } else displayMessage(imageGridEl, 'No se pudo listar galería desde GitHub.');
-    }catch(e){ displayMessage(galleryEl, `Error cargando galería: ${e.message}`, true); }
+      } else displayMessage(imageGridEl, 'No se pudo listar la galería desde GitHub.');
+    }catch(e){ displayMessage(imageGridEl, `Error cargando galería: ${e.message}`, true); }
 
     // Latest video from settings in repo (simple file settings/latest.json with {"latestVideoId":"..."})
     try{
