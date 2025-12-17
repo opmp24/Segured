@@ -48,31 +48,23 @@ body{
   .hero h1{font-size:2rem}
 }
 
-/* Estilos para la nueva galería */
-.instagram-grid {
-  /* Usamos column-count para un efecto de mosaico (masonry) */
-  column-count: 3;
-  column-gap: 8px; /* Espacio entre columnas */
-}
-
-.grid-item {
-  /* Estilos para cada elemento en el mosaico */
-  display: inline-block; /* Necesario para que el layout de columnas funcione bien */
+/* Estilos para la galería con Bootstrap Grid */
+.grid-item-bootstrap {
+  position: relative;
   width: 100%;
-  margin-bottom: 8px; /* Espacio vertical entre imágenes */
-  cursor: pointer;
+  aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada */
   overflow: hidden;
-  background-color: #e9ecef;
-  break-inside: avoid; /* Evita que una imagen se parta entre columnas */
+  cursor: pointer;
 }
 
-.grid-item img {
+.grid-item-bootstrap img {
   width: 100%;
-  height: auto; /* La altura se ajusta a la proporción de la imagen */
-  transition: transform 0.3s ease;
+  height: 100%;
+  object-fit: cover; /* Recorta la imagen para que llene el contenedor cuadrado */
+  transition: transform 0.2s ease-in-out;
 }
 
-.grid-item:hover img {
+.grid-item-bootstrap:hover img {
   transform: scale(1.1);
 }
 

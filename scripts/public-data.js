@@ -128,8 +128,11 @@
 
             const thumbUrl = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s400') : driveFileUrl(file.id);
             
-            const item = document.createElement('div');
-            item.className = 'grid-item';
+            // Creamos la columna de Bootstrap
+            const col = document.createElement('div');
+            col.className = 'col';
+            const item = document.createElement('div'); // Contenedor interno para el aspect-ratio
+            item.className = 'grid-item-bootstrap';
             item.innerHTML = `<img src="${thumbUrl}" alt="${file.name}">`;
 
             if (isImage) {
@@ -138,14 +141,16 @@
                 const highResUrl = driveFileUrl(file.id);
                 openInModal(`<img src="${highResUrl}" alt="${file.name}">`);
               };
-              if (imageGridEl) imageGridEl.appendChild(item);
+              col.appendChild(item);
+              if (imageGridEl) imageGridEl.appendChild(col);
             } else if (isVideo) {
               item.onclick = (e) => {
                 e.preventDefault();
                 const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="${driveFileUrl(file.id)}" title="${file.name}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
                 openInModal(videoEmbed);
               };
-              if (videoGridEl) videoGridEl.appendChild(item);
+              col.appendChild(item);
+              if (videoGridEl) videoGridEl.appendChild(col);
             }
           });
           if (imageGridEl && imageGridEl.innerHTML === '') displayMessage(imageGridEl, 'No se encontraron imágenes.');
@@ -165,16 +170,19 @@
       if (videoGridEl && specificVideoId) {
         videoGridEl.innerHTML = ''; // Limpia el "Cargando..."
 
+        const col = document.createElement('div');
+        col.className = 'col';
         const item = document.createElement('div');
-        item.className = 'grid-item';
+        item.className = 'grid-item-bootstrap';
         item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" alt="Video de YouTube">`;
         
         item.onclick = (e) => {
           e.preventDefault();
           const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
           openInModal(videoEmbed);
-        }
-        videoGridEl.appendChild(item);
+        };
+        col.appendChild(item);
+        videoGridEl.appendChild(col);
       }
     } catch (e) {
       console.error('Error al cargar videos de YouTube:', e);
