@@ -117,25 +117,39 @@
         const galJson = await listDriveFolder(galleryFolderId, window.DRIVE_CONFIG.apiKey);
 
         if (galJson && Array.isArray(galJson.files)) {
-          imageGridEl.innerHTML = ''; // Limpia el "Cargando..."
+          if (imageGridEl) imageGridEl.innerHTML = ''; // Limpia el "Cargando..."
+          if (videoGridEl) videoGridEl.innerHTML = '';
 
           galJson.files.forEach(file => {
-            if (!file.mimeType?.startsWith('image')) return; // Solo procesa imágenes
+            const isImage = file.mimeType?.startsWith('image');
+            const isVideo = file.mimeType?.startsWith('video');
+
+            if (!isImage && !isVideo) return; // Ignora otros tipos de archivo
 
             const thumbUrl = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s400') : driveFileUrl(file.id);
             
             const item = document.createElement('div');
             item.className = 'grid-item';
             item.innerHTML = `<img src="${thumbUrl}" alt="${file.name}">`;
-            
-            item.onclick = (e) => {
-              e.preventDefault();
-              const highResUrl = driveFileUrl(file.id);
-              openInModal(`<img src="${highResUrl}" alt="${file.name}">`);
-            };
-            imageGridEl.appendChild(item);
+
+            if (isImage) {
+              item.onclick = (e) => {
+                e.preventDefault();
+                const highResUrl = driveFileUrl(file.id);
+                openInModal(`<img src="${highResUrl}" alt="${file.name}">`);
+              };
+              if (imageGridEl) imageGridEl.appendChild(item);
+            } else if (isVideo) {
+              item.onclick = (e) => {
+                e.preventDefault();
+                const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="${driveFileUrl(file.id)}" title="${file.name}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
+                openInModal(videoEmbed);
+              };
+              if (videoGridEl) videoGridEl.appendChild(item);
+            }
           });
-          if (imageGridEl.innerHTML === '') displayMessage(imageGridEl, 'No se encontraron imágenes.');
+          if (imageGridEl && imageGridEl.innerHTML === '') displayMessage(imageGridEl, 'No se encontraron imágenes.');
+          if (videoGridEl && videoGridEl.innerHTML === '') displayMessage(videoGridEl, 'No se encontraron videos.');
         }
       } else if (imageGridEl) {
         displayMessage(imageGridEl, 'La carpeta de galería no está configurada en <code>drive-config.js</code>.');
