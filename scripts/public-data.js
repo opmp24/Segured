@@ -158,7 +158,7 @@
           if (imageViewer) imageViewer.classList.add('d-none'); // Oculta el visor de imagen
 
           if (videoViewer) {
-            videoViewer.src = `https://www.youtube.com/embed/${specificVideoId}`;
+            videoViewer.src = `https://www.youtube-nocookie.com/embed/${specificVideoId}`;
             videoViewer.classList.remove('d-none');
           }
         }
