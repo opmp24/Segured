@@ -35,7 +35,6 @@ body{
 .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text)}
 .bottom-nav{position:fixed;left:0;right:0;bottom:16px;display:flex;gap:8px;justify-content:center;padding:8px}
 .bottom-nav a{background:rgba(255,255,255,0.95);padding:10px 14px;border-radius:12px;text-decoration:none;color:var(--text);box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-.gallery-grid img{width:100%;height:160px;object-fit:cover;border-radius:8px}
 .video-embed{margin-top:12px}
 .muted{color:var(--muted)}
 .small{font-size:0.9rem}
@@ -47,4 +46,51 @@ body{
 @media(min-width:900px){
   .bottom-nav{display:none}
   .hero h1{font-size:2rem}
+}
+
+/* Estilos para la nueva galería */
+.instagram-grid {
+  /* Usamos column-count para un efecto de mosaico (masonry) */
+  column-count: 3;
+  column-gap: 8px; /* Espacio entre columnas */
+}
+
+.grid-item {
+  /* Estilos para cada elemento en el mosaico */
+  display: inline-block; /* Necesario para que el layout de columnas funcione bien */
+  width: 100%;
+  margin-bottom: 8px; /* Espacio vertical entre imágenes */
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #e9ecef;
+  break-inside: avoid; /* Evita que una imagen se parta entre columnas */
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto; /* La altura se ajusta a la proporción de la imagen */
+  transition: transform 0.3s ease;
+}
+
+.grid-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Estilos para el Modal (Lightbox) */
+#gallery-modal .modal-dialog {
+  max-width: 90vw; /* Usa el 90% del ancho de la pantalla */
+}
+
+#modal-content-wrapper .modal-body {
+  padding: 0;
+  background-color: #000; /* Fondo negro para el contenido del modal */
+}
+
+#modal-content-wrapper img,
+#modal-content-wrapper iframe {
+  width: 100%;
+  max-height: 90vh; /* Usa el 90% de la altura de la pantalla */
+  display: block;
+  margin: auto;
+  object-fit: contain; /* Asegura que la imagen completa se vea sin ser cortada */
 }
