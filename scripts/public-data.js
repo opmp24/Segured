@@ -273,12 +273,21 @@
   // Load gallery
   try{
     const snap = await db.collection('gallery').orderBy('created','desc').limit(24).get();
-    if (snap.empty){ displayMessage(galleryEl, 'No hay imágenes en la galería.'); } else {
-      const items = [];
-      snap.forEach(d=>{const data=d.data();items.push(`<div class="card"><img src="${data.url}" alt="${data.name}"></div>`)});
-      galleryEl.innerHTML = items.join('');
+    if (snap.empty){ displayMessage(imageGridEl, 'No hay imágenes en la galería.'); } else {
+      imageGridEl.innerHTML = ''; // Limpiar
+      snap.forEach(d => {
+        const data = d.data();
+        const col = document.createElement('div');
+        col.className = 'col';
+        const item = document.createElement('div');
+        item.className = 'grid-item-bootstrap';
+        item.innerHTML = `<img src="${data.url}" alt="${data.name}">`;
+        item.onclick = () => openInModal(`<img src="${data.url}" alt="${data.name}">`);
+        col.appendChild(item);
+        imageGridEl.appendChild(col);
+      });
     }
-  }catch(e){ displayMessage(galleryEl, `Error cargando galería: ${e.message}`, true); }
+  }catch(e){ displayMessage(imageGridEl, `Error cargando galería: ${e.message}`, true); }
 
   // Latest video: placeholder — site owner can write a settings/latest.json with {"latestVideoId":"..."}
   try{
