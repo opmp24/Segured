@@ -81,6 +81,7 @@ body{
 #modal-content-wrapper img,
 #modal-content-wrapper iframe {
   width: 100%;
+  height: 90vh; /* Añadido: asegura que la imagen use la altura disponible */
   max-height: 90vh; /* Usa el 90% de la altura de la pantalla */
   display: block;
   margin: auto;
