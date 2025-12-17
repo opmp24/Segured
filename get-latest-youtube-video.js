@@ -4,6 +4,7 @@ exports.handler = async function (event, context) {
   // Obtiene la clave de API de YouTube desde las variables de entorno de Netlify.
   const apiKey = process.env.GOOGLE_API_KEY; // Usamos la misma variable que las otras funciones.
   const channelId = event.queryStringParameters.channelId;
+  const maxResults = event.queryStringParameters.maxResults || 3; // Acepta un parámetro o usa 3 por defecto.
 
   if (!apiKey) {
     return {
@@ -20,7 +21,7 @@ exports.handler = async function (event, context) {
   }
 
   // URL de la API de YouTube para buscar el último video de un canal.
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=1&type=video&key=${apiKey}`;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=${maxResults}&type=video&key=${apiKey}`;
 
   try {
     const response = await fetch(url);
@@ -31,9 +32,12 @@ exports.handler = async function (event, context) {
     }
 
     // Si se encuentran videos, devuelve el ID del primero (el más reciente).
-    if (data.items && data.items.length > 0) {
-      const latestVideoId = data.items[0].id.videoId;
-      return { statusCode: 200, body: JSON.stringify({ latestVideoId }) };
+    if (data.items && data.items.length > 0) { 
+      const videos = data.items.map(item => ({
+        videoId: item.id.videoId,
+        title: item.snippet.title,
+      }));
+      return { statusCode: 200, body: JSON.stringify({ videos }) };
     }
 
     return { statusCode: 404, body: JSON.stringify({ error: { message: 'No se encontraron videos en el canal.' } }) };
