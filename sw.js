@@ -33,25 +33,30 @@ self.addEventListener('activate', (event) => {
     caches.keys().then(keys => Promise.all(
       keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
     ))
-  );
-  self.clients.claim();
-  // take control immediately and clear old caches
-  event.waitUntil(self.clients.claim());
+  ).then(() => self.clients.claim()); // take control immediately and clear old caches
 });
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  // prefer network for navigation requests (so index.html updates), fallback to cache
+  // Estrategia Network-First para navegación (HTML)
   if (req.mode === 'navigate') {
-    event.respondWith(fetch(req).then(resp => {
-      return caches.open(CACHE_NAME).then(cache => { cache.put(req, resp.clone()); return resp; });
-    }).catch(() => caches.match('index.html')));
+    event.respondWith(
+      fetch(req)
+        .then(resp => {
+          // Si la petición de red funciona, la cacheamos y la devolvemos
+          return caches.open(CACHE_NAME).then(cache => {
+            cache.put(req, resp.clone());
+            return resp;
+          });
+        })
+        .catch(() => caches.match(req)) // Si falla la red, intentamos servir desde la caché
+    );
     return;
   }
+
+  // Estrategia Cache-First para otros recursos (CSS, JS, imágenes)
   event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(resp => {
-      return caches.open(CACHE_NAME).then(cache => { cache.put(req, resp.clone()); return resp; });
-    }).catch(() => caches.match('index.html')))
+    caches.match(req).then(cached => cached || fetch(req))
   );
 });
 
