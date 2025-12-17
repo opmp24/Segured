@@ -136,6 +136,33 @@
       displayMessage(galleryEl, `Error cargando galería desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
 
+    // Carga los últimos videos de YouTube usando la función serverless
+    try {
+      const channelId = window.DRIVE_CONFIG.youtubeChannelId;
+      if (latestVideoEl && channelId) {
+        // Llamamos a nuestra función serverless pidiendo los últimos 3 videos.
+        const resp = await fetch(`/.netlify/functions/get-latest-youtube-video?channelId=${channelId}&maxResults=3`);
+        const data = await resp.json();
+
+        if (resp.ok && data.videos && data.videos.length > 0) {
+          latestVideoEl.innerHTML = ''; // Limpiamos el mensaje "Cargando..."
+          data.videos.forEach(video => {
+            const videoWrapper = document.createElement('div');
+            videoWrapper.className = 'ratio ratio-16x9 mb-3'; // Bootstrap para videos responsivos
+            videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${video.videoId}" title="${video.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            latestVideoEl.appendChild(videoWrapper);
+          });
+        } else {
+          const errorMessage = data.error?.message || 'No se encontraron videos.';
+          console.warn('No se pudieron cargar los videos de YouTube:', errorMessage);
+          displayMessage(latestVideoEl, 'No hay videos recientes para mostrar.');
+        }
+      }
+    } catch (e) {
+      console.error('Error al cargar videos de YouTube:', e);
+      displayMessage(latestVideoEl, `Error al cargar videos: ${e.message}`, true);
+    }
+
     return;
   }
 
