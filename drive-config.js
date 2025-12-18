@@ -12,7 +12,7 @@ window.DRIVE_CONFIG = {
   galleryFolderId: "1YglcilvObqlV2G7lJwWJLlMFuRYLrXGH",
 
   // ID de la carpeta de Google Drive que contiene los archivos de mapas.
-  mapsFolderId: "ID_DE_TU_CARPETA_MAPS",
+  mapsFolderId: "1I0vMnMlOsV09PZBVblkYRcqsACjHEX0I",
 
   // ID del canal de YouTube del que se mostrará el último video.
   // Reemplaza "YOUR_YOUTUBE_CHANNEL_ID" con el ID de tu canal.

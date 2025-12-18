@@ -63,6 +63,15 @@
           }
         });
       };
+
+      // Cargar dinámicamente el script de Maps ahora que tenemos la dirección y el callback listo
+      if (!document.querySelector('script[src*="maps.googleapis.com"]')) {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }
     } catch (e) { displayMessage(mapEl, `Error al cargar el mapa: ${e.message}`, true); }
   }
 
@@ -188,7 +197,8 @@
             if (isImage) {
               item.onclick = (e) => {
                 e.preventDefault();
-                const highResUrl = driveFileUrl(file.id);
+                // Usamos el thumbnailLink en alta resolución para evitar problemas de permisos/CORS con driveFileUrl
+                const highResUrl = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s2048') : driveFileUrl(file.id);
                 openInModal('image', highResUrl, file.name);
               };
               col.appendChild(item);
