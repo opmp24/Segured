@@ -41,24 +41,27 @@
     });
   }
 
-  function openInModal(content) {
+  function openInModal(type, src, alt) {
     if (!galleryModal || !modalContentWrapper) return;
     
-    // Limpiamos el contenido anterior
-    modalContentWrapper.innerHTML = ''; // Limpia el contenido anterior
+    modalContentWrapper.innerHTML = '';
 
-    // Creamos un elemento temporal para parsear el string HTML
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    const newContent = tempDiv.firstChild;
-
-    // Si el contenido es válido, lo añadimos al modal y lo mostramos
-    if (newContent) {
-      modalContentWrapper.appendChild(newContent);
-      galleryModal.show();
+    if (type === 'image') {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = alt;
+      img.className = 'img-fluid';
+      modalContentWrapper.appendChild(img);
+    } else if (type === 'video') {
+      const videoContainer = document.createElement('div');
+      videoContainer.className = 'ratio ratio-16x9';
+      videoContainer.innerHTML = `<iframe src="${src}" title="${alt}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+      modalContentWrapper.appendChild(videoContainer);
     } else {
-      console.error("No se pudo crear el contenido para el modal.");
+      console.error('Tipo de contenido no soportado para el modal:', type);
+      return;
     }
+    galleryModal.show();
   }
 
   // Si la configuración de Drive está presente, lista los archivos desde las carpetas de Drive.
@@ -148,15 +151,14 @@
               item.onclick = (e) => {
                 e.preventDefault();
                 const highResUrl = driveFileUrl(file.id);
-                openInModal(`<img src="${highResUrl}" class="img-fluid" alt="${file.name}">`);
+                openInModal('image', highResUrl, file.name);
               };
               col.appendChild(item);
               if (imageGridEl) imageGridEl.appendChild(col);
             } else if (isVideo) {
               item.onclick = (e) => {
                 e.preventDefault();
-                const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="${driveFileUrl(file.id)}" title="${file.name}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
-                openInModal(videoEmbed);
+                openInModal('video', driveFileUrl(file.id), file.name);
               };
               col.appendChild(item);
               if (videoGridEl) videoGridEl.appendChild(col);
@@ -187,8 +189,7 @@
 
         item.onclick = (e) => {
           e.preventDefault();
-          const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-          openInModal(videoEmbed);
+          openInModal('video', `https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1`, 'Video de YouTube');
         };
         col.appendChild(item);
         // Añadimos el video de YouTube al principio de la lista de videos
@@ -234,7 +235,7 @@
             
             item.onclick = (e) => {
               e.preventDefault();
-              openInModal(`<img src="${item.querySelector('img').src}" class="img-fluid" alt="${f.name}">`);
+              openInModal('image', item.querySelector('img').src, f.name);
             };
             col.appendChild(item);
             imageGridEl.appendChild(col);
@@ -291,7 +292,7 @@
         const item = document.createElement('a');
         item.href = '#';
         item.innerHTML = `<img src="${data.url}" class="gallery-item-img" alt="${data.name}">`;
-        item.onclick = (e) => { e.preventDefault(); openInModal(`<img src="${data.url}" class="img-fluid" alt="${data.name}">`); };
+        item.onclick = (e) => { e.preventDefault(); openInModal('image', data.url, data.name); };
         col.appendChild(item);
         imageGridEl.appendChild(col);
       });
