@@ -44,10 +44,21 @@
   function openInModal(content) {
     if (!galleryModal || !modalContentWrapper) return;
     
+    // Limpiamos el contenido anterior
     modalContentWrapper.innerHTML = ''; // Limpia el contenido anterior
-    modalContentWrapper.innerHTML = content;
 
-    galleryModal.show();
+    // Creamos un elemento temporal para parsear el string HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    const newContent = tempDiv.firstChild;
+
+    // Si el contenido es válido, lo añadimos al modal y lo mostramos
+    if (newContent) {
+      modalContentWrapper.appendChild(newContent);
+      galleryModal.show();
+    } else {
+      console.error("No se pudo crear el contenido para el modal.");
+    }
   }
 
   // Si la configuración de Drive está presente, lista los archivos desde las carpetas de Drive.
@@ -131,13 +142,13 @@
             col.className = 'col';
             const item = document.createElement('a');
             item.href = '#';
-            item.innerHTML = `<img src="${thumbUrl}" class="img-fluid" alt="${file.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+            item.innerHTML = `<img src="${thumbUrl}" class="gallery-item-img" alt="${file.name}">`;
 
             if (isImage) {
               item.onclick = (e) => {
                 e.preventDefault();
                 const highResUrl = driveFileUrl(file.id);
-                openInModal(`<img src="${highResUrl}" alt="${file.name}">`);
+                openInModal(`<img src="${highResUrl}" class="img-fluid" alt="${file.name}">`);
               };
               col.appendChild(item);
               if (imageGridEl) imageGridEl.appendChild(col);
@@ -172,7 +183,7 @@
         col.className = 'col';
         const item = document.createElement('a');
         item.href = '#';
-        item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" class="img-fluid" alt="Video de YouTube" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+        item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" class="gallery-item-img" alt="Video de YouTube">`;
 
         item.onclick = (e) => {
           e.preventDefault();
@@ -219,7 +230,7 @@
             col.className = 'col';
             const item = document.createElement('a');
             item.href = '#';
-            item.innerHTML = `<img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" class="img-fluid" alt="${f.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+            item.innerHTML = `<img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" class="gallery-item-img" alt="${f.name}">`;
             
             item.onclick = (e) => {
               e.preventDefault();
@@ -279,7 +290,7 @@
         col.className = 'col';
         const item = document.createElement('a');
         item.href = '#';
-        item.innerHTML = `<img src="${data.url}" class="img-fluid" alt="${data.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+        item.innerHTML = `<img src="${data.url}" class="gallery-item-img" alt="${data.name}">`;
         item.onclick = (e) => { e.preventDefault(); openInModal(`<img src="${data.url}" class="img-fluid" alt="${data.name}">`); };
         col.appendChild(item);
         imageGridEl.appendChild(col);
