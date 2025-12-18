@@ -1,6 +1,5 @@
 // Public listing for documents and gallery. Uses Firebase if configured.
 (async function(){
-  function el(id){return document.getElementById(id)}
   const docsEl = document.getElementById('documents-list');
   const imageGridEl = document.getElementById('gallery-grid');
   const videoGridEl = document.getElementById('videos-grid');
@@ -28,6 +27,45 @@
     return json;
   }
   
+  // --- Lógica para el Mapa de Google ---
+  async function loadMapFromDrive(apiKey, folderId) {
+    const mapEl = document.getElementById('map');
+    if (!mapEl) return; // No hacer nada si no hay elemento de mapa en la página
+
+    try {
+      // 1. Listar archivos en la carpeta de mapas para encontrar 'sucursales.txt'
+      const filesJson = await listDriveFolder(folderId, apiKey);
+      const mapFile = filesJson.files.find(f => f.name.toLowerCase() === 'sucursales.txt');
+
+      if (!mapFile) {
+        throw new Error("No se encontró el archivo 'sucursales.txt' en la carpeta de Drive.");
+      }
+
+      // 2. Obtener el contenido del archivo
+      const fileUrl = `https://www.googleapis.com/drive/v3/files/${mapFile.id}?alt=media&key=${apiKey}`;
+      const resp = await fetch(fileUrl);
+      if (!resp.ok) throw new Error(`No se pudo descargar el archivo de dirección (${resp.status})`);
+      const address = await resp.text();
+
+      // 3. Geocodificar la dirección y mostrar el mapa
+      // Esta función se expone globalmente para que el callback de la API de Maps la pueda llamar
+      window.initMap = function() {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address.trim() }, function(results, status) {
+          if (status == 'OK') {
+            const map = new google.maps.Map(mapEl, {
+              zoom: 16,
+              center: results[0].geometry.location
+            });
+            new google.maps.Marker({ map: map, position: results[0].geometry.location });
+          } else {
+            displayMessage(mapEl, `Geocode no tuvo éxito por la siguiente razón: ${status}`, true);
+          }
+        });
+      };
+    } catch (e) { displayMessage(mapEl, `Error al cargar el mapa: ${e.message}`, true); }
+  }
+
   // --- Lógica para el Modal (Lightbox) ---
   const modalEl = document.getElementById('gallery-modal');
   const modalContentWrapper = document.getElementById('modal-content-wrapper');
@@ -69,8 +107,8 @@
     try{
       const apiKey = window.DRIVE_CONFIG.apiKey;
       if (!apiKey) throw new Error("La clave de API de Google no está en drive-config.js");
-      const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey);
       if (docsEl) {
+        const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey);
         if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
           const viewer = el('doc-viewer');
           const placeholder = el('viewer-placeholder');
@@ -110,8 +148,8 @@
           docsEl.innerHTML = ''; // Limpia el "Cargando..."
           docsEl.appendChild(ul);
         } else {
-          const viewer = el('doc-viewer');
-          const placeholder = el('viewer-placeholder');
+          const viewer = document.getElementById('doc-viewer');
+          const placeholder = document.getElementById('viewer-placeholder');
           if (viewer) viewer.classList.add('d-none');
           if (placeholder) placeholder.classList.remove('d-none');
           displayMessage(docsEl, 'No hay documentos públicos en Drive (ver consola para diagnóstico).');
@@ -199,6 +237,9 @@
       console.error('Error al cargar videos de YouTube:', e);
     }
 
+    // Carga el mapa si está configurado
+    if (window.DRIVE_CONFIG.mapsFolderId) await loadMapFromDrive(apiKey, window.DRIVE_CONFIG.mapsFolderId);
+
     return;
   }
 
@@ -210,9 +251,10 @@
       const docsResp = await fetch(docsUrl);
       if (docsResp.ok){
         const docsJson = await docsResp.json();
+        docsEl.innerHTML = ''; // Limpiar "Cargando..."
         if (Array.isArray(docsJson) && docsJson.length>0){
           const items = docsJson.map(f=>`<div><a href="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" target="_blank">${f.name}</a></div>`);
-          docsEl.innerHTML = items.join('');
+          docsEl.innerHTML = items.join(''); // Nota: Esto no usa el visor de documentos como la versión de Drive.
         } else displayMessage(docsEl, 'No hay documentos públicos en el repositorio.');
       } else {
         displayMessage(docsEl, 'No se pudo listar documentos desde GitHub.');
@@ -224,7 +266,7 @@
       const galResp = await fetch(galUrl);
       if (galResp.ok){
         const galJson = await galResp.json();
-        imageGridEl.innerHTML = ''; // Limpiar
+        if (imageGridEl) imageGridEl.innerHTML = ''; // Limpiar
         if (Array.isArray(galJson) && galJson.length>0){
           galJson.forEach(f => {
             const col = document.createElement('div');
@@ -246,6 +288,7 @@
 
     // Latest video from settings in repo (simple file settings/latest.json with {"latestVideoId":"..."})
     try{
+      const latestVideoEl = document.getElementById('latest-video'); // Asumiendo que existe este elemento
       const setUrl = `https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/settings/latest.json`;
       const setResp = await fetch(setUrl);
       if (setResp.ok){
@@ -275,7 +318,7 @@
     const snap = await db.collection('documents').where('public','==',true).orderBy('created','desc').get();
     if (snap.empty){ displayMessage(docsEl, 'No hay documentos públicos.'); } else {
       const items = [];
-      snap.forEach(d=>{const data=d.data();items.push(`<div><a href="${data.url}" target="_blank">${data.name}</a></div>`)});
+      snap.forEach(d=>{const data=d.data();items.push(`<div><a href="${data.url}" target="_blank">${data.name}</a></div>`)}); // Nota: Esto no usa el visor de documentos como la versión de Drive.
       docsEl.innerHTML = items.join('');
     }
   }catch(e){ displayMessage(docsEl, `Error cargando documentos: ${e.message}`, true); }
@@ -284,7 +327,7 @@
   try{
     const snap = await db.collection('gallery').orderBy('created','desc').limit(24).get();
     if (snap.empty){ displayMessage(imageGridEl, 'No hay imágenes en la galería.'); } else {
-      imageGridEl.innerHTML = ''; // Limpiar
+      if (imageGridEl) imageGridEl.innerHTML = ''; // Limpiar
       snap.forEach(d => {
         const data = d.data();
         const col = document.createElement('div');
@@ -301,6 +344,7 @@
 
   // Latest video: placeholder — site owner can write a settings/latest.json with {"latestVideoId":"..."}
   try{
+    const latestVideoEl = document.getElementById('latest-video'); // Asumiendo que existe este elemento
     const setDoc = await db.collection('settings').doc('main').get();
     if (setDoc.exists && setDoc.data().latestVideoId){
       const id = setDoc.data().latestVideoId;
@@ -309,3 +353,7 @@
   }catch(e){ displayMessage(latestVideoEl, `Error cargando video: ${e.message}`, true); }
 
 })();
+
+// Función auxiliar eliminada del IIFE para poder ser reutilizada si es necesario, o mantenida dentro.
+// Por simplicidad en el diff, se elimina aquí.
+function el(id){return document.getElementById(id)}
