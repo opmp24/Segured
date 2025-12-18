@@ -66,7 +66,7 @@
 
           docsJson.files.forEach((file, index) => {
             const li = document.createElement('li');
-            li.className = 'list-group-item list-group-item-action';
+            li.className = 'list-group-item';
             
             const link = document.createElement('a');
             link.href = '#'; // Evita que la página recargue
@@ -75,7 +75,7 @@
             
             link.onclick = (e) => {
               e.preventDefault();
-              document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
+              document.querySelectorAll('#documents-list .list-group-item').forEach(item => item.classList.remove('active'));
               li.classList.add('active');
 
               const embedUrl = `https://drive.google.com/file/d/${file.id}/preview`;
@@ -129,10 +129,9 @@
             // Creamos la columna de Bootstrap
             const col = document.createElement('div');
             col.className = 'col';
-            // Usamos el componente card de Bootstrap
             const item = document.createElement('a');
             item.href = '#';
-            item.innerHTML = `<img src="${thumbUrl}" class="card-img-top rounded-0" alt="${file.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+            item.innerHTML = `<img src="${thumbUrl}" class="img-fluid" alt="${file.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
 
             if (isImage) {
               item.onclick = (e) => {
@@ -145,7 +144,7 @@
             } else if (isVideo) {
               item.onclick = (e) => {
                 e.preventDefault();
-                const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="${driveFileUrl(file.id)}" title="${file.name}" class="rounded-0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
+                const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="${driveFileUrl(file.id)}" title="${file.name}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
                 openInModal(videoEmbed);
               };
               col.appendChild(item);
@@ -173,11 +172,11 @@
         col.className = 'col';
         const item = document.createElement('a');
         item.href = '#';
-        item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" class="card-img-top rounded-0" alt="Video de YouTube" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+        item.innerHTML = `<img src="https://img.youtube.com/vi/${specificVideoId}/mqdefault.jpg" class="img-fluid" alt="Video de YouTube" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
 
         item.onclick = (e) => {
           e.preventDefault();
-          const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1" title="Video de YouTube" class="rounded-0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          const videoEmbed = `<div class="ratio ratio-16x9"><iframe src="https://www.youtube-nocookie.com/embed/${specificVideoId}?autoplay=1" title="Video de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
           openInModal(videoEmbed);
         };
         col.appendChild(item);
@@ -220,7 +219,7 @@
             col.className = 'col';
             const item = document.createElement('a');
             item.href = '#';
-            item.innerHTML = `<img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" class="card-img-top rounded-0" alt="${f.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+            item.innerHTML = `<img src="https://raw.githubusercontent.com/${window.GITHUB_CONFIG.owner}/${window.GITHUB_CONFIG.repo}/${window.GITHUB_CONFIG.branch}/${f.path}" class="img-fluid" alt="${f.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
             
             item.onclick = (e) => {
               e.preventDefault();
@@ -280,7 +279,7 @@
         col.className = 'col';
         const item = document.createElement('a');
         item.href = '#';
-        item.innerHTML = `<img src="${data.url}" class="card-img-top rounded-0" alt="${data.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
+        item.innerHTML = `<img src="${data.url}" class="img-fluid" alt="${data.name}" style="aspect-ratio: 1/1; object-fit: cover; cursor: pointer;">`;
         item.onclick = (e) => { e.preventDefault(); openInModal(`<img src="${data.url}" class="img-fluid" alt="${data.name}">`); };
         col.appendChild(item);
         imageGridEl.appendChild(col);
