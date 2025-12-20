@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Muestra el botón de instalación
     if (installBtn) {
       installBtn.style.display = 'block';
-      // Una vez que el botón es visible, intentamos cargar el icono personalizado
-      loadCustomInstallIcon();
     }
   });
 
@@ -32,10 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Intentamos cargar el icono personalizado inmediatamente (para el logo y botón)
+  loadCustomInstallIcon();
+
   // --- Carga del Icono de Instalación desde Google Drive ---
   async function loadCustomInstallIcon() {
-    // Salimos si no hay botón, configuración, o carpeta de iconos definida
-    if (!installBtn || !window.DRIVE_CONFIG || !window.DRIVE_CONFIG.apiKey || !window.DRIVE_CONFIG.iconsFolderId) {
+    // Salimos si no hay configuración o carpeta de iconos definida
+    if (!window.DRIVE_CONFIG || !window.DRIVE_CONFIG.apiKey || !window.DRIVE_CONFIG.iconsFolderId) {
       return;
     }
 
@@ -53,13 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const fileId = searchData.files[0].id;
         const iconUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
         
-        const originalSvg = installBtn.querySelector('svg');
-        if (originalSvg) {
-          const newIcon = document.createElement('img');
-          newIcon.src = iconUrl;
-          newIcon.height = 16;
-          newIcon.classList.add('me-1');
-          originalSvg.replaceWith(newIcon);
+        // 1. Actualizar el icono del botón de instalación (si existe)
+        if (installBtn) {
+          const originalSvg = installBtn.querySelector('svg');
+          if (originalSvg) {
+            const newIcon = document.createElement('img');
+            newIcon.src = iconUrl;
+            newIcon.height = 16;
+            newIcon.classList.add('me-1');
+            originalSvg.replaceWith(newIcon);
+          }
+        }
+
+        // 2. Actualizar el logo de la barra de navegación
+        const navLogo = document.querySelector('.navbar-brand img');
+        if (navLogo) {
+          navLogo.src = iconUrl;
         }
       }
     } catch (error) {
