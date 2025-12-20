@@ -23,5 +23,9 @@ window.DRIVE_CONFIG = {
   youtubeChannelId: "UCVwlW3kCGE0DTtX95_I7GtA",
 
   // (Opcional) ID de un video específico de YouTube para mostrar. Esto tiene prioridad sobre la búsqueda en el canal.
-  latestVideoId: "AVsAEZqGNd4"
+  latestVideoId: "AVsAEZqGNd4",
+
+  // Token de acceso de Instagram (Basic Display API).
+  // Obtén uno en: https://developers.facebook.com/docs/instagram-basic-display-api/
+  instagramAccessToken: "YOUR_INSTAGRAM_ACCESS_TOKEN"
 };
