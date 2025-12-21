@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sl-demo-v8'; // <-- ¡Cambio clave! Incrementamos la versión.
+const CACHE_NAME = 'sl-demo-v9'; // <-- ¡Cambio clave! Incrementamos la versión.
 const REPO_PREFIX = '/Segured/'; // Prefijo para GitHub Pages
 const ASSETS = [
   './', // Esto cachea el index.html en la raíz del repo
@@ -20,7 +20,8 @@ const ASSETS = [
   'pages/contact.html',
   'assets/images/safety-helmet.svg',
   'assets/images/safety-sign.svg',
-  'assets/images/fire-extinguisher.svg'
+  'assets/images/fire-extinguisher.svg',
+  'assets/images/logo.svg'
 ].map(path => REPO_PREFIX + path.replace(/^\.\//, ''));
 
 self.addEventListener('install', (event) => {
