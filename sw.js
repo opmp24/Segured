@@ -1,5 +1,4 @@
-const CACHE_NAME = 'sl-demo-v10'; // <-- ¡Cambio clave! Incrementamos la versión.
-const REPO_PREFIX = '/Segured/'; // Prefijo para GitHub Pages
+const CACHE_NAME = 'sl-demo-v1'; // Prefijo para GitHub Pages
 const ASSETS = [
   './', // Esto cachea el index.html en la raíz del repo
   'index.html',
@@ -7,6 +6,7 @@ const ASSETS = [
   'favicon.svg',
   'css/style.css',
   'app.js',
+  'js/main.js',
   'manifest.json',
   'icons/icon-192.svg',
   'icons/icon-512.svg',
