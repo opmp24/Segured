@@ -234,9 +234,8 @@
         // 1. Intentar cargar lista de videos del canal (Uploads Playlist)
         if (youtubeChannelId) {
           try {
-            // Convertir ID de canal (UC...) a ID de playlist de subidas (UU...)
-            const uploadsId = youtubeChannelId.replace(/^UC/, 'UU');
-            const ytUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=12&key=${apiKey}`;
+            // Usamos endpoint search con order=date para obtener los más recientes
+            const ytUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${youtubeChannelId}&maxResults=12&order=date&type=video&key=${apiKey}`;
             
             const resp = await fetch(ytUrl);
             if (resp.ok) {
@@ -244,7 +243,7 @@
               if (data.items && data.items.length > 0) {
                 hasYtVideos = true;
                 data.items.forEach(item => {
-                  const vid = item.snippet.resourceId.videoId;
+                  const vid = item.id.videoId;
                   const title = item.snippet.title;
                   const thumb = item.snippet.thumbnails.medium?.url || item.snippet.thumbnails.default?.url;
                   
@@ -261,6 +260,9 @@
                   ytFragment.appendChild(col);
                 });
               }
+            } else {
+              const err = await resp.json();
+              console.error('Error YouTube API:', err);
             }
           } catch (err) {
             console.error('Error API YouTube:', err);
