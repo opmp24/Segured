@@ -66,7 +66,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.loadCustomInstallIcon) window.loadCustomInstallIcon();
         if (window.checkInstallButton) window.checkInstallButton();
 
+        // Inicializamos las animaciones de scroll
+        initScrollAnimations();
+
     } catch (error) {
         console.error('Error cargando la página maestra:', error);
     }
 });
+
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Opcional: dejar de observar una vez animado
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}

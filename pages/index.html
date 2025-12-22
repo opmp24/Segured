@@ -14,75 +14,93 @@
 <body class="d-flex flex-column min-vh-100">
   <nav></nav>
 
-  <main class="container py-4">
-    <section id="inicio" class="mb-4">
-      <div class="row align-items-center">
-        <div class="col-lg-7">
-          <h1 class="display-5 fw-bold">Protección en el trabajo, simple y efectiva.</h1>
-          <p class="lead">Soluciones integrales en prevención de riesgos laborales — formación, auditorías y más.</p>
-          <div class="mt-3">
-            <a class="btn btn-dark me-2" href="about.html">Saber más</a>
-            <a class="btn btn-outline-dark" href="contact.html">Contacto</a>
+  <main>
+    <!-- Hero Section estilo Industrial -->
+    <section id="inicio" class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden reveal">
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <div class="col-lg-6 py-5 position-relative" style="z-index: 2;">
+            <span class="text-warning fw-bold text-uppercase mb-2 d-block">Seguridad & Confianza</span>
+            <h1 class="display-3 fw-bold mb-4">CONSTRUYENDO UN FUTURO SEGURO</h1>
+            <p class="lead mb-4 text-white-50">Soluciones integrales en prevención de riesgos laborales. Formación experta, auditorías precisas y equipamiento certificado.</p>
+            <div class="d-flex gap-3">
+              <a class="btn btn-warning btn-lg" href="about.html">NUESTROS SERVICIOS</a>
+              <a class="btn btn-outline-light btn-lg rounded-0" href="contact.html">CONTACTAR</a>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-5 d-none d-lg-block">
-          <img src="/Segured/assets/images/safety-helmet.svg" class="img-fluid rounded shadow" alt="hero">
+          <div class="col-lg-6 d-none d-lg-block position-relative">
+            <!-- Círculo decorativo amarillo -->
+            <div class="position-absolute top-50 start-50 translate-middle bg-warning rounded-circle" style="width: 400px; height: 400px; opacity: 0.1;"></div>
+            <img src="/Segured/assets/images/safety-helmet.svg" class="img-fluid position-relative" style="transform: scale(1.2);" alt="hero">
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="py-4 my-3 bg-light rounded">
-      <div class="p-md-4">
+    <section class="container py-5 reveal">
+      <div class="bg-light p-5 border-start border-5 border-warning">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <h3 class="mb-1">Cool tech from top brands</h3>
-            <p class="mb-0 text-muted">Productos y soluciones recomendadas para mantener la seguridad laboral.</p>
+            <h3 class="mb-1">TECNOLOGÍA DE PUNTA</h3>
+            <p class="mb-0 text-muted">Productos y soluciones recomendadas para mantener la seguridad laboral al máximo nivel.</p>
           </div>
-          <div><a class="btn btn-warning" href="gallery.html">Ver galería</a></div>
+          <div><a class="btn btn-dark" href="gallery.html">VER GALERÍA</a></div>
         </div>
       </div>
     </section>
 
-    <section>
-      <h2>Nuevo en tienda</h2>
+    <section class="container py-5 mb-5 reveal">
+      <div class="text-center mb-5">
+        <span class="text-warning fw-bold text-uppercase">Catálogo</span>
+        <h2 class="display-5">NUEVO EN TIENDA</h2>
+      </div>
+      
       <div class="row row-cols-1 row-cols-md-4 g-3">
         <div class="col">
-          <div class="card h-100">
-            <img src="/Segured/assets/images/safety-helmet.svg" class="card-img-top bg-light p-3" alt="item">
+          <div class="card h-100 border-0 shadow-sm rounded-0">
+            <div class="bg-light p-4 text-center">
+              <img src="/Segured/assets/images/safety-helmet.svg" class="img-fluid" style="height: 120px;" alt="item">
+            </div>
             <div class="card-body">
               <h5 class="card-title">Equipo de protección</h5>
               <p class="text-muted small">Desde cascos hasta arneses certificados.</p>
-              <a class="btn btn-outline-secondary btn-sm">Agregar</a>
+              <a class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card h-100">
-            <img src="/Segured/assets/images/safety-sign.svg" class="card-img-top bg-light p-3" alt="item">
+          <div class="card h-100 border-0 shadow-sm rounded-0">
+            <div class="bg-light p-4 text-center">
+              <img src="/Segured/assets/images/safety-sign.svg" class="img-fluid" style="height: 120px;" alt="item">
+            </div>
             <div class="card-body">
               <h5 class="card-title">Detectores</h5>
               <p class="text-muted small">Detectores portátiles para ambientes industriales.</p>
-              <a class="btn btn-outline-secondary btn-sm">Agregar</a>
+              <a class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card h-100">
-            <img src="/Segured/assets/images/fire-extinguisher.svg" class="card-img-top bg-light p-3" alt="item">
+          <div class="card h-100 border-0 shadow-sm rounded-0">
+            <div class="bg-light p-4 text-center">
+              <img src="/Segured/assets/images/fire-extinguisher.svg" class="img-fluid" style="height: 120px;" alt="item">
+            </div>
             <div class="card-body">
               <h5 class="card-title">Capacitación</h5>
               <p class="text-muted small">Cursos y certificaciones en línea.</p>
-              <a class="btn btn-outline-secondary btn-sm">Agregar</a>
+              <a class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
             </div>
           </div>
         </div>
         <div class="col">
-          <div class="card h-100">
-            <img src="/Segured/assets/images/safety-helmet.svg" class="card-img-top bg-light p-3" alt="item">
+          <div class="card h-100 border-0 shadow-sm rounded-0">
+            <div class="bg-light p-4 text-center">
+              <img src="/Segured/assets/images/safety-helmet.svg" class="img-fluid" style="height: 120px;" alt="item">
+            </div>
             <div class="card-body">
               <h5 class="card-title">Inspecciones</h5>
               <p class="text-muted small">Servicios de auditoría y seguimiento.</p>
-              <a class="btn btn-outline-secondary btn-sm">Agregar</a>
+              <a class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
             </div>
           </div>
         </div>
