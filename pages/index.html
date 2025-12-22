@@ -10,6 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/Segured/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
   <nav></nav>
@@ -37,14 +38,118 @@
       </div>
     </section>
 
-    <section class="container py-5 reveal">
-      <div class="bg-light p-5 border-start border-5 border-warning">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h3 class="mb-1">TECNOLOGÍA DE PUNTA</h3>
-            <p class="mb-0 text-muted">Productos y soluciones recomendadas para mantener la seguridad laboral al máximo nivel.</p>
+    <!-- Features Section (Overlap) -->
+    <section class="container reveal" style="margin-top: -100px; position: relative; z-index: 10;">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+            <h4>Certificación ISO</h4>
+            <p class="text-muted">Garantizamos el cumplimiento de todas las normativas internacionales de seguridad.</p>
           </div>
-          <div><a class="btn btn-dark" href="gallery.html">VER GALERÍA</a></div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-people-fill"></i></div>
+            <h4>Expertos Calificados</h4>
+            <p class="text-muted">Nuestro equipo cuenta con años de experiencia en prevención de riesgos.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-gear-wide-connected"></i></div>
+            <h4>Tecnología Avanzada</h4>
+            <p class="text-muted">Utilizamos las últimas herramientas para auditorías y monitoreo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="container py-5 my-5 reveal">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="/Segured/assets/images/safety-sign.svg" class="img-fluid shadow-lg" alt="About Us">
+        </div>
+        <div class="col-lg-6 ps-lg-5">
+          <span class="text-warning fw-bold text-uppercase">Sobre Nosotros</span>
+          <h2 class="display-6 fw-bold mb-4">LÍDERES EN SEGURIDAD INDUSTRIAL DESDE 2010</h2>
+          <p class="text-muted mb-4">Nos dedicamos a proteger lo más valioso de su empresa: su capital humano. A través de soluciones integrales, reducimos la siniestralidad y mejoramos la productividad.</p>
+          <ul class="list-unstyled mb-4">
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Auditorías de seguridad completas</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Capacitación certificada</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Venta de EPP de alta calidad</li>
+          </ul>
+          <a href="about.html" class="btn btn-dark">CONOCER MÁS</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-light py-5 reveal">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="text-warning fw-bold text-uppercase">Nuestros Servicios</span>
+          <h2 class="display-5">SOLUCIONES INTEGRALES</h2>
+        </div>
+        <div class="row g-4">
+          <!-- Service 1 -->
+          <div class="col-md-4">
+            <div class="service-card p-4">
+              <div class="service-icon-wrapper">
+                <i class="bi bi-clipboard-data fs-2 text-dark"></i>
+              </div>
+              <h4>Auditorías</h4>
+              <p class="text-muted">Evaluación completa de riesgos en planta y oficinas.</p>
+              <a href="#" class="text-warning text-decoration-none fw-bold">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <!-- Service 2 -->
+          <div class="col-md-4">
+            <div class="service-card p-4">
+              <div class="service-icon-wrapper">
+                <i class="bi bi-mortarboard fs-2 text-dark"></i>
+              </div>
+              <h4>Capacitación</h4>
+              <p class="text-muted">Cursos presenciales y online para su personal.</p>
+              <a href="#" class="text-warning text-decoration-none fw-bold">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <!-- Service 3 -->
+          <div class="col-md-4">
+            <div class="service-card p-4">
+              <div class="service-icon-wrapper">
+                <i class="bi bi-tools fs-2 text-dark"></i>
+              </div>
+              <h4>Mantenimiento</h4>
+              <p class="text-muted">Revisión de extintores y sistemas contra incendios.</p>
+              <a href="#" class="text-warning text-decoration-none fw-bold">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-dark text-white py-5 reveal">
+      <div class="container py-4">
+        <div class="row text-center g-4">
+          <div class="col-md-3">
+            <div class="display-4 fw-bold text-warning">150+</div>
+            <div class="text-uppercase small letter-spacing-1">Proyectos</div>
+          </div>
+          <div class="col-md-3">
+            <div class="display-4 fw-bold text-warning">5000+</div>
+            <div class="text-uppercase small letter-spacing-1">Capacitados</div>
+          </div>
+          <div class="col-md-3">
+            <div class="display-4 fw-bold text-warning">12</div>
+            <div class="text-uppercase small letter-spacing-1">Años Exp.</div>
+          </div>
+          <div class="col-md-3">
+            <div class="display-4 fw-bold text-warning">100%</div>
+            <div class="text-uppercase small letter-spacing-1">Certificado</div>
+          </div>
         </div>
       </div>
     </section>
@@ -101,6 +206,38 @@
               <h5 class="card-title">Inspecciones</h5>
               <p class="text-muted small">Servicios de auditoría y seguimiento.</p>
               <a class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="bg-light py-5 reveal">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="text-warning fw-bold text-uppercase">Testimonios</span>
+          <h2 class="display-5">LO QUE DICEN NUESTROS CLIENTES</h2>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="testimonial-card">
+              <div class="mb-3 text-warning">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="fst-italic mb-4">"Excelente servicio. La auditoría fue exhaustiva y nos ayudó a mejorar significativamente nuestros estándares de seguridad."</p>
+              <h6 class="fw-bold mb-0">Juan Pérez</h6>
+              <small class="text-muted">Gerente de Planta, Constructora X</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="testimonial-card">
+              <div class="mb-3 text-warning">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="fst-italic mb-4">"Los cursos de capacitación son muy dinámicos y el personal aprendió rápido el uso correcto de los EPP."</p>
+              <h6 class="fw-bold mb-0">María González</h6>
+              <small class="text-muted">Jefa de RRHH, Minera Y</small>
             </div>
           </div>
         </div>
