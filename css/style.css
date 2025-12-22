@@ -1,12 +1,89 @@
 /* Estilos personalizados mínimos */
 :root {
   /* Variables de color para el botón de WhatsApp */
-  --accent: #fbbf24;
-  --brand-black: #0b0b0b;
+  --accent: #FFB600; /* Amarillo industrial más intenso */
+  --brand-black: #111111;
+  --brand-dark: #1a1a1a;
+  --text-grey: #666666;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-grey);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--brand-black);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+/* Botones estilo industrial */
+.btn {
+  border-radius: 0; /* Bordes cuadrados */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-warning {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--brand-black);
+}
+
+.btn-warning:hover {
+  background-color: var(--brand-black);
+  border-color: var(--brand-black);
+  color: #fff;
+}
+
+.btn-dark {
+  background-color: var(--brand-black);
+  border-color: var(--brand-black);
+}
+
+.btn-dark:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--brand-black);
+}
+
+/* Top Bar y Navbar */
+.top-bar {
+  background-color: var(--brand-black);
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.navbar {
+  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.nav-link {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* Animaciones de Scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Floating WhatsApp button */
-.whatsapp-fab{position:fixed;right:18px;bottom:18px;background:var(--accent);color:var(--brand-black);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:1000;text-decoration:none;border:3px solid var(--brand-black)}
+.whatsapp-fab{position:fixed;right:18px;bottom:18px;background:var(--accent);color:var(--brand-black);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:1000;text-decoration:none;border:2px solid var(--brand-black)}
 
 @media(min-width:900px){
 }
