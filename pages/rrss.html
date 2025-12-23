@@ -35,9 +35,12 @@
       }
 
       const token = window.DRIVE_CONFIG.instagramAccessToken;
-      if (token === "YOUR_INSTAGRAM_ACCESS_TOKEN") return; // No intentamos cargar si es el placeholder
+      if (token === "YOUR_INSTAGRAM_ACCESS_TOKEN") {
+        feedContainer.innerHTML = '<div class="alert alert-light border">Configura el token de Instagram en drive-config.js para ver el feed.</div>';
+        return;
+      }
 
-      const limit = 6; // Número de posts a mostrar
+      const limit = 5; // Número de posts a mostrar
       const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink&limit=${limit}&access_token=${token}`;
 
       try {
@@ -47,7 +50,7 @@
         const data = await response.json();
 
         if (data.data && data.data.length > 0) {
-          let html = '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">';
+          let html = '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">';
           data.data.forEach(post => {
             // Si es video usamos el thumbnail, si es imagen usamos la media_url
             const imageUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
