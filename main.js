@@ -1,4 +1,8 @@
 /**
+ * Gestiona la carga dinámica del layout común (nav/footer) para mantener la consistencia en todas las páginas.
+ * También inicializa funcionalidades globales como animaciones de scroll y la inyección del botón de WhatsApp.
+ */
+/**
  * EXPLICACIÓN DE LA INTEGRACIÓN (MASTER PAGE):
  * 
  * 1. El disparador: Cada página secundaria (ej: about.html) carga este script: <script src="../js/main.js" defer></script>.
