@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sl-demo-v22-icons'; // Actualización de iconos
+const CACHE_NAME = 'sl-demo-v24-svgs'; // Actualización a SVGs
 const REPO_PREFIX = '/Segured/'; // Definimos el prefijo
 const ASSETS = [
   'pages/', // Cachea el directorio de páginas, que debería servir el nuevo index.
@@ -23,6 +23,11 @@ const ASSETS = [
   'assets/images/safety-helmet.svg',
   'assets/images/safety-sign.svg',
   'assets/images/fire-extinguisher.svg',
+  'assets/images/img1.svg',
+  'assets/images/img2.svg',
+  'assets/images/img3.svg',
+  'assets/images/img4.svg',
+  'assets/images/img5.svg',
   'assets/images/logo.svg'
 ].map(path => REPO_PREFIX + path.replace(/^\.\//, ''));
 
