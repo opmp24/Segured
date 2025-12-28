@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Inicializamos las animaciones de scroll
         initScrollAnimations();
+        initCounterAnimations();
 
     } catch (error) {
         console.error('Error cargando la página maestra:', error);
@@ -98,4 +99,29 @@ function initScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function initCounterAnimations() {
+    // Verificamos si anime.js está cargado
+    if (typeof anime === 'undefined') return;
+
+    const counters = document.querySelectorAll('.counter');
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target'));
+                anime({
+                    targets: el,
+                    innerHTML: [0, target],
+                    easing: 'easeOutExpo',
+                    round: 1, // Redondear a enteros
+                    duration: 2500
+                });
+                obs.unobserve(el); // Dejar de observar una vez animado
+            }
+        });
+    }, { threshold: 0.5 }); // Se activa cuando el 50% del elemento es visible
+    
+    counters.forEach(c => observer.observe(c));
 }
