@@ -62,6 +62,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.warn('No se pudo cargar sucursales.txt para actualizar la dirección:', e);
         }
 
+        // Actualizar número de teléfono desde whatsapp.txt
+        try {
+            const respWhatsapp = await fetch('whatsapp.txt');
+            if (respWhatsapp.ok) {
+                const nuevoNumero = await respWhatsapp.text();
+                const numeroLimpio = nuevoNumero.trim();
+                const numeroUrl = numeroLimpio.replace(/[^0-9]/g, '');
+
+                document.querySelectorAll('.dynamic-phone-text').forEach(el => {
+                    el.textContent = numeroLimpio;
+                });
+                const fab = document.querySelector('.whatsapp-fab');
+                if (fab && numeroUrl) {
+                    fab.href = `https://wa.me/${numeroUrl}`;
+                }
+            }
+        } catch (e) {
+            console.warn('No se pudo cargar whatsapp.txt para actualizar el teléfono:', e);
+        }
+
         // Inyectamos el botón de WhatsApp
         const masterWa = doc.querySelector('.whatsapp-fab');
         const waPlaceholder = document.getElementById('whatsapp-placeholder');
