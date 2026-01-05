@@ -49,6 +49,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             footer.replaceWith(masterFooter);
         }
 
+        // Actualizar dirección desde sucursales.txt
+        try {
+            const respSucursales = await fetch('sucursales.txt');
+            if (respSucursales.ok) {
+                const nuevaDireccion = await respSucursales.text();
+                document.querySelectorAll('.sucursal-direccion').forEach(el => {
+                    el.textContent = nuevaDireccion.trim();
+                });
+            }
+        } catch (e) {
+            console.warn('No se pudo cargar sucursales.txt para actualizar la dirección:', e);
+        }
+
         // Inyectamos el botón de WhatsApp
         const masterWa = doc.querySelector('.whatsapp-fab');
         const waPlaceholder = document.getElementById('whatsapp-placeholder');
