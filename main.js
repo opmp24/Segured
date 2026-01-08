@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const layoutPath = isInPages ? 'layout.html' : 'pages/layout.html';
 
     try {
-        // Cargamos layout.html desde el directorio actual (pages/)
-        const response = await fetch('layout.html');
         // Cargamos layout.html ajustando la ruta según donde estemos
         const response = await fetch(layoutPath);
         if (!response.ok) throw new Error(`Error ${response.status} al cargar la plantilla.`);
