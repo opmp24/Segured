@@ -29,9 +29,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+    // Detectamos si estamos en la carpeta /pages/ o en la raíz para ajustar las rutas
+    const isInPages = window.location.pathname.includes('/pages/');
+    const rootPath = isInPages ? '../' : './';
+    const layoutPath = isInPages ? 'layout.html' : 'pages/layout.html';
+
     try {
         // Cargamos layout.html desde el directorio actual (pages/)
         const response = await fetch('layout.html');
+        // Cargamos layout.html ajustando la ruta según donde estemos
+        const response = await fetch(layoutPath);
         if (!response.ok) throw new Error(`Error ${response.status} al cargar la plantilla.`);
         
         const text = await response.text();
@@ -49,37 +56,54 @@ document.addEventListener('DOMContentLoaded', async () => {
             footer.replaceWith(masterFooter);
         }
 
-        // Actualizar dirección desde sucursales.txt
-        try {
-            const respSucursales = await fetch('sucursales.txt');
-            if (respSucursales.ok) {
-                const nuevaDireccion = await respSucursales.text();
-                document.querySelectorAll('.sucursal-direccion').forEach(el => {
-                    el.textContent = nuevaDireccion.trim();
-                });
+        // --- Actualización de contenido desde Google Drive (Email, Teléfono, Dirección) ---
+        const fetchDriveText = async (fileId, isDoc) => {
+            if (!window.DRIVE_CONFIG || !window.DRIVE_CONFIG.apiKey) return null;
+            const { apiKey } = window.DRIVE_CONFIG;
+            // Docs requieren exportar a texto plano, archivos normales se descargan como media
+            const url = isDoc 
+                ? `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${apiKey}`
+                : `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+            try {
+                const resp = await fetch(url);
+                if (resp.ok) return await resp.text();
+            } catch (e) {
+                console.warn(`Error cargando archivo Drive ${fileId}:`, e);
             }
-        } catch (e) {
-            console.warn('No se pudo cargar sucursales.txt para actualizar la dirección:', e);
-        }
+            return null;
+        };
 
-        // Actualizar número de teléfono desde whatsapp.txt
-        try {
-            const respWhatsapp = await fetch('whatsapp.txt');
-            if (respWhatsapp.ok) {
-                const nuevoNumero = await respWhatsapp.text();
-                const numeroLimpio = nuevoNumero.trim();
-                const numeroUrl = numeroLimpio.replace(/[^0-9]/g, '');
+        if (window.DRIVE_CONFIG) {
+            // 1. Dirección (Address)
+            if (window.DRIVE_CONFIG.addressFileId) {
+                const address = await fetchDriveText(window.DRIVE_CONFIG.addressFileId, false);
+                if (address) document.querySelectorAll('.sucursal-direccion').forEach(el => el.textContent = address.trim());
+            }
 
-                document.querySelectorAll('.dynamic-phone-text').forEach(el => {
-                    el.textContent = numeroLimpio;
-                });
-                const fab = document.querySelector('.whatsapp-fab');
-                if (fab && numeroUrl) {
-                    fab.href = `https://wa.me/${numeroUrl}`;
+            // 2. Teléfono (Phone)
+            if (window.DRIVE_CONFIG.phoneFileId) {
+                const phone = await fetchDriveText(window.DRIVE_CONFIG.phoneFileId, true);
+                if (phone) {
+                    const phoneClean = phone.trim();
+                    const phoneUrl = phoneClean.replace(/[^0-9]/g, '');
+                    document.querySelectorAll('.dynamic-phone-text').forEach(el => el.textContent = phoneClean);
+                    const fab = document.querySelector('.whatsapp-fab');
+                    if (fab && phoneUrl) fab.href = `https://wa.me/${phoneUrl}`;
                 }
             }
-        } catch (e) {
-            console.warn('No se pudo cargar whatsapp.txt para actualizar el teléfono:', e);
+
+            // 3. Email
+            if (window.DRIVE_CONFIG.emailFileId) {
+                const email = await fetchDriveText(window.DRIVE_CONFIG.emailFileId, true);
+                if (email) {
+                    const emailClean = email.trim();
+                    // Actualiza h6 en footer y cualquier elemento con clase .dynamic-email-text (para el topbar)
+                    document.querySelectorAll('footer h6, .dynamic-email-text').forEach(el => {
+                        el.textContent = emailClean;
+                        if (el.tagName === 'A') el.href = `mailto:${emailClean}`;
+                    });
+                }
+            }
         }
 
         // Inyectamos el botón de WhatsApp
