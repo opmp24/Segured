@@ -227,3 +227,66 @@ body {
   position: relative;
   z-index: 2; /* Asegura que el contenido esté sobre el overlay */
 }
+
+/* --- Estilos Modernos Agregados (Contexto Seguridad) --- */
+
+/* Hero Header para páginas internas */
+.page-hero {
+  background: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.7)), url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 80px 0;
+  margin-bottom: 3rem;
+  border-bottom: 4px solid var(--accent);
+  text-align: center;
+}
+
+.page-hero h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+/* Lista de Documentos Estilizada */
+.custom-list-group .list-group-item {
+  border: none;
+  border-left: 4px solid transparent;
+  background-color: #fff;
+  margin-bottom: 8px;
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.custom-list-group .list-group-item:hover, 
+.custom-list-group .list-group-item.active {
+  background-color: #fff;
+  border-left-color: var(--accent);
+  color: var(--brand-black);
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.custom-list-group .list-group-item.active {
+  font-weight: 700;
+}
+
+/* Tarjetas de Información (Info Cards) */
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  height: 100%;
+  border-top: 3px solid var(--accent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
