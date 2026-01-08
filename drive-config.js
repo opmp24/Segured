@@ -27,5 +27,10 @@ window.DRIVE_CONFIG = {
 
   // Token de acceso de Instagram (Basic Display API).
   // Obtén uno en: https://developers.facebook.com/docs/instagram-basic-display-api/
-  instagramAccessToken: "YOUR_INSTAGRAM_ACCESS_TOKEN"
+  instagramAccessToken: "YOUR_INSTAGRAM_ACCESS_TOKEN",
+
+  // IDs de archivos de contenido dinámico (Email, Teléfono, Dirección)
+  emailFileId: "1r6z58VtGHailNVO58rTRo4mukVVgh3_3OpELWG53SIE", // Google Doc
+  phoneFileId: "1OLMMqvLatldw_bwnM2goj8o9fajUOhl8_sQorTWbOjQ", // Google Doc
+  addressFileId: "12QojZT5regzRZfM9alspqfZoyjlvzwPe" // Archivo (File)
 };
