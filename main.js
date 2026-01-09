@@ -84,7 +84,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (phone) {
                     const phoneClean = phone.trim();
                     const phoneUrl = phoneClean.replace(/[^0-9]/g, '');
-                    document.querySelectorAll('.dynamic-phone-text').forEach(el => el.textContent = phoneClean);
+                    document.querySelectorAll('.dynamic-phone-text').forEach(el => {
+                        el.textContent = phoneClean;
+                        if (el.tagName === 'A') el.href = `tel:${phoneUrl}`;
+                    });
                     const fab = document.querySelector('.whatsapp-fab');
                     if (fab && phoneUrl) fab.href = `https://wa.me/${phoneUrl}`;
                 }
