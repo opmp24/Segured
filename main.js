@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const email = await fetchDriveText(window.DRIVE_CONFIG.emailFileId, true);
                 if (email) {
                     const emailClean = email.trim();
-                    // Actualiza h6 en footer y cualquier elemento con clase .dynamic-email-text (para el topbar)
-                    document.querySelectorAll('footer h6, .dynamic-email-text').forEach(el => {
+                    // Actualiza cualquier elemento con clase .dynamic-email-text
+                    document.querySelectorAll('.dynamic-email-text').forEach(el => {
                         el.textContent = emailClean;
                         if (el.tagName === 'A') el.href = `mailto:${emailClean}`;
                     });
