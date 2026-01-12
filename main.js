@@ -132,6 +132,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         initScrollAnimations();
         initCounterAnimations();
 
+        // Inicializamos el efecto de navbar al hacer scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled', 'bg-white', 'navbar-light');
+                    navbar.classList.remove('navbar-dark', 'bg-dark');
+                } else {
+                    navbar.classList.remove('navbar-scrolled', 'bg-white', 'navbar-light');
+                    navbar.classList.add('navbar-dark'); // Asumiendo que el estado inicial es oscuro/transparente
+                }
+            }
+        });
+
     } catch (error) {
         console.error('Error cargando la página maestra:', error);
     }
