@@ -58,12 +58,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fetchDriveText = async (fileId, isDoc) => {
             if (!window.DRIVE_CONFIG || !window.DRIVE_CONFIG.apiKey) return null;
             const { apiKey } = window.DRIVE_CONFIG;
-            // Docs requieren exportar a texto plano, archivos normales se descargan como media
-            const url = isDoc 
-                ? `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${apiKey}`
-                : `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+            
+            // Definimos ambas URLs posibles (Exportar Doc o Descargar Archivo)
+            const urlExport = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${apiKey}`;
+            const urlMedia = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+
+            // Intentamos primero según la configuración, pero tenemos fallback por si el tipo de archivo es incorrecto
+            const primaryUrl = isDoc ? urlExport : urlMedia;
+            const secondaryUrl = isDoc ? urlMedia : urlExport;
+
             try {
-                const resp = await fetch(url);
+                let resp = await fetch(primaryUrl);
+                if (resp.ok) return await resp.text();
+                // Si falla el primer intento, probamos el método alternativo (fallback)
+                resp = await fetch(secondaryUrl);
                 if (resp.ok) return await resp.text();
             } catch (e) {
                 console.warn(`Error cargando archivo Drive ${fileId}:`, e);
@@ -84,7 +92,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (phone) {
                     const phoneClean = phone.trim();
                     const phoneUrl = phoneClean.replace(/[^0-9]/g, '');
-                    document.querySelectorAll('.dynamic-phone-text').forEach(el => el.textContent = phoneClean);
+                    document.querySelectorAll('.dynamic-phone-text').forEach(el => {
+                        el.textContent = phoneClean;
+                        if (el.tagName === 'A') el.href = `tel:${phoneUrl}`;
+                    });
                     const fab = document.querySelector('.whatsapp-fab');
                     if (fab && phoneUrl) fab.href = `https://wa.me/${phoneUrl}`;
                 }
@@ -128,6 +139,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Inicializamos las animaciones de scroll
         initScrollAnimations();
         initCounterAnimations();
+
+        // Inicializamos el efecto de navbar al hacer scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled', 'bg-white', 'navbar-light');
+                    navbar.classList.remove('navbar-dark', 'bg-dark');
+                } else {
+                    navbar.classList.remove('navbar-scrolled', 'bg-white', 'navbar-light');
+                    navbar.classList.add('navbar-dark'); // Asumiendo que el estado inicial es oscuro/transparente
+                }
+            }
+        });
 
     } catch (error) {
         console.error('Error cargando la página maestra:', error);
