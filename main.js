@@ -80,38 +80,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         if (window.DRIVE_CONFIG) {
+            // Ejecutamos las peticiones en paralelo para no bloquear la carga de la página
+            const tasks = [];
+
             // 1. Dirección (Address)
             if (window.DRIVE_CONFIG.addressFileId) {
-                const address = await fetchDriveText(window.DRIVE_CONFIG.addressFileId, false);
-                if (address) document.querySelectorAll('.sucursal-direccion').forEach(el => el.textContent = address.trim());
+                tasks.push(fetchDriveText(window.DRIVE_CONFIG.addressFileId, false).then(address => {
+                    if (address) document.querySelectorAll('.sucursal-direccion').forEach(el => el.textContent = address.trim());
+                }));
             }
 
             // 2. Teléfono (Phone)
             if (window.DRIVE_CONFIG.phoneFileId) {
-                const phone = await fetchDriveText(window.DRIVE_CONFIG.phoneFileId, true);
-                if (phone) {
-                    const phoneClean = phone.trim();
-                    const phoneUrl = phoneClean.replace(/[^0-9]/g, '');
-                    document.querySelectorAll('.dynamic-phone-text').forEach(el => {
-                        el.textContent = phoneClean;
-                        if (el.tagName === 'A') el.href = `tel:${phoneUrl}`;
-                    });
-                    const fab = document.querySelector('.whatsapp-fab');
-                    if (fab && phoneUrl) fab.href = `https://wa.me/${phoneUrl}`;
-                }
+                tasks.push(fetchDriveText(window.DRIVE_CONFIG.phoneFileId, true).then(phone => {
+                    if (phone) {
+                        const phoneClean = phone.trim();
+                        const phoneUrl = phoneClean.replace(/[^0-9]/g, '');
+                        document.querySelectorAll('.dynamic-phone-text').forEach(el => {
+                            el.textContent = phoneClean;
+                            if (el.tagName === 'A') el.href = `tel:${phoneUrl}`;
+                        });
+                        const fab = document.querySelector('.whatsapp-fab');
+                        if (fab && phoneUrl) fab.href = `https://wa.me/${phoneUrl}`;
+                    }
+                }));
             }
 
             // 3. Email
             if (window.DRIVE_CONFIG.emailFileId) {
-                const email = await fetchDriveText(window.DRIVE_CONFIG.emailFileId, true);
-                if (email) {
-                    const emailClean = email.trim();
-                    // Actualiza cualquier elemento con clase .dynamic-email-text
-                    document.querySelectorAll('.dynamic-email-text').forEach(el => {
-                        el.textContent = emailClean;
-                        if (el.tagName === 'A') el.href = `mailto:${emailClean}`;
-                    });
-                }
+                tasks.push(fetchDriveText(window.DRIVE_CONFIG.emailFileId, true).then(email => {
+                    if (email) {
+                        const emailClean = email.trim();
+                        // Actualiza cualquier elemento con clase .dynamic-email-text
+                        document.querySelectorAll('.dynamic-email-text').forEach(el => {
+                            el.textContent = emailClean;
+                            if (el.tagName === 'A') el.href = `mailto:${emailClean}`;
+                        });
+                    }
+                }));
             }
         }
 
