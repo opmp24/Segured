@@ -113,9 +113,13 @@
 
   // Si la configuración de Drive está presente, lista los archivos desde las carpetas de Drive.
   if (window.DRIVE_CONFIG){
-    try{
-      const apiKey = window.DRIVE_CONFIG.apiKey;
-      if (!apiKey) throw new Error("La clave de API de Google no está en drive-config.js");
+    const apiKey = window.DRIVE_CONFIG.apiKey;
+    if (!apiKey) {
+        console.error("La clave de API de Google no está en drive-config.js");
+    } else {
+    // 1. Cargar Documentos (En paralelo)
+    (async () => {
+      try{
       if (docsEl) {
         const docsJson = await listDriveFolder(window.DRIVE_CONFIG.documentsFolderId, apiKey);
         if (docsJson && Array.isArray(docsJson.files) && docsJson.files.length){
@@ -168,9 +172,11 @@
       console.error('Error listing Drive documents', e);
       displayMessage(docsEl, `Error cargando documentos desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
+    })();
 
     // Carga la galería de imágenes desde Google Drive
-    try{
+    (async () => {
+      try{
       const galleryFolderId = window.DRIVE_CONFIG.galleryFolderId;
       if (imageGridEl && galleryFolderId) {
         const galJson = await listDriveFolder(galleryFolderId, window.DRIVE_CONFIG.apiKey);
@@ -222,9 +228,11 @@
       console.error('Error listing Drive gallery', e);
       displayMessage(imageGridEl, `Error cargando galería desde Drive: ${e.message}. Revisa la consola para más detalles.`, true);
     }
+    })();
 
     // Carga el video de YouTube y lo añade a la pestaña de videos
-    try {
+    (async () => {
+      try {
       const { apiKey, youtubeChannelId, latestVideoId } = window.DRIVE_CONFIG;
       
       if (videoGridEl && apiKey) {
@@ -292,9 +300,13 @@
     } catch (e) {
       console.error('Error al cargar videos de YouTube:', e);
     }
+    })();
 
     // Carga el mapa si está configurado
-    if (window.DRIVE_CONFIG.mapsFolderId) await loadMapFromDrive(apiKey, window.DRIVE_CONFIG.mapsFolderId);
+    if (window.DRIVE_CONFIG.mapsFolderId) {
+        loadMapFromDrive(apiKey, window.DRIVE_CONFIG.mapsFolderId);
+    }
+    } // fin else apiKey check
 
     return;
   }
