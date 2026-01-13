@@ -9,6 +9,7 @@
   --text-grey: #666666;
 }
 
+html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', sans-serif;
   color: var(--text-grey);
