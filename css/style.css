@@ -257,6 +257,27 @@ background-attachment: fixed;
   z-index: 2; /* Asegura que el contenido esté sobre el overlay */
 }
 
+/* Parallax Divider entre secciones */
+.parallax-divider {
+  /* CAMBIAR ESTA URL por la ruta de tu imagen: ../assets/images/muelle03.jpeg */
+  background-image: url('https://images.unsplash.com/photo-1541696883-7e05950a9554?q=80&w=2000&auto=format&fit=crop');
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.parallax-divider::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); /* Oscurecer imagen para leer texto */
+  z-index: 1;
+}
+
 /* Overlap de Features responsivo */
 .features-overlap {
   margin-top: -100px;
@@ -285,7 +306,7 @@ background-attachment: fixed;
 
 /* Fix Parallax en móviles (iOS/Android suelen tener problemas con fixed) */
 @media (hover: none) {
-  .hero-parallax {
+  .hero-parallax, .parallax-divider {
     background-attachment: scroll;
   }
 }
