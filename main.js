@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     navbar.classList.add('navbar-scrolled', 'bg-white', 'navbar-light');
                     navbar.classList.remove('navbar-dark', 'bg-dark');
                 } else {
-                    navbar.classList.remove('navbar-scrolled', 'bg-white', 'navbar-light');
-                    navbar.classList.add('navbar-dark'); // Asumiendo que el estado inicial es oscuro/transparente
+                    navbar.classList.remove('navbar-scrolled', 'bg-white', 'navbar-dark');
+                    navbar.classList.add('navbar-light'); // Cambiado a light para que el texto sea oscuro (visible)
                 }
             }
         });
