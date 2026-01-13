@@ -132,6 +132,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
+        // Inyectamos el botón de Scroll Top
+        const masterScrollBtn = doc.querySelector('#scrollTopBtn');
+        if (masterScrollBtn && !document.getElementById('scrollTopBtn')) {
+            document.body.appendChild(masterScrollBtn);
+        }
+
         // Marcamos el link activo en el menú
         const currentHref = window.location.href;
         document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
@@ -145,6 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Inicializamos las animaciones de scroll
         initScrollAnimations();
         initCounterAnimations();
+        initScrollTopButton();
 
         // Inicializamos el efecto de navbar al hacer scroll
         window.addEventListener('scroll', () => {
@@ -185,6 +192,23 @@ function initScrollAnimations() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function initScrollTopButton() {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            btn.style.display = 'flex';
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 function initCounterAnimations() {
