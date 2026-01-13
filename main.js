@@ -58,12 +58,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const fetchDriveText = async (fileId, isDoc) => {
             if (!window.DRIVE_CONFIG || !window.DRIVE_CONFIG.apiKey) return null;
             const { apiKey } = window.DRIVE_CONFIG;
-            // Docs requieren exportar a texto plano, archivos normales se descargan como media
-            const url = isDoc 
-                ? `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${apiKey}`
-                : `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+            
+            // Definimos ambas URLs posibles (Exportar Doc o Descargar Archivo)
+            const urlExport = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${apiKey}`;
+            const urlMedia = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+
+            // Intentamos primero según la configuración, pero tenemos fallback por si el tipo de archivo es incorrecto
+            const primaryUrl = isDoc ? urlExport : urlMedia;
+            const secondaryUrl = isDoc ? urlMedia : urlExport;
+
             try {
-                const resp = await fetch(url);
+                let resp = await fetch(primaryUrl);
+                if (resp.ok) return await resp.text();
+                // Si falla el primer intento, probamos el método alternativo (fallback)
+                resp = await fetch(secondaryUrl);
                 if (resp.ok) return await resp.text();
             } catch (e) {
                 console.warn(`Error cargando archivo Drive ${fileId}:`, e);
