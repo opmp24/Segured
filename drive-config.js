@@ -32,5 +32,5 @@ window.DRIVE_CONFIG = {
   // IDs de archivos de contenido dinámico (Email, Teléfono, Dirección)
   emailFileId: "1r6z58VtGHailNVO58rTRo4mukVVgh3_3OpELWG53SIE", // Google Doc
   phoneFileId: "1OLMMqvLatldw_bwnM2goj8o9fajUOhl8_sQorTWbOjQ", // Google Doc
-  addressFileId: "12QojZT5regzRZfM9alspqfZoyjlvzwPe" // Archivo (File)
+  addressFileId: "17vezuGty9sNe_miJ0XK_HKGEk10UThAM" // Archivo (File)
 };
