@@ -278,6 +278,14 @@ background-attachment: fixed;
   z-index: 1;
 }
 
+/* Asegura que el contenido del parallax esté visible sobre el overlay */
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  text-align: center;
+}
+
 /* Overlap de Features responsivo */
 .features-overlap {
   margin-top: -100px;
