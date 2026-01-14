@@ -1,5 +1,5 @@
-const CACHE_NAME = 'sl-demo-v30-parallax-reuse'; // Forzar actualización de caché
-const REPO_PREFIX = '/Segured/'; // Definimos el prefijo
+const CACHE_NAME = 'sl-demo-v31-netlify'; // Forzar actualización de caché
+const REPO_PREFIX = '/'; // Definimos el prefijo para Netlify (raíz)
 const ASSETS = [
   'pages/', // Cachea el directorio de páginas, que debería servir el nuevo index.
   'pages/index.html',
