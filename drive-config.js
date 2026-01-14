@@ -3,6 +3,7 @@
 window.DRIVE_CONFIG = {
   // Clave de API para acceder a las APIs de Google.
   // ADVERTENCIA: En GitHub Pages, esta clave será pública.
+  // Asegúrate de agregar tu dominio (ej: https://nmsi.netlify.app/*) en las restricciones de la consola de Google Cloud.
   apiKey: "AIzaSyDZHva_m8rXxpD87rqZ-OUKXAcyzJpLXsY",
 
   // ID de la carpeta de Google Drive que contiene los documentos públicos.
