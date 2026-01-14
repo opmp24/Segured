@@ -70,6 +70,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 let resp = await fetch(primaryUrl);
                 if (resp.ok) return await resp.text();
+
+                // Diagnóstico: Si falla por permisos (403), mostramos el error en consola
+                if (resp.status === 403) {
+                    const err = await resp.json().catch(() => ({}));
+                    console.error(`Error Drive API (${fileId}):`, err.error?.message || 'Acceso denegado (403)');
+                }
+
                 // Si falla el primer intento, probamos el método alternativo (fallback)
                 resp = await fetch(secondaryUrl);
                 if (resp.ok) return await resp.text();
