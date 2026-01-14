@@ -182,25 +182,19 @@
         const galJson = await listDriveFolder(galleryFolderId, window.DRIVE_CONFIG.apiKey);
 
         if (galJson && Array.isArray(galJson.files)) {
-          if (imageGridEl) imageGridEl.innerHTML = ''; // Limpia el "Cargando..."
-          if (videoGridEl) videoGridEl.innerHTML = '';
+          imageGridEl.innerHTML = ''; // Limpia el "Cargando..."
 
           galJson.files.forEach(file => {
             const isImage = file.mimeType?.startsWith('image');
-            const isVideo = file.mimeType?.startsWith('video');
-
-            if (!isImage && !isVideo) return; // Ignora otros tipos de archivo
+            if (!isImage) return; // Ignora otros tipos de archivo, esta sección es solo para imágenes.
 
             const thumbUrl = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s400') : driveFileUrl(file.id);
             
-            // Creamos la columna de Bootstrap
             const col = document.createElement('div');
             col.className = 'col';
             const item = document.createElement('a');
             item.href = '#';
             item.innerHTML = `<img src="${thumbUrl}" class="gallery-item-img" alt="${file.name}">`;
-
-            if (isImage) {
               item.onclick = (e) => {
                 e.preventDefault();
                 // Usamos el thumbnailLink en alta resolución para evitar problemas de permisos/CORS con driveFileUrl
@@ -208,18 +202,9 @@
                 openInModal('image', highResUrl, file.name);
               };
               col.appendChild(item);
-              if (imageGridEl) imageGridEl.appendChild(col);
-            } else if (isVideo) {
-              item.onclick = (e) => {
-                e.preventDefault();
-                openInModal('video', driveFileUrl(file.id), file.name);
-              };
-              col.appendChild(item);
-              if (videoGridEl) videoGridEl.appendChild(col);
-            }
+              imageGridEl.appendChild(col);
           });
-          if (imageGridEl && imageGridEl.innerHTML === '') displayMessage(imageGridEl, 'No se encontraron imágenes.');
-          if (videoGridEl && videoGridEl.innerHTML === '') displayMessage(videoGridEl, 'No se encontraron videos.');
+          if (imageGridEl.innerHTML === '') displayMessage(imageGridEl, 'No se encontraron imágenes en la carpeta de Drive.');
         }
       } else if (imageGridEl) {
         displayMessage(imageGridEl, 'La carpeta de galería no está configurada en <code>drive-config.js</code>.');
@@ -236,6 +221,7 @@
       const { apiKey, youtubeChannelId, latestVideoId } = window.DRIVE_CONFIG;
       
       if (videoGridEl && apiKey) {
+        videoGridEl.innerHTML = ''; // Limpia el "Cargando..."
         const ytFragment = document.createDocumentFragment();
         let hasYtVideos = false;
 
@@ -295,6 +281,8 @@
         // Insertar al principio del grid
         if (ytFragment.children.length > 0) {
           videoGridEl.prepend(ytFragment);
+        } else {
+          displayMessage(videoGridEl, 'No se encontraron videos de YouTube.');
         }
       }
     } catch (e) {
