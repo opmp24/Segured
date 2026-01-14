@@ -32,5 +32,6 @@ window.DRIVE_CONFIG = {
   // IDs de archivos de contenido dinámico (Email, Teléfono, Dirección)
   emailFileId: "1r6z58VtGHailNVO58rTRo4mukVVgh3_3OpELWG53SIE", // Google Doc
   phoneFileId: "1OLMMqvLatldw_bwnM2goj8o9fajUOhl8_sQorTWbOjQ", // Google Doc
-  addressFileId: "17vezuGty9sNe_miJ0XK_HKGEk10UThAM" // Archivo (File)
+  addressFileId: "", // Se limpió este campo porque tenía un ID de imagen que rompía el sitio
+  parallaxImageId: "17vezuGty9sNe_miJ0XK_HKGEk10UThAM" // ID de la imagen del muelle para el Parallax
 };
