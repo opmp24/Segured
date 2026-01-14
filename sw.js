@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sl-demo-v26-parallax-fix'; // Forzar actualización de caché
+const CACHE_NAME = 'sl-demo-v28-config-update'; // Forzar actualización de caché
 const REPO_PREFIX = '/Segured/'; // Definimos el prefijo
 const ASSETS = [
   'pages/', // Cachea el directorio de páginas, que debería servir el nuevo index.
