@@ -119,6 +119,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 }));
             }
+
+            // 4. Parallax Image (Muelle)
+            if (window.DRIVE_CONFIG.parallaxImageId) {
+                const parallaxEl = document.querySelector('.parallax-divider');
+                if (parallaxEl) {
+                    const imgUrl = `https://drive.google.com/uc?export=view&id=${window.DRIVE_CONFIG.parallaxImageId}`;
+                    parallaxEl.style.backgroundImage = `url('${imgUrl}')`;
+                }
+            }
         }
 
         // Inyectamos el botón de WhatsApp
