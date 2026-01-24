@@ -1,7 +1,8 @@
 {
   "name": "NM Soluciones Integrales",
   "short_name": "NM Soluciones",
-  "start_url": "/Segured/",
+  "start_url": "/pages/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#FFB600",
