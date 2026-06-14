@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
@@ -147,15 +148,20 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
-      <a
+      <motion.a
         className="whatsapp-fab"
         href="https://wa.me/56990772964"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
         <i className="bi bi-whatsapp fs-3"></i>
-      </a>
+      </motion.a>
 
       <button
         id="scrollTopBtn"
