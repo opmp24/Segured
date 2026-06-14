@@ -1,0 +1,351 @@
+/* Define los estilos globales del sitio, incluyendo variables de color, tipografía y componentes reutilizables.
+   Contiene reglas específicas para la estructura del layout, botones industriales y animaciones. */
+/* Estilos personalizados mínimos */
+:root {
+  /* Variables de color para el botón de WhatsApp */
+  --accent: #FFB600; /* Amarillo industrial más intenso */
+  --brand-black: #111111;
+  --brand-dark: #1a1a1a;
+  --text-grey: #666666;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-grey);
+  line-height: 1.7; /* Mayor legibilidad */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em; /* Toque moderno para títulos */
+}
+
+/* Botones estilo industrial */
+.btn {
+  border-radius: 0; /* Bordes cuadrados */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-warning {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--brand-black);
+}
+
+.btn-warning:hover {
+  background-color: var(--brand-black);
+  border-color: var(--brand-black);
+  color: #fff;
+}
+
+.btn-dark {
+  background-color: var(--brand-black);
+  border-color: var(--brand-black);
+}
+
+.btn-dark:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--brand-black);
+}
+
+/* Top Bar y Navbar */
+.top-bar {
+  background-color: var(--brand-black);
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.navbar {
+  transition: all 0.4s ease;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  background: transparent; /* Inicialmente transparente sobre el hero */
+}
+
+.navbar-scrolled {
+  background-color: #fff !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
+}
+
+.nav-link {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* Animaciones de Scroll */
+.reveal {
+  opacity: 0;
+}
+
+/* Floating WhatsApp button */
+.whatsapp-fab{position:fixed;right:18px;bottom:18px;background:var(--accent);color:var(--brand-black);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:1000;text-decoration:none;border:2px solid var(--brand-black)}
+.whatsapp-fab:hover{background:var(--brand-black);color:#fff}
+
+/* --- Estilos para Galería Moderna --- */
+#gallery-grid .col, #videos-grid .col {
+  min-height: 150px; /* Altura mínima para el estado de carga */
+}
+
+#gallery-grid a, #videos-grid a {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0; /* Manteniendo el estilo industrial */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f0f0f0; /* Un fondo para el aspect-ratio */
+}
+
+#gallery-grid a:hover, #videos-grid a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.gallery-item-img { /* Se aplica a la <img> dentro del <a> */
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+#gallery-grid a:hover .gallery-item-img, 
+#videos-grid a:hover .gallery-item-img {
+  transform: scale(1.05);
+}
+
+#gallery-grid a::after, #videos-grid a::after {
+  font-family: 'bootstrap-icons';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Para que no interfiera con el click */
+  z-index: 2;
+}
+
+#gallery-grid a[data-type="image"]::after {
+    content: '\F52A'; /* Bootstrap Icons: search */
+}
+
+#videos-grid a[data-type="video"]::after {
+    content: '\F4F7'; /* Bootstrap Icons: play-circle-fill */
+}
+
+#gallery-grid a:hover::before, #videos-grid a:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+#gallery-grid a:hover::after, #videos-grid a:hover::after {
+  opacity: 1;
+}
+
+/* --- Nuevos Estilos para Index Completo --- */
+
+/* Cajas de Características (Features) */
+.feature-box {
+  background: #fff;
+  padding: 40px 30px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  height: 100%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06); /* Sombra más difusa y elegante */
+  position: relative;
+  z-index: 10;
+  border-radius: 4px; /* Ligero redondeo */
+}
+
+.feature-box:hover {
+  border-bottom-color: var(--accent);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+/* Tarjetas de Servicios */
+.service-card {
+  background: #fff;
+  transition: all 0.3s ease;
+  border: none; /* Eliminamos borde para look más limpio */
+  height: 100%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  border-radius: 6px;
+}
+
+.service-card:hover {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  transform: translateY(-5px);
+}
+
+.service-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Testimonios */
+.testimonial-card {
+  background: #f8f9fa;
+  padding: 40px;
+  border-left: 5px solid var(--accent);
+  height: 100%;
+}
+
+/* Hero Parallax */
+.hero-parallax {
+  background-image: url('https://html.themexriver.com/constructor-one/images/main-slider/1.jpg');  
+background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+
+  /* dimensions are important, ensure it is tall enough to scroll */ 
+  /* min-height: 100vh; */
+
+  /* you are free to lay out the container items with flexbox or whatever means you wish */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-parallax::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.6)); /* Gradiente para profundidad */
+  z-index: 1;
+}
+
+.hero-parallax > .container {
+  position: relative;
+  z-index: 2; /* Asegura que el contenido esté sobre el overlay */
+}
+
+/* Fix Parallax en móviles (iOS/Android suelen tener problemas con fixed) */
+@media (hover: none) {
+  .hero-parallax {
+    background-attachment: scroll;
+  }
+}
+
+/* --- Mejoras Lightbox Móvil --- */
+#modal-content-wrapper img {
+  max-height: 85vh; /* Evita que la imagen sea más alta que la pantalla */
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* Sombra profunda para resaltar */
+}
+
+/* Botón de cerrar flotante mejorado */
+#gallery-modal .btn-close {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  border-radius: 50%;
+  padding: 1rem;
+  background-size: 1rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .features-overlap { margin-top: 30px; } /* En móviles no hacemos overlap */
+}
+
+/* --- Estilos Modernos Agregados (Contexto Seguridad) --- */
+
+/* Hero Header para páginas internas */
+.page-hero {
+  background: linear-gradient(rgba(17, 17, 17, 0.85), rgba(17, 17, 17, 0.7)), url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 80px 0;
+  margin-bottom: 3rem;
+  border-bottom: 4px solid var(--accent);
+  text-align: center;
+}
+
+.page-hero h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+/* Lista de Documentos Estilizada */
+.custom-list-group .list-group-item {
+  border: none;
+  border-left: 4px solid transparent;
+  background-color: #fff;
+  margin-bottom: 8px;
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.custom-list-group .list-group-item:hover, 
+.custom-list-group .list-group-item.active {
+  background-color: #fff;
+  border-left-color: var(--accent);
+  color: var(--brand-black);
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.custom-list-group .list-group-item.active {
+  font-weight: 700;
+}
+
+/* Tarjetas de Información (Info Cards) */
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  height: 100%;
+  border-top: 3px solid var(--accent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}

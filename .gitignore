@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+/.github/workflows/node_modules/
+# Local config files (do NOT commit secrets)
+secrets/
+drive-config.js
+firebase-config.js
+github-config.js
+.env
+*.local.*

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "build",
+  "model": "opencode/deepseek-v4-flash-free",
+  "commands": {
+    "dev": { "description": "Iniciar dev server Vite", "template": "npm run dev" },
+    "build": { "description": "Build produccion", "template": "npm run build" },
+    "test": { "description": "Ejecutar tests Vitest", "template": "npm run test" },
+    "test:e2e": { "description": "Tests E2E Playwright", "template": "npm run test:e2e" },
+    "lint": { "description": "Lintear proyecto", "template": "npm run lint" },
+    "format": { "description": "Formatear codigo", "template": "npm run format" }
+  },
+  "instructions": ["AGENTS.md", "secrets/README.md"],
+  "permission": { "bash": "ask", "write": "ask", "edit": "ask" },
+  "mcp": {
+    "codegraph": {
+      "type": "local",
+      "command": ["codegraph", "serve", "--mcp"],
+      "enabled": true
+    }
+  }
+}
