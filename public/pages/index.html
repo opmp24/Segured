@@ -1,0 +1,282 @@
+<!-- Página de inicio principal (Landing Page) con secciones de servicios, testimonios y catálogo.
+     Actúa como punto de entrada visual y carga los componentes globales de navegación. -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#fbbf24" />
+  <title>NM Soluciones Integrales</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav></nav>
+
+  <main>
+    <!-- Hero Section estilo Industrial -->
+    <section id="inicio" class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden hero-parallax">
+      <div class="container py-5 reveal">
+        <div class="row align-items-center">
+          <div class="col-lg-6 py-5 position-relative" style="z-index: 2;">
+            <span class="text-warning fw-bold text-uppercase mb-2 d-block">NM Soluciones Integrales</span>
+            <h1 class="display-3 fw-bold mb-4">SOLUCIONES EN PREVENCIÓN DE RIESGOS LABORALES</h1>
+            <p class="lead mb-4 text-white-50">Asesoría experta, capacitación, venta de equipamiento y servicios de construcción para garantizar un entorno laboral seguro y productivo.</p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a class="btn btn-warning btn-lg" href="about.html">CONOCER MÁS</a>
+              <a class="btn btn-outline-light btn-lg rounded-0" href="contact.html">CONTACTAR</a>
+            </div>
+          </div>
+          <div class="col-lg-6 d-none d-lg-block position-relative">
+            <!-- Círculo decorativo amarillo -->
+            <!-- <div class="position-absolute top-50 start-50 translate-middle bg-warning rounded-circle" style="width: 400px; height: 400px; opacity: 0.1;"></div> -->
+            <!-- <img src="/Segured/assets/images/safety-helmet.svg" class="img-fluid position-relative" style="transform: scale(1.2);" alt="hero"> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section (Overlap) -->
+    <section class="container reveal features-overlap">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+            <h4>Asesoría y Gestión</h4>
+            <p class="text-muted">Implementamos sistemas de gestión (DS 44) y realizamos visitas técnicas para evaluar y mitigar riesgos.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-people-fill"></i></div>
+            <h4>Venta de Equipamiento</h4>
+            <p class="text-muted">Proveemos Elementos de Protección Personal (EPP) y equipos de extinción de fuego certificados.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box text-center">
+            <div class="feature-icon"><i class="bi bi-gear-wide-connected"></i></div>
+            <h4>Servicios y Capacitación</h4>
+            <p class="text-muted">Ofrecemos capacitación especializada, obras menores, paisajismo y mantenimiento de áreas verdes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section (Punto 6) -->
+    <section class="container py-5 my-5 reveal">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="/assets/images/img1.svg" class="img-fluid shadow-lg" alt="About Us">
+        </div>
+        <div class="col-lg-6 ps-lg-5">
+          <span class="text-warning fw-bold text-uppercase">Sobre Nosotros</span>
+          <h2 class="display-6 fw-bold mb-4">EXPERIENCIA EN PREVENCIÓN DE RIESGOS LABORALES</h2>
+          <p class="text-muted mb-4">Somos su socio estratégico en la creación de entornos laborales seguros. Nuestro giro principal es la prevención de riesgos laborales, abarcando desde la asesoría hasta la ejecución de obras.</p>
+          <ul class="list-unstyled mb-4">
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Asesoría en prevención de riesgos</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Implementación de sistema de gestión según DS 44</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-warning me-2"></i> Construcción, paisajismo y mantención de áreas verdes</li>
+          </ul>
+          <a href="about.html" class="btn btn-dark">CONOCER MÁS!</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-dark text-white py-5 reveal">
+      <div class="container py-4">
+        <div class="row text-center g-4">
+          <div class="col-md-3">
+            <div class="service-card bg-dark p-4 h-100 d-flex flex-column justify-content-center">
+              <div class="display-4 fw-bold text-warning"><span class="counter" data-target="150">0</span>+</div>
+              <div class="text-uppercase small letter-spacing-1">Proyectos</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="service-card bg-dark p-4 h-100 d-flex flex-column justify-content-center">
+              <div class="display-4 fw-bold text-warning"><span class="counter" data-target="5000">0</span>+</div>
+              <div class="text-uppercase small letter-spacing-1">Capacitados</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="service-card bg-dark p-4 h-100 d-flex flex-column justify-content-center">
+              <div class="display-4 fw-bold text-warning"><span class="counter" data-target="12">0</span></div>
+              <div class="text-uppercase small letter-spacing-1">Años Exp.</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="service-card bg-dark p-4 h-100 d-flex flex-column justify-content-center">
+              <div class="display-4 fw-bold text-warning"><span class="counter" data-target="100">0</span>%</div>
+              <div class="text-uppercase small letter-spacing-1">Certificado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- servicios Section -->
+    <section class="container py-5 mb-5 reveal">
+      <div class="text-center mb-5">
+        <span class="text-warning fw-bold text-uppercase">Nuestros Servicios</span>
+        <h2 class="display-5">SOLUCIONES INTEGRALES</h2>
+      </div>
+      <div class="row row-cols-1 row-cols-md-4 g-3">
+        <!-- Item 1 -->
+        <div class="col">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="bg-light p-4 text-center">
+              <img src="/assets/images/img5.svg" class="img-fluid" style="height: 120px; object-fit: contain;" alt="Prevención">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Prevención de Riesgos</h5>
+              <p class="text-muted small">Asesoría, capacitación y gestión de seguridad.</p>
+              <a href="prevencion-riesgos.html" class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+        <!-- Item 2 -->
+        <div class="col">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="bg-light p-4 text-center">
+              <img src="/assets/images/img1.svg" class="img-fluid" style="height: 120px; object-fit: contain;" alt="Paisajismo">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Paisajismo y Construcción</h5>
+              <p class="text-muted small">Obras menores y mantención de áreas verdes.</p>
+              <a href="paisajismo-construccion.html" class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="col">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="bg-light p-4 text-center">
+              <img src="/assets/images/img2.svg" class="img-fluid" style="height: 120px; object-fit: contain;" alt="Equipos">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Venta de Equipos</h5>
+              <p class="text-muted small">EPP y equipos de extinción de incendios.</p>
+              <a href="venta-equipos.html" class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+        <!-- Item 4 -->
+        <div class="col">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="bg-light p-4 text-center d-flex align-items-center justify-content-center" style="height: 168px;">
+              <i class="bi bi-water display-1 text-secondary"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Muelles Flotantes</h5>
+              <p class="text-muted small">Armado y desarme de sistemas modulares.</p>
+              <a href="muelles-flotantes.html" class="btn btn-link text-warning text-decoration-none p-0 fw-bold">VER MÁS <span class="ms-1">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parallax Divider (Muelle) -->
+    <section class="bg-dark text-white py-5 mb-5 position-relative overflow-hidden hero-parallax" style="background-image: url('../assets/images/muelle03.jpeg');">
+      <div class="container py-5 reveal">
+        <h2 class="display-5 fw-bold text-uppercase">Infraestructura Marítima</h2>
+        <p class="lead">Soluciones robustas para entornos exigentes.</p>
+      </div>
+    </section>
+        
+
+    <!-- Testimonials Section -->
+    <!-- <section class="bg-light py-5 reveal">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="text-warning fw-bold text-uppercase">Testimonios</span>
+          <h2 class="display-5">LO QUE DICEN NUESTROS CLIENTES</h2>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="testimonial-card">
+              <div class="mb-3 text-warning">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="fst-italic mb-4">"Excelente servicio. La auditoría fue exhaustiva y nos ayudó a mejorar significativamente nuestros estándares de seguridad."</p>
+              <h6 class="fw-bold mb-0">Juan Pérez</h6>
+              <small class="text-muted">Gerente de Planta, Constructora X</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="testimonial-card">
+              <div class="mb-3 text-warning">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="fst-italic mb-4">"Los cursos de capacitación son muy dinámicos y el personal aprendió rápido el uso correcto de los EPP."</p>
+              <h6 class="fw-bold mb-0">María González</h6>
+              <small class="text-muted">Jefa de RRHH, Minera Y</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Información seccion -->
+    <section class="container py-5 reveal">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4 text-warning fw-bold">NM Soluciones Integrales</h2>
+          
+          <div class="row">
+            <!-- Columna Izquierda: Información General -->
+            <div class="col-md-5 mb-4">
+              <div class="p-3 bg-light rounded h-100">
+                <h4 class="h5 border-bottom pb-2 mb-3">Información General</h4>
+                <p class="mb-1"><strong>Razón Social:</strong></p>
+                <p class="mb-3">NM Soluciones Integrales</p>
+                
+                <p class="mb-1"><strong>Giro Principal:</strong></p>
+                <p class="mb-0">Prevención de riesgos laborales</p>
+
+                <hr class="my-3">
+                <p class="mb-1"><strong>Dirección:</strong></p>
+                <p class="mb-3 sucursal-direccion">Cargando...</p>
+                <p class="mb-1"><strong>Teléfono:</strong></p>
+                <p class="mb-3"><a href="#" class="text-decoration-none text-dark dynamic-phone-text">Cargando...</a></p>
+                <p class="mb-1"><strong>Correo:</strong></p>
+                <p class="mb-0"><a href="#" class="text-decoration-none text-dark dynamic-email-text">Cargando...</a></p>
+              </div>
+            </div>
+
+            <!-- Columna Derecha: Actividades -->
+            <div class="col-md-7">
+              <h4 class="h5 border-bottom pb-2 mb-3">Actividades Asociadas</h4>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Venta de elementos de protección personal</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Asesoría en prevención de riesgos</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Visitas técnicas</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Capacitación</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Implementación de sistema de gestión según DS 44</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Armado y desarme de muelle</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Construcción y obras menores</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Paisajista y mantención de áreas verdes</li>
+                <li class="list-group-item px-0 py-2 border-0"><i class="bi bi-check2 text-warning me-2"></i>Venta de equipos de extinción del fuego</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-dark text-white py-5 mt-auto"></footer>
+
+  <div id="whatsapp-placeholder"></div>
+  <script src="/drive-config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/app.js" defer></script>
+  <script src="../main.js" defer></script>
+</body>
+</html>

@@ -10,7 +10,7 @@ describe('format utilities', () => {
   })
 
   it('formats dates correctly', () => {
-    const date = new Date('2024-01-15')
+    const date = new Date(2024, 0, 15)
     const formatter = new Intl.DateTimeFormat('es-CL', {
       dateStyle: 'long',
     })
