@@ -8,13 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     const handleScroll = () => {
       const navbar = document.querySelector('.navbar')
       if (navbar) {
-        if (window.scrollY > 50) {
-          navbar.classList.add('navbar-scrolled', 'bg-white', 'navbar-light')
-          navbar.classList.remove('navbar-dark', 'bg-dark', 'transparent')
-        } else {
-          navbar.classList.remove('navbar-scrolled', 'bg-white', 'navbar-light')
-          navbar.classList.add('navbar-dark')
-        }
+        navbar.classList.toggle('navbar-scrolled', window.scrollY > 50)
       }
       const btn = document.getElementById('scrollTopBtn')
       if (btn) {
