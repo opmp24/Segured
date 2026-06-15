@@ -10,3 +10,4 @@ firebase-config.js
 github-config.js
 .env
 *.local.*
+tsconfig.tsbuildinfo

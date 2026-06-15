@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Counter from '../components/Counter'
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -146,10 +147,10 @@ export default function Home() {
         <div className="container py-4">
           <div className="row text-center g-4">
             {[
-              { value: '150+', label: 'Proyectos' },
-              { value: '5000+', label: 'Capacitados' },
-              { value: '12', label: 'A\u00f1os Exp.' },
-              { value: '100%', label: 'Certificado' },
+              { value: 150, suffix: '+', label: 'Proyectos' },
+              { value: 5000, suffix: '+', label: 'Capacitados' },
+              { value: 12, suffix: '', label: 'A\u00f1os Exp.' },
+              { value: 100, suffix: '%', label: 'Certificado' },
             ].map((s, i) => (
               <motion.div
                 key={s.label}
@@ -160,7 +161,9 @@ export default function Home() {
                 className="col-md-3"
               >
                 <div className="bg-dark p-4 h-100 d-flex flex-column justify-content-center">
-                  <div className="display-4 fw-bold text-warning">{s.value}</div>
+                  <div className="display-4 fw-bold text-warning">
+                    <Counter value={s.value} suffix={s.suffix} />
+                  </div>
                   <div className="text-uppercase small letter-spacing-1">{s.label}</div>
                 </div>
               </motion.div>

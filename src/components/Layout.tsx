@@ -23,12 +23,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   const navLinks = [
-    { href: '/', label: 'Inicio', isReact: true },
-    { href: '/pages/about.html', label: 'A qu\u00e9 nos dedicamos', isReact: false },
-    { href: '/pages/gallery.html', label: 'Galer\u00eda', isReact: false },
-    { href: '/pages/documents.html', label: 'Documentos', isReact: false },
-    { href: '/pages/contact.html', label: 'Contacto', isReact: false },
+    { href: '/', label: 'Inicio' },
+    { href: '/about', label: 'A qu\u00e9 nos dedicamos' },
+    { href: '/gallery', label: 'Galer\u00eda' },
+    { href: '/documents', label: 'Documentos' },
+    { href: '/contact', label: 'Contacto' },
   ]
+
+  const isActive = (href: string) => pathname === href
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -72,21 +74,12 @@ export default function Layout({ children }: { children: ReactNode }) {
             <ul className="navbar-nav ms-auto">
               {navLinks.map((link) => (
                 <li className="nav-item" key={link.href}>
-                  {link.isReact ? (
-                    <Link
-                      className={`nav-link text-dark fw-bold text-uppercase${pathname === link.href ? ' active' : ''}`}
-                      to={link.href}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      className={`nav-link text-dark fw-bold text-uppercase${pathname === link.href ? ' active' : ''}`}
-                      href={link.href}
-                    >
-                      {link.label}
-                    </a>
-                  )}
+                  <Link
+                    className={`nav-link text-dark fw-bold text-uppercase${isActive(link.href) ? ' active' : ''}`}
+                    to={link.href}
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
