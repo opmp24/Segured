@@ -8,7 +8,14 @@
     "test": { "description": "Ejecutar tests Vitest", "template": "npm run test" },
     "test:e2e": { "description": "Tests E2E Playwright", "template": "npm run test:e2e" },
     "lint": { "description": "Lintear proyecto", "template": "npm run lint" },
-    "format": { "description": "Formatear codigo", "template": "npm run format" }
+    "format": { "description": "Formatear codigo", "template": "npm run format" },
+    "git:status": { "description": "Ver estado del repo", "template": "git status" },
+    "git:log": { "description": "Ver ultimos commits", "template": "git log --oneline -10" },
+    "git:push:develop": { "description": "Push a develop", "template": "git push origin develop" },
+    "git:push:main": {
+      "description": "Push a main (fuerza, reemplaza sitio original)",
+      "template": "git push origin main --force"
+    }
   },
   "instructions": ["AGENTS.md", "secrets/README.md"],
   "permission": { "bash": "ask", "write": "ask", "edit": "ask" },
