@@ -140,10 +140,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <main className="flex-grow-1">{children}</main>
 
-      <footer
-        className="bg-dark text-white d-flex align-items-center"
-        style={{ minHeight: '100vh' }}
-      >
+      <footer className="bg-dark text-white py-5 mt-auto">
         <div className="container">
           <div className="row">
             <div className="col-md-6 mb-4 mb-md-0">
