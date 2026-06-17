@@ -176,21 +176,21 @@ function Slide({
   index: number
 }) {
   const isHero = index === 0
-  const hold = 0.06
-  const fade = 0.1
+  const enter = 0.04
+  const hold = 0.08
   const contentOpacity = useTransform(
     scrollYProgress,
     isHero
-      ? [0, hold, hold + fade, range[1]]
-      : [range[0], range[0] + hold, range[0] + hold + fade, range[1]],
+      ? [0, hold, hold + 0.12, range[1]]
+      : [range[0], range[0] + enter, range[0] + enter + hold, range[1]],
     [1, 1, 0, 0],
   )
   const contentY = useTransform(
     scrollYProgress,
     isHero
-      ? [0, hold, hold + fade, range[1]]
-      : [range[0], range[0] + hold, range[0] + hold + fade, range[1]],
-    [0, 0, -25, -30],
+      ? [0, hold, hold + 0.12, range[1]]
+      : [range[0], range[0] + enter, range[0] + enter + hold, range[1]],
+    isHero ? [0, 0, -25, -30] : [50, 0, 0, -30],
   )
   const progressPct = useTransform(scrollYProgress, [range[0], range[1]], ['0%', '100%'])
 
@@ -529,13 +529,10 @@ export default function Home() {
       </section>
 
       <section
-        className="position-relative overflow-hidden d-flex align-items-center"
-        style={{
-          background: 'linear-gradient(135deg, #FFB600 0%, #cc9200 100%)',
-          minHeight: '100vh',
-        }}
+        className="position-relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #FFB600 0%, #cc9200 100%)' }}
       >
-        <div className="container py-5 text-center position-relative w-100" style={{ zIndex: 1 }}>
+        <div className="container py-5 text-center position-relative" style={{ zIndex: 1 }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
