@@ -188,7 +188,7 @@ function Slide({
     isHero
       ? [0, hold, hold + 0.12, range[1]]
       : [range[0], range[0] + enter, range[0] + enter + hold, range[1]],
-    isHero ? [0, 0, 0, 0] : [50, 0, 0, 0],
+    isHero ? [0, 0, 0, 0] : [80, 0, 0, 0],
   )
   const progressPct = useTransform(scrollYProgress, [range[0], range[1]], ['0%', '100%'])
 
@@ -201,7 +201,7 @@ function Slide({
     >
       <motion.div
         className="position-absolute d-flex align-items-center"
-        style={{ inset: 0, zIndex: 2, opacity: contentOpacity, y: contentY }}
+        style={{ inset: 0, zIndex: isHero ? 2 : 2 + index, opacity: contentOpacity, y: contentY }}
       >
         <div className="container">
           <div className="row">
@@ -211,6 +211,9 @@ function Slide({
                   background: 'rgba(255,255,255,0.1)',
                   padding: isHero ? '2.5rem' : '2rem',
                   backdropFilter: 'blur(2px)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
                 }}
               >
                 {isHero && index === 0 && (
