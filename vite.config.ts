@@ -7,5 +7,14 @@ export default defineConfig({
   resolve: {
     alias: { '@': resolve(__dirname, 'src') }
   },
-  build: { outDir: 'dist' }
+  build: { outDir: 'dist' },
+  server: {
+    proxy: {
+      '/google-proxy': {
+        target: 'https://www.googleapis.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/google-proxy/, '')
+      }
+    }
+  }
 })

@@ -50,6 +50,18 @@
 - `npm run lint` — ESLint
 - `npm run format` — Prettier
 
+## Repositorio remoto
+- **URL**: https://github.com/opmp24/Segured
+- **Ramas**: `main` (sitio original HTML estático), `gh-pages`, `develop` (migración React)
+- El `main` remoto tiene el sitio ORIGINAL pre-migración — NO hay historial compartido con `develop`
+- `develop` se pushea tal cual (rama nueva, sin base común con `main`)
+- Para deploy: mergear `develop` → `main`, Netlify deploya desde `main`
+- API keys locales van en `public/drive-config.js` (ignorado por git)
+- API keys Netlify van en Environment Variables del dashboard
+
+## Reglas IMPORTANTES (cont.)
+11. **NUNCA** pushear `main` local al remote sin autorización explícita (sobrescribe historial del sitio original)
+
 ## Servicios externos
 - **Supabase**: Base de datos PostgreSQL, autenticacion, storage
 - **Google Drive API**: Documentos publicos, galeria de imagenes, contenido dinamico
