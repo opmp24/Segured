@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { '@': resolve(__dirname, 'src') }
+    alias: { '@': resolve(__dirname, 'src') },
   },
   build: { outDir: 'dist' },
   server: {
@@ -13,8 +16,8 @@ export default defineConfig({
       '/google-proxy': {
         target: 'https://www.googleapis.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/google-proxy/, '')
-      }
-    }
-  }
+        rewrite: (path) => path.replace(/^\/google-proxy/, ''),
+      },
+    },
+  },
 })

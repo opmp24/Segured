@@ -188,7 +188,7 @@ function Slide({
     isHero
       ? [0, hold, hold + 0.12, range[1]]
       : [range[0], range[0] + enter, range[0] + enter + hold, range[1]],
-    isHero ? [0, 0, -80, -200] : [50, 0, 0, -200],
+    isHero ? [0, 0, 0, 0] : [50, 0, 0, 0],
   )
   const progressPct = useTransform(scrollYProgress, [range[0], range[1]], ['0%', '100%'])
 
