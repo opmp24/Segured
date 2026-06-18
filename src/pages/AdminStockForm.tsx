@@ -86,8 +86,11 @@ export default function AdminStockForm({ product, onClose }: Props) {
   }
 
   return (
-    <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div className="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-lg-down m-0 m-md-3">
+    <div
+      className="modal d-block"
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)', overflowY: 'auto' }}
+    >
+      <div className="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-md-down m-0 m-md-3">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{isEdit ? 'Editar' : 'Nuevo'} Producto</h5>
@@ -115,7 +118,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Código</label>
                   <input
                     className="form-control"
@@ -123,7 +126,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Categoría</label>
                   <select
                     className="form-select"
@@ -137,7 +140,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     ))}
                   </select>
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Marca</label>
                   <input
                     className="form-control"
@@ -145,7 +148,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Color</label>
                   <input
                     className="form-control"
@@ -153,7 +156,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, color: e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Material</label>
                   <input
                     className="form-control"
@@ -161,7 +164,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, material: e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Posición (orden)</label>
                   <input
                     type="number"
@@ -170,7 +173,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, position: +e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Precio $</label>
                   <input
                     type="number"
@@ -180,7 +183,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, price: +e.target.value }))}
                   />
                 </div>
-                <div className="col-6 col-md-3">
+                <div className="col-4">
                   <label className="form-label">Cantidad</label>
                   <input
                     type="number"
