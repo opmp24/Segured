@@ -86,12 +86,9 @@ export default function AdminStockForm({ product, onClose }: Props) {
   }
 
   return (
-    <div
-      className="modal d-block"
-      style={{ backgroundColor: 'rgba(0,0,0,0.5)', overflowY: 'auto' }}
-    >
+    <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
       <div className="modal-dialog modal-xl modal-dialog-scrollable">
-        <div className="modal-content">
+        <div className="modal-content" style={{ maxHeight: '80dvh' }}>
           <div className="modal-header">
             <h5 className="modal-title">{isEdit ? 'Editar' : 'Nuevo'} Producto</h5>
             <button type="button" className="btn-close" onClick={onClose} />
