@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyDZHva_m8rXxpD87rqZ-OUKXAcyzJpLXsY'
+const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ''
 const GALLERY_FOLDER_ID = '1YglcilvObqlV2G7lJwWJLlMFuRYLrXGH'
 const DOCUMENTS_FOLDER_ID = '1nPjNv26V6m1qYe4p3zKWHd7RCNdD02Mc'
 const MAPS_FOLDER_ID = '1I0vMnMlOsV09PZBVblkYRcqsACjHEX0I'
