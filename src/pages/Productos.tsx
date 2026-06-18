@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { fetchPublicProducts, type Product } from '../services/api'
@@ -15,6 +15,9 @@ export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [addedMsg, setAddedMsg] = useState<string | null>(null)
+  const [search, setSearch] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+  const [sortBy, setSortBy] = useState('newest')
 
   useEffect(() => {
     fetchPublicProducts()
@@ -22,6 +25,52 @@ export default function Productos() {
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
+
+  const categories = useMemo(() => {
+    const set = new Set(products.map((p) => p.category).filter(Boolean))
+    return ['', ...Array.from(set).sort()]
+  }, [products])
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase().trim()
+    let result = products
+
+    // text search
+    if (q) {
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.category?.toLowerCase().includes(q) ||
+          p.brand?.toLowerCase().includes(q) ||
+          p.code?.toLowerCase().includes(q),
+      )
+    }
+
+    // category filter
+    if (categoryFilter) {
+      result = result.filter((p) => p.category === categoryFilter)
+    }
+
+    // sort
+    const sorted = [...result]
+    switch (sortBy) {
+      case 'price-asc':
+        sorted.sort((a, b) => Number(a.price) - Number(b.price))
+        break
+      case 'price-desc':
+        sorted.sort((a, b) => Number(b.price) - Number(a.price))
+        break
+      case 'brand':
+        sorted.sort((a, b) => (a.brand || '').localeCompare(b.brand || ''))
+        break
+      case 'newest':
+      default:
+        sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        break
+    }
+
+    return sorted
+  }, [products, search, categoryFilter, sortBy])
 
   function handleAdd(product: Product) {
     addToCart({
@@ -59,11 +108,60 @@ export default function Productos() {
 
       <main className="container-fluid py-4 px-lg-5">
         <motion.section {...fadeUp} className="py-4">
-          <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <h2 className="display-6 fw-bold mb-0">Catálogo</h2>
             <Link to="/cart" className="btn btn-outline-warning">
               <i className="bi bi-cart3 me-2"></i>Ver Carrito
             </Link>
+          </div>
+
+          {/* Filtros */}
+          <div className="row g-2 mb-4">
+            <div className="col-md-5">
+              <div className="input-group">
+                <span className="input-group-text bg-white">
+                  <i className="bi bi-search"></i>
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Buscar por nombre, categoría o marca…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <select
+                className="form-select"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+              >
+                <option value="">Todas las categorías</option>
+                {categories.slice(1).map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-2">
+              <select
+                className="form-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="newest">Más nuevos</option>
+                <option value="price-asc">Precio: menor a mayor</option>
+                <option value="price-desc">Precio: mayor a menor</option>
+                <option value="brand">Marca A-Z</option>
+              </select>
+            </div>
+            <div className="col-md-2 d-flex align-items-center">
+              <small className="text-muted">
+                {filtered.length} producto{filtered.length !== 1 ? 's' : ''}
+              </small>
+            </div>
           </div>
 
           {loading && (
@@ -72,13 +170,17 @@ export default function Productos() {
             </div>
           )}
 
-          {!loading && products.length === 0 && (
-            <p className="text-muted text-center py-4">Próximamente...</p>
+          {!loading && filtered.length === 0 && (
+            <p className="text-muted text-center py-4">
+              {search || categoryFilter
+                ? 'No se encontraron productos con esos filtros.'
+                : 'Próximamente...'}
+            </p>
           )}
 
-          {!loading && products.length > 0 && (
+          {!loading && filtered.length > 0 && (
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-              {products.map((product, i) => (
+              {filtered.map((product, i) => (
                 <motion.div
                   key={product.id}
                   className="col"
@@ -88,7 +190,18 @@ export default function Productos() {
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                 >
                   <Link to={`/productos/${product.id}`} className="text-decoration-none text-dark">
-                    <div className="card h-100 border-0 shadow-sm">
+                    <div
+                      className="card h-100 border-0 shadow-sm"
+                      style={{ transition: 'transform .25s, box-shadow .25s', cursor: 'pointer' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-6px)'
+                        e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,0,0,0.12)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = ''
+                        e.currentTarget.style.boxShadow = ''
+                      }}
+                    >
                       {product.product_images?.[0]?.storage_path ? (
                         <img
                           src={getProductImage(product.product_images[0].storage_path)}

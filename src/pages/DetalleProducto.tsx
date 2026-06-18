@@ -122,7 +122,11 @@ export default function DetalleProducto() {
           )}
           <h1 className="fw-bold mb-3">{product.name}</h1>
 
-          {product.description && <p className="text-muted mb-4">{product.description}</p>}
+          {product.description && (
+            <div className="text-muted mb-4" style={{ whiteSpace: 'pre-wrap' }}>
+              {product.description}
+            </div>
+          )}
 
           <div className="mb-4">
             <h3 className="fw-bold text-warning mb-0">
@@ -148,8 +152,11 @@ export default function DetalleProducto() {
           </button>
 
           {added && (
-            <div className="alert alert-success py-2 text-center">
+            <div className="alert alert-success py-2 text-center mb-3">
               <i className="bi bi-check-circle-fill me-2"></i>Agregado al carrito
+              <Link to="/cart" className="btn btn-sm btn-success ms-3">
+                <i className="bi bi-cart me-1"></i>Ver carrito
+              </Link>
             </div>
           )}
 
