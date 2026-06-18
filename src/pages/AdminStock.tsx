@@ -76,6 +76,7 @@ export default function AdminStock() {
         <table className="table table-hover bg-white rounded shadow-sm">
           <thead className="table-dark">
             <tr>
+              <th style={{ width: 60 }}>Img</th>
               <th>#</th>
               <th>Nombre</th>
               <th>Código</th>
@@ -86,43 +87,66 @@ export default function AdminStock() {
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
-              <tr key={p.id}>
-                <td>{p.position}</td>
-                <td>{p.name}</td>
-                <td>
-                  <code>{p.code}</code>
-                </td>
-                <td>${Number(p.price).toLocaleString('es-CL')}</td>
-                <td>{p.quantity}</td>
-                <td>
-                  <span className={`badge ${statusBadge(p.status)}`}>{p.status}</span>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-sm btn-outline-primary me-1"
-                    onClick={() => handleEdit(p)}
-                    title="Editar"
-                  >
-                    <i className="bi bi-pencil" />
-                  </button>
-                  <button
-                    className="btn btn-sm btn-outline-secondary me-1"
-                    onClick={() => handleToggleStatus(p)}
-                    title={p.status === 'visible' ? 'Bloquear' : 'Activar'}
-                  >
-                    <i className={`bi ${p.status === 'visible' ? 'bi-eye-slash' : 'bi-eye'}`} />
-                  </button>
-                  <button
-                    className="btn btn-sm btn-outline-danger"
-                    onClick={() => handleDelete(p)}
-                    title="Eliminar"
-                  >
-                    <i className="bi bi-trash" />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {products.map((p) => {
+              const firstImage = p.product_images?.[0]?.storage_path
+              const imgUrl = firstImage
+                ? `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/product-images/${firstImage}`
+                : ''
+              return (
+                <tr key={p.id}>
+                  <td>
+                    {imgUrl ? (
+                      <img
+                        src={imgUrl}
+                        alt=""
+                        style={{ width: 48, height: 48, objectFit: 'cover' }}
+                        className="rounded"
+                      />
+                    ) : (
+                      <div
+                        className="bg-light rounded d-flex align-items-center justify-content-center"
+                        style={{ width: 48, height: 48 }}
+                      >
+                        <i className="bi bi-image text-muted" style={{ fontSize: '0.8rem' }} />
+                      </div>
+                    )}
+                  </td>
+                  <td>{p.position}</td>
+                  <td>{p.name}</td>
+                  <td>
+                    <code>{p.code}</code>
+                  </td>
+                  <td>${Number(p.price).toLocaleString('es-CL')}</td>
+                  <td>{p.quantity}</td>
+                  <td>
+                    <span className={`badge ${statusBadge(p.status)}`}>{p.status}</span>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-outline-primary me-1"
+                      onClick={() => handleEdit(p)}
+                      title="Editar"
+                    >
+                      <i className="bi bi-pencil" />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-secondary me-1"
+                      onClick={() => handleToggleStatus(p)}
+                      title={p.status === 'visible' ? 'Bloquear' : 'Activar'}
+                    >
+                      <i className={`bi ${p.status === 'visible' ? 'bi-eye-slash' : 'bi-eye'}`} />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => handleDelete(p)}
+                      title="Eliminar"
+                    >
+                      <i className="bi bi-trash" />
+                    </button>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

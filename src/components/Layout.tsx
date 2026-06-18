@@ -252,10 +252,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <button
         id="scrollTopBtn"
-        className="btn btn-warning position-fixed start-50 translate-middle-x bottom-0 mb-4 rounded-circle shadow border-2 border-dark align-items-center justify-content-center p-0"
+        className="btn btn-warning position-fixed d-flex align-items-center justify-content-center p-0 rounded-circle shadow border-2 border-dark"
         onClick={scrollToTop}
         aria-label="Volver arriba"
-        style={{ display: 'none', width: 50, height: 50, zIndex: 1000 }}
+        style={{ display: 'none', right: 18, bottom: 146, width: 56, height: 56, zIndex: 9998 }}
       >
         <i className="bi bi-arrow-up fs-4"></i>
       </button>

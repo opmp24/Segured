@@ -7,6 +7,11 @@ export default function Cart() {
   const [items, setItems] = useState(getCart())
   const total = getCartTotal()
 
+  function getImageUrl(path: string) {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    return `${supabaseUrl}/storage/v1/object/public/product-images/${path}`
+  }
+
   function handleUpdate(productId: number, delta: number) {
     setItems(updateQuantity(productId, delta))
   }
@@ -30,7 +35,7 @@ export default function Cart() {
           <div className="text-center py-5">
             <i className="bi bi-cart-x display-1 text-muted"></i>
             <p className="mt-3 text-muted">El carrito está vacío</p>
-            <Link to="/gallery" className="btn btn-warning">
+            <Link to="/productos" className="btn btn-warning">
               Ver productos
             </Link>
           </div>
@@ -54,7 +59,7 @@ export default function Cart() {
                         <div className="d-flex align-items-center gap-3">
                           {item.image && (
                             <img
-                              src={item.image}
+                              src={getImageUrl(item.image)}
                               alt={item.name}
                               style={{ width: 60, height: 60, objectFit: 'cover' }}
                               className="rounded"
@@ -100,14 +105,19 @@ export default function Cart() {
               </table>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center mt-4 p-3 bg-white rounded shadow-sm">
+            <div className="d-flex justify-content-between align-items-center mt-4 p-3 bg-white rounded shadow-sm flex-wrap gap-2">
               <div>
                 <strong>Total: </strong>
                 <span className="fs-4 fw-bold text-warning">${total.toLocaleString('es-CL')}</span>
               </div>
-              <Link to="/checkout" className="btn btn-warning btn-lg">
-                <i className="bi bi-credit-card me-2"></i>Proceder al pago
-              </Link>
+              <div className="d-flex gap-2">
+                <Link to="/productos" className="btn btn-outline-warning">
+                  <i className="bi bi-plus-circle me-2"></i>Agregar más productos
+                </Link>
+                <Link to="/checkout" className="btn btn-warning">
+                  <i className="bi bi-credit-card me-2"></i>Proceder al pago
+                </Link>
+              </div>
             </div>
           </>
         )}

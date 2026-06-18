@@ -30,6 +30,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,woff,woff2}'],
+        globIgnores: ['**/manifest.json'],
         navigateFallback: '/index.html',
         runtimeCaching: [
           {
