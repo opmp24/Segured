@@ -86,11 +86,8 @@ export default function AdminStockForm({ product, onClose }: Props) {
   }
 
   return (
-    <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div
-        className="modal-dialog modal-xl"
-        style={{ margin: '1rem', width: '100%', pointerEvents: 'auto' }}
-      >
+    <div className="modal fade show d-block" tabIndex={-1}>
+      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-md-down">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{isEdit ? 'Editar' : 'Nuevo'} Producto</h5>
@@ -210,16 +207,15 @@ export default function AdminStockForm({ product, onClose }: Props) {
                           <img
                             src={getImageUrl(path)}
                             alt=""
-                            style={{ width: 180, height: 180, objectFit: 'cover' }}
                             className="rounded border"
+                            style={{ width: 180, height: 180, objectFit: 'cover' }}
                           />
                           <button
                             type="button"
-                            className="btn btn-sm btn-danger position-absolute top-0 end-0 p-1 m-0"
-                            style={{ fontSize: 20 }}
+                            className="btn btn-sm btn-danger position-absolute top-0 end-0 p-1 m-0 lh-1"
                             onClick={() => setImages((prev) => prev.filter((_, j) => j !== i))}
                           >
-                            <i className="bi bi-trash" />
+                            <i className="bi bi-trash"></i>
                           </button>
                         </div>
                       ))}
