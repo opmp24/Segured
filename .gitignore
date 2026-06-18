@@ -14,3 +14,5 @@ tsconfig.tsbuildinfo
 
 # Local Netlify folder
 .netlify
+playwright-report/
+test-results/

@@ -97,7 +97,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
             <div className="modal-body">
               {submitError && <div className="alert alert-danger py-2">{submitError}</div>}
               <div className="row g-3">
-                <div className="col-12">
+                <div className="col-6">
                   <label className="form-label">Nombre *</label>
                   <input
                     className="form-control"
@@ -106,7 +106,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   />
                 </div>
-                <div className="col-12">
+                <div className="col-6">
                   <label className="form-label">Descripción</label>
                   <textarea
                     className="form-control"
@@ -115,7 +115,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Código</label>
                   <input
                     className="form-control"
@@ -123,7 +123,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Categoría</label>
                   <select
                     className="form-select"
@@ -137,7 +137,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     ))}
                   </select>
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Marca</label>
                   <input
                     className="form-control"
@@ -145,7 +145,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Color</label>
                   <input
                     className="form-control"
@@ -153,7 +153,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, color: e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Material</label>
                   <input
                     className="form-control"
@@ -161,7 +161,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, material: e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Posición (orden)</label>
                   <input
                     type="number"
@@ -170,7 +170,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, position: +e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Precio $</label>
                   <input
                     type="number"
@@ -180,7 +180,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, price: +e.target.value }))}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-3">
                   <label className="form-label">Cantidad</label>
                   <input
                     type="number"
@@ -189,7 +189,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={(e) => setForm((f) => ({ ...f, quantity: +e.target.value }))}
                   />
                 </div>
-                <div className="col-12">
+                <div className="col-6">
                   <label className="form-label">Imágenes (1-5)</label>
                   <input
                     type="file"
@@ -199,6 +199,9 @@ export default function AdminStockForm({ product, onClose }: Props) {
                     onChange={handleUpload}
                     disabled={uploading || images.length >= 5}
                   />
+                </div>
+                
+                <div className="col-6">
                   {uploading && <div className="spinner-border spinner-border-sm mt-2" />}
                   {images.length > 0 && (
                     <div className="d-flex flex-wrap gap-2 mt-2">
@@ -208,7 +211,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                             src={getImageUrl(path)}
                             alt=""
                             className="rounded border"
-                            style={{ width: 180, height: 180, objectFit: 'cover' }}
+                            style={{ width: 100, height: 100, objectFit: 'cover' }}
                           />
                           <button
                             type="button"
@@ -221,6 +224,7 @@ export default function AdminStockForm({ product, onClose }: Props) {
                       ))}
                     </div>
                   )}
+
                 </div>
               </div>
             </div>
