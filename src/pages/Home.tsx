@@ -52,7 +52,7 @@ export default function Home() {
           className="d-flex align-items-center"
           style={{ height: '200vh', position: 'relative', zIndex: 1 }}
         >
-          <div style={{ width: '100%', position: 'sticky', top: '20vh', zIndex: 1 }}>
+          <div style={{ width: '100%', position: 'sticky', top: '10vh', zIndex: 1 }}>
             <SlideContent slide={slide} index={i + 1} />
           </div>
           <ProgressDot index={i + 1} />
