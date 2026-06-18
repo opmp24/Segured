@@ -8,7 +8,7 @@ exports.handler = async function (event) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Supabase no configurado' }) }
   }
 
-  const supabase = createClient(supabaseUrl, serviceRoleKey)
+  const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { enabled: false } })
 
   try {
     const { data, error } = await supabase

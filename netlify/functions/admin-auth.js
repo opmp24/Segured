@@ -38,7 +38,7 @@ exports.handler = async function (event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Password requerido' }) }
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey)
+    const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { enabled: false } })
     const { data: admins, error } = await supabase.from('admin').select('password_hash').limit(1)
 
     if (error || !admins || admins.length === 0) {
