@@ -1,5 +1,6 @@
 const { createClient } = require('@supabase/supabase-js')
 const crypto = require('crypto')
+const WebSocket = require('ws')
 
 const supabaseUrl = process.env.SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -43,7 +44,7 @@ exports.handler = async function (event) {
     return { statusCode: 401, body: JSON.stringify({ error: 'No autorizado' }) }
   }
 
-  const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { enabled: false } })
+  const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { transport: WebSocket } })
   const method = event.httpMethod
   const params = event.queryStringParameters || {}
 

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const { createClient } = require('@supabase/supabase-js')
 const crypto = require('crypto')
+const WebSocket = require('ws')
 
 const supabaseUrl = process.env.SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -38,7 +39,9 @@ exports.handler = async function (event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Password requerido' }) }
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { enabled: false } })
+    const supabase = createClient(supabaseUrl, serviceRoleKey, {
+      realtime: { transport: WebSocket },
+    })
     const { data: admins, error } = await supabase.from('admin').select('password_hash').limit(1)
 
     if (error || !admins || admins.length === 0) {

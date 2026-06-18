@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js')
+const WebSocket = require('ws')
 
 const supabaseUrl = process.env.SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -8,7 +9,7 @@ exports.handler = async function (event) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Supabase no configurado' }) }
   }
 
-  const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { enabled: false } })
+  const supabase = createClient(supabaseUrl, serviceRoleKey, { realtime: { transport: WebSocket } })
 
   try {
     const { data, error } = await supabase
