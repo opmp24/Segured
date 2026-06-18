@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { fetchSucursalesTxt, fetchEmail, fetchPhone } from '../services/drive'
 
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
@@ -13,23 +12,23 @@ export default function Contact() {
   const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
   const mapRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    fetchSucursalesTxt().then((a) => {
-      if (a) {
-        setAddress(a)
-        if (mapRef.current) {
-          mapRef.current.src = `https://maps.google.com/maps?q=${encodeURIComponent(a)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+    fetch('/.netlify/functions/contact-info')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.address) {
+          setAddress(data.address)
+          if (mapRef.current) {
+            mapRef.current.src = `https://maps.google.com/maps?q=${encodeURIComponent(data.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+          }
         }
-      }
-    })
-    fetchEmail().then((e) => {
-      if (e) setEmail(e)
-    })
-    fetchPhone().then((p) => {
-      if (p) setPhone(p)
-    })
+        if (data.email) setEmail(data.email)
+        if (data.phone) setPhone(data.phone)
+        if (data.whatsapp) setWhatsapp(data.whatsapp)
+      })
   }, [])
 
   return (
@@ -95,6 +94,22 @@ export default function Contact() {
                         className="small text-white-50 text-decoration-none"
                       >
                         {phone || '+56 9 9077 2964'}
+                      </a>
+                    </div>
+                  </div>
+                  <div className="d-flex mt-3">
+                    <div className="me-3 text-warning">
+                      <i className="bi bi-whatsapp fs-4"></i>
+                    </div>
+                    <div>
+                      <h6 className="fw-bold mb-0">WhatsApp</h6>
+                      <a
+                        href={`https://wa.me/${(whatsapp || phone || '+56990772964').replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="small text-white-50 text-decoration-none"
+                      >
+                        {whatsapp || phone || '+56 9 9077 2964'}
                       </a>
                     </div>
                   </div>

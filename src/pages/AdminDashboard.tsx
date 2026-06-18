@@ -27,6 +27,9 @@ export default function AdminDashboard() {
         <NavLink to="/admin/dashboard/movements" className="btn btn-outline-light text-start mb-2">
           <i className="bi bi-arrow-left-right me-2"></i>Movimientos
         </NavLink>
+        <NavLink to="/admin/dashboard/contact" className="btn btn-outline-light text-start mb-2">
+          <i className="bi bi-envelope me-2"></i>Contacto
+        </NavLink>
         <div className="mt-auto">
           <button className="btn btn-outline-danger w-100" onClick={handleLogout}>
             <i className="bi bi-box-arrow-left me-2"></i>Salir

@@ -15,6 +15,7 @@ import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminStock from './pages/AdminStock'
 import AdminMovements from './pages/AdminMovements'
+import AdminContact from './pages/AdminContact'
 import Productos from './pages/Productos'
 import DetalleProducto from './pages/DetalleProducto'
 import Cart from './pages/Cart'
@@ -57,6 +58,7 @@ export default function App() {
             <Route index element={<AdminStock />} />
             <Route path="stock" element={<AdminStock />} />
             <Route path="movements" element={<AdminMovements />} />
+            <Route path="contact" element={<AdminContact />} />
           </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />

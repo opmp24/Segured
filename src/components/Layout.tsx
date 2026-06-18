@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { fetchSucursalesTxt, fetchEmail, fetchPhone } from '../services/drive'
 import { getCartCount } from '../services/cart'
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -9,6 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
   const [showNav, setShowNav] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [cartCount, setCartCount] = useState(getCartCount())
@@ -21,15 +21,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 })
 
   useEffect(() => {
-    fetchSucursalesTxt().then((a) => {
-      if (a) setAddress(a)
-    })
-    fetchEmail().then((e) => {
-      if (e) setEmail(e)
-    })
-    fetchPhone().then((p) => {
-      if (p) setPhone(p)
-    })
+    fetch('/.netlify/functions/contact-info')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.address) setAddress(data.address)
+        if (data.email) setEmail(data.email)
+        if (data.phone) setPhone(data.phone)
+        if (data.whatsapp) setWhatsapp(data.whatsapp)
+      })
   }, [])
 
   useEffect(() => {
@@ -213,6 +212,22 @@ export default function Layout({ children }: { children: ReactNode }) {
                   </a>
                 </div>
               </div>
+              <div className="d-flex mt-3">
+                <div className="me-3 text-warning">
+                  <i className="bi bi-whatsapp fs-4"></i>
+                </div>
+                <div>
+                  <h6 className="fw-bold mb-0">WhatsApp</h6>
+                  <a
+                    href={`https://wa.me/${(whatsapp || phone || '+56990772964').replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="small text-white-50 text-decoration-none"
+                  >
+                    {whatsapp || phone || '+56 9 9077 2964'}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -220,7 +235,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <motion.a
         className="whatsapp-fab"
-        href={`https://wa.me/${(phone || '+56990772964').replace(/[^0-9]/g, '')}`}
+        href={`https://wa.me/${(whatsapp || phone || '+56990772964').replace(/[^0-9]/g, '')}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
