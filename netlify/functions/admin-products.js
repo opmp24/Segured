@@ -102,7 +102,8 @@ exports.handler = async function (event) {
           storage_path: path,
           sort_order: i,
         }))
-        await supabase.from('product_images').insert(imageRows)
+        const { error: imgErr } = await supabase.from('product_images').insert(imageRows)
+        if (imgErr) throw imgErr
       }
 
       return { statusCode: 200, body: JSON.stringify(data) }
@@ -151,15 +152,20 @@ exports.handler = async function (event) {
       }
 
       // Reemplazar imágenes: borrar existentes + insertar nuevas
-      if (body.images && Array.isArray(body.images)) {
-        await supabase.from('product_images').delete().eq('product_id', body.id)
+      if (body.images !== undefined && Array.isArray(body.images)) {
+        const { error: delErr } = await supabase
+          .from('product_images')
+          .delete()
+          .eq('product_id', body.id)
+        if (delErr) throw delErr
         if (body.images.length > 0) {
           const imageRows = body.images.map((path, i) => ({
             product_id: body.id,
             storage_path: path,
             sort_order: i,
           }))
-          await supabase.from('product_images').insert(imageRows)
+          const { error: insErr } = await supabase.from('product_images').insert(imageRows)
+          if (insErr) throw insErr
         }
       }
 
