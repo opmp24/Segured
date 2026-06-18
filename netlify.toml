@@ -6,6 +6,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[dev]
+  command = "npm run dev:fe"
+  publish = "dist"
+  functions = "netlify/functions"
+  framework = "vite"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

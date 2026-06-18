@@ -5,7 +5,8 @@
   "type": "module",
   "description": "PWA - NM Soluciones Integrales, prevencion de riesgos laborales",
   "scripts": {
-    "dev": "vite",
+    "dev": "netlify dev",
+    "dev:fe": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -20,6 +21,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
+    "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "framer-motion": "^12.40.0",

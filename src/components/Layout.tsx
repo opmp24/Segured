@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import { fetchSucursalesTxt, fetchEmail, fetchPhone } from '../services/drive'
+import { getCartCount } from '../services/cart'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
@@ -10,6 +11,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [phone, setPhone] = useState('')
   const [showNav, setShowNav] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [cartCount, setCartCount] = useState(getCartCount())
+
+  useEffect(() => {
+    setCartCount(getCartCount())
+  }, [pathname])
 
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 })
@@ -54,6 +60,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     { href: '/', label: 'Inicio' },
     { href: '/about', label: 'A qu\u00e9 nos dedicamos' },
     { href: '/gallery', label: 'Galer\u00eda' },
+    { href: '/productos', label: 'Productos' },
     { href: '/documents', label: 'Documentos' },
     { href: '/contact', label: 'Contacto' },
   ]
@@ -133,6 +140,22 @@ export default function Layout({ children }: { children: ReactNode }) {
                   </Link>
                 </li>
               ))}
+              <li className="nav-item">
+                <Link
+                  className={`nav-link text-dark fw-bold text-uppercase position-relative${isActive('/cart') ? ' active' : ''}`}
+                  to="/cart"
+                >
+                  <i className="bi bi-cart3 fs-5"></i>
+                  {cartCount > 0 && (
+                    <span
+                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark"
+                      style={{ fontSize: 10 }}
+                    >
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

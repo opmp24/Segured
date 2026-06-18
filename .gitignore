@@ -11,3 +11,6 @@ github-config.js
 .env
 *.local.*
 tsconfig.tsbuildinfo
+
+# Local Netlify folder
+.netlify
