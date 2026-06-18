@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import { getCartCount } from '../services/cart'
+import InstallButton from './InstallButton'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
@@ -233,6 +234,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
+      <InstallButton />
       <motion.a
         className="whatsapp-fab"
         href={`https://wa.me/${(whatsapp || phone || '+56990772964').replace(/[^0-9]/g, '')}`}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useScroll, useSpring } from 'framer-motion'
 import BgLayer from '../components/BgLayer'
 import SlideContent from '../components/SlideContent'
@@ -8,23 +8,6 @@ import { slides, images } from '../data/slides'
 
 export default function Home() {
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const [installPrompt, setInstallPrompt] = useState<Event | null>(null)
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault()
-      setInstallPrompt(e)
-    }
-    window.addEventListener('beforeinstallprompt', handler)
-    return () => window.removeEventListener('beforeinstallprompt', handler)
-  }, [])
-
-  function handleInstall() {
-    if (!installPrompt) return
-    ;(installPrompt as any).prompt()
-    ;(installPrompt as any).userChoice.then(() => setInstallPrompt(null))
-  }
-
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ['start start', 'end end'],
@@ -77,16 +60,6 @@ export default function Home() {
       ))}
 
       <ContactSection />
-
-      {installPrompt && (
-        <button
-          onClick={handleInstall}
-          className="btn btn-warning shadow position-fixed"
-          style={{ bottom: 80, left: 20, zIndex: 9999, borderRadius: 50, padding: '10px 18px' }}
-        >
-          <i className="bi bi-download me-2"></i>Instalar App
-        </button>
-      )}
     </div>
   )
 }
