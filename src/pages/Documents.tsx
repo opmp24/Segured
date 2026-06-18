@@ -90,8 +90,16 @@ export default function Documents() {
 
   return (
     <>
-      <section className="container-fluid bg-dark text-white py-5 mb-5 position-relative overflow-hidden hero-parallax text-center">
-        <div className="container py-5">
+      <section
+        className="container-fluid text-white py-5 mb-5 position-relative overflow-hidden hero-parallax text-center"
+        style={{
+          backgroundImage: 'url(/assets/images/capacitacion.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="position-absolute" style={{ inset: 0, background: 'rgba(0,0,0,0.6)' }} />
+        <div className="container py-5 position-relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

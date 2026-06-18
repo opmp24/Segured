@@ -17,6 +17,7 @@ export default function Productos() {
   const [addedMsg, setAddedMsg] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('')
+  const [brandFilter, setBrandFilter] = useState('')
   const [sortBy, setSortBy] = useState('newest')
 
   useEffect(() => {
@@ -31,6 +32,11 @@ export default function Productos() {
     return ['', ...Array.from(set).sort()]
   }, [products])
 
+  const brands = useMemo(() => {
+    const set = new Set(products.map((p) => p.brand).filter(Boolean))
+    return ['', ...Array.from(set).sort()]
+  }, [products])
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim()
     let result = products
@@ -38,17 +44,18 @@ export default function Productos() {
     // text search
     if (q) {
       result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.category?.toLowerCase().includes(q) ||
-          p.brand?.toLowerCase().includes(q) ||
-          p.code?.toLowerCase().includes(q),
+        (p) => p.name.toLowerCase().includes(q) || p.code?.toLowerCase().includes(q),
       )
     }
 
     // category filter
     if (categoryFilter) {
       result = result.filter((p) => p.category === categoryFilter)
+    }
+
+    // brand filter
+    if (brandFilter) {
+      result = result.filter((p) => p.brand === brandFilter)
     }
 
     // sort
@@ -60,9 +67,6 @@ export default function Productos() {
       case 'price-desc':
         sorted.sort((a, b) => Number(b.price) - Number(a.price))
         break
-      case 'brand':
-        sorted.sort((a, b) => (a.brand || '').localeCompare(b.brand || ''))
-        break
       case 'newest':
       default:
         sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
@@ -70,7 +74,7 @@ export default function Productos() {
     }
 
     return sorted
-  }, [products, search, categoryFilter, sortBy])
+  }, [products, search, categoryFilter, brandFilter, sortBy])
 
   function handleAdd(product: Product) {
     addToCart({
@@ -90,8 +94,16 @@ export default function Productos() {
 
   return (
     <>
-      <section className="container-fluid bg-dark text-white py-5 mb-5 position-relative overflow-hidden hero-parallax text-center">
-        <div className="container py-5">
+      <section
+        className="container-fluid text-white py-5 mb-5 position-relative overflow-hidden hero-parallax text-center"
+        style={{
+          backgroundImage: 'url(/assets/images/capacitacion.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="position-absolute" style={{ inset: 0, background: 'rgba(0,0,0,0.6)' }} />
+        <div className="container py-5 position-relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -117,7 +129,7 @@ export default function Productos() {
 
           {/* Filtros */}
           <div className="row g-2 mb-4">
-            <div className="col-md-5">
+            <div className="col-md-4">
               <div className="input-group">
                 <span className="input-group-text bg-white">
                   <i className="bi bi-search"></i>
@@ -125,13 +137,13 @@ export default function Productos() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Buscar por nombre, categoría o marca…"
+                  placeholder="Buscar por nombre o código…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
               <select
                 className="form-select"
                 value={categoryFilter}
@@ -148,13 +160,26 @@ export default function Productos() {
             <div className="col-md-2">
               <select
                 className="form-select"
+                value={brandFilter}
+                onChange={(e) => setBrandFilter(e.target.value)}
+              >
+                <option value="">Todas las marcas</option>
+                {brands.slice(1).map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-2">
+              <select
+                className="form-select"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <option value="newest">Más nuevos</option>
                 <option value="price-asc">Precio: menor a mayor</option>
                 <option value="price-desc">Precio: mayor a menor</option>
-                <option value="brand">Marca A-Z</option>
               </select>
             </div>
             <div className="col-md-2 d-flex align-items-center">
@@ -172,7 +197,7 @@ export default function Productos() {
 
           {!loading && filtered.length === 0 && (
             <p className="text-muted text-center py-4">
-              {search || categoryFilter
+              {search || categoryFilter || brandFilter
                 ? 'No se encontraron productos con esos filtros.'
                 : 'Próximamente...'}
             </p>
